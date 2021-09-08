@@ -6,3 +6,4 @@ Randomly Generated Virtual Reality Environments
 
 Connor Skevington
 Kevin Sofronas
+Louis Pitingolo
