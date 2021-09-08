@@ -4,7 +4,7 @@ Randomly Generated Virtual Reality Environments
 <<<<<<< HEAD
 
 
-Connor Skevington
-Kevin Sofronas
-Louis Pitingolo
+Connor Skevington\
+Kevin Sofronas\
+Louis Pitingolo\
 Hank Zinn
