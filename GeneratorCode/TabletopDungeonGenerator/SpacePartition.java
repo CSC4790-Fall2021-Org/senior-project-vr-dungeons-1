@@ -13,6 +13,12 @@ public class SpacePartition {
 		//d is the temporary array that you'll use to make the layout, currently initialized as all False values.
 		boolean[][] d = new boolean[in.length][in[0].length];
 		
+		for(int a = 0; a < d.length; a++) {
+		    for(int b = 0; b < d[0].length; b++) {
+		        d[a][b] = true;
+		    }
+		}
+		
 		//randomize the dungeon here
 		
 		int MAX_LEAF_SIZE = 20;
@@ -23,14 +29,16 @@ public class SpacePartition {
 
 		// first, create a Leaf to be the 'root' of all Leafs.
 		Leaf root = new Leaf(0, 0, in.length, in[0].length);
+		leafs.add(root);
 
 		boolean did_split = true;
 		// we loop through every Leaf in our Vector over and over again, until no more Leafs can be split.
 		while (did_split)
 		{
 			did_split = false;
-			for (Leaf l : leafs)
+			for (int i = 0; i < leafs.size(); i++)
 			{
+			    Leaf l = leafs.get(i);
 				if (l.leftChild == null && l.rightChild == null) // if this Leaf is not already split...
 				{
 					// if this Leaf is too big, or 75% chance...
@@ -50,8 +58,11 @@ public class SpacePartition {
 
 		// next, iterate through each Leaf and create a room in each one.
 		root.createRooms();
+		int count = 1;
 		
 		for (Leaf t : leafs) {
+//		    System.out.println("Leaf #" + count);
+		    count++;
 			if (t.room != null)
 				d = changeMap(t.room.x, t.room.y, t.room.width, t.room.height, d);
 			if (t.halls != null) {
@@ -93,9 +104,9 @@ public class SpacePartition {
 		}
 		
 		else {*/
-			for (int r = x; r < x + w; r++) {
-				for (int c = y; c < y + h; c++) {
-					map[r][c] = true;
+			for (int c = y; c < y + h; c++) {
+				for (int r = x; r < x + w; r++) {
+					map[r][c] = false;
 				}
 			}
 		//}
@@ -105,10 +116,10 @@ public class SpacePartition {
 	
 	public static void main(String args[]) {
 		//this is the test method, it prints out the random dungeon with a seed of 1234 at the default size
-		Dungeon dun = new Dungeon(1234);
+		Dungeon dun = new Dungeon(1234, 100, 100);
 		dun.setLayout(randomize(dun.d, dun.SEED));
-		//for (boolean[] b : dun.d)
-			//System.out.println(Arrays.toString(b));
+//		for (boolean[] b : dun.d)
+//			System.out.println(Arrays.toString(b));
 		DungeonViewer dv = new DungeonViewer(dun,10);
 		dv.setVisible(true);
 	}
