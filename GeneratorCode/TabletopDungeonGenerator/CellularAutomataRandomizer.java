@@ -78,8 +78,6 @@ class CellularAutomataHelper {
     }
 }
 
-
-
 public class CellularAutomataRandomizer {
 		
 		//use this template file to make your dungeon layout randomizer
