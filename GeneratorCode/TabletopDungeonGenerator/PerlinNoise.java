@@ -1,7 +1,7 @@
 //https://stackoverflow.com/questions/18279456/any-simplex-noise-tutorials-or-resources
 
 import java.util.Arrays;
-import noise.PerlinNoiseGenerator;
+//import noise.PerlinNoiseGenerator;
 import noise.SimplexNoise_octave;
 
 public class PerlinNoise {
