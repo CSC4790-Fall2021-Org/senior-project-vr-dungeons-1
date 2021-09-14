@@ -1,4 +1,4 @@
-
+//Needs to be pretty much completely rewritten to actually output a 2d boolean array instead of using the StdDraw class
 public class DrunkenUmberhulk {
 
 	    public static void main(String[] args) {
