@@ -1,6 +1,5 @@
 //https://zetcode.com/gfx/java2d/introduction/
 
-package main;
 
 import java.awt.Color;
 import java.awt.EventQueue;

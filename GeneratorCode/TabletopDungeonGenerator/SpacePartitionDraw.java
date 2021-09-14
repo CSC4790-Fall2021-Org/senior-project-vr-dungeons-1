@@ -1,5 +1,3 @@
-package main;
-
 import space.*;
 import java.awt.Rectangle;
 import java.util.ArrayList;
