@@ -1,7 +1,7 @@
 package main;
 
 import java.util.Random;
-public class helper {
+public class CellularAutomataHelper {
     Random rand = new Random();
     float chanceToStartAlive = 0.43f;
     
