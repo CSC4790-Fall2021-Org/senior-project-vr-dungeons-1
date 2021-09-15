@@ -104,8 +104,8 @@ public class Voronoi {
 	public static void main(String args[]) {
 		//this is the test method, it prints out the random dungeon with a seed of 1234 at the default size
 		Dungeon dun = new Dungeon(1234, 500, 500);
-		dun.setLayout(randomize(dun.d, dun.SEED, 50, true)); 
-		DungeonViewer dv = new DungeonViewer(dun,2);
+		dun.setLayout(randomize(dun.d, dun.SEED, 300, false)); 
+		DungeonViewer dv = new DungeonViewer(dun,1);
 		dv.setVisible(true);
 		
 		
