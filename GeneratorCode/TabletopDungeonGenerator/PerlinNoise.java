@@ -25,9 +25,9 @@ public class PerlinNoise {
 	
 	public static void main(String args[]) {
 		//this is the test method, it prints out the random dungeon with a seed of 1234 at the default size
-		Dungeon dun = new Dungeon(1234, 20, 20);
+		Dungeon dun = new Dungeon(1234, 100, 100);
 		dun.setLayout(randomize(dun.d, dun.SEED));
-		DungeonViewer dv = new DungeonViewer(dun,20);
+		DungeonViewer dv = new DungeonViewer(dun,5);
 		dv.setVisible(true);
 	}
 	
