@@ -78,7 +78,7 @@ class CellularAutomataHelper {
     }
 }
 
-public class CellularAutomataRandomizer {
+public class CellularAutomata {
 		
 		//use this template file to make your dungeon layout randomizer
 		//be sure to try to implement the seed so the randomizer consistently outputs the same thing using any given seed
