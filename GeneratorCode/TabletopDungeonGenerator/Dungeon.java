@@ -1,3 +1,4 @@
+import java.lang.annotation.Retention;
 import java.util.Arrays;
 
 public class Dungeon implements Cloneable {
@@ -80,7 +81,39 @@ public class Dungeon implements Cloneable {
             }
             return ret;
         }
-	
+        
+        //individually numbers each "room" (a room is a group of connected open spaces)
+        public int[][] numberRooms(boolean[][] in) {
+            int[][] ret = new int[in.length][in[0].length];
+            
+            int unchecked = 0;
+            
+            for(int c = 0; c < ret.length; c++) {
+                for(int r = 0; r < ret.length; r++) {
+                    //if it's a wall, set the number to 0
+                    if(in[c][r]){ret[c][r]=0;}
+                    //if its an open space, set temporarily set it to -1
+                    else{ret[c][r]=-1;unchecked++;}
+                }
+            }
+            
+            int roomNum = 0;
+            
+            while(unchecked > 0) {
+                roomNum++;
+                int tempC = 0; int tempR = 0;
+                //find the next unchecked tile
+                while(ret[tempC][tempR] == -1 || ret[tempC][tempR] == 0) {
+                    //scan left-right and then down
+                    if(tempC == ret.length-1) {tempC=0;tempR++;}
+                    else{tempC++;}
+                }
+                //using new unchecked tile, find every tile connected to it
+            }
+            
+            return ret;
+        }
+        
 //	public int[][] to2DIntArr() { //returns the layout as an array of every index where there is an open space
 //		
 //		int n = countSpaces();
