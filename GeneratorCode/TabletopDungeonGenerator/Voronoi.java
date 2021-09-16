@@ -107,8 +107,33 @@ public class Voronoi {
 		dun.setLayout(randomize(dun.d, dun.SEED, 300, false)); 
 		DungeonViewer dv = new DungeonViewer(dun,1);
 		dv.setVisible(true);
+			
 		
-		
+	}
+	
+	//returns the dungeon with only the outlines of open space (open spaces with walls connected)
+	public boolean[][] getWireframe (boolean[][] in) {
+	    
+	    boolean [][] ret = in.clone();
+	    
+	    for(int c = 0; c < in.length; c++) {
+	        for(int r = 0; r < in[0].length; r++) {
+	            /*this acts as an explanation to future me for what the heck the next statement is
+	            //if c,r is an open space
+	            if(!in[c][r])
+	                //and the left space is empty
+	                if(c != 0 && in[c-1][r])
+	                //and the right space is empty
+	                if(c != in.length-1 && in[c+1][r]) 
+	                //and the top space is empty
+	                if(r != 0 && in[c][r-1])
+	                //and the bottom space is empty
+	                if(r != in[0].length-1 && in[c][r+1])
+	                //set ret[c][r] as a "wall" aka true */
+	            ret[c][r] = !in[c][r] && (c!=0 && in[c-1][r]) && (c != in.length-1 && in[c+1][r]) && (r != 0 && in[c][r-1]) && (r != in[0].length-1 && in[c][r+1]);
+	        }
+	    }
+	    return ret;
 	}
 	
 //	
