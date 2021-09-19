@@ -92,10 +92,11 @@ public class CellularAutomata {
 		
 		public static void main(String args[]) {
 			//this is the test method, it prints out the random dungeon with a seed of 1234 at the default size
-			Dungeon dun = new Dungeon(1234,100,100);
-			dun.setLayout(randomize(dun.d, dun.SEED));
+			Dungeon dun = new Dungeon(1234,200,200);
+//			dun.setLayout(randomize(dun.d, dun.SEED));
+                        dun.setLayout(Dungeon.getWireframe(randomize(dun.d, dun.SEED)));
 //			System.out.println(Arrays.toString(dun.d));
-			DungeonViewer dv = new DungeonViewer(dun,10);
+			DungeonViewer dv = new DungeonViewer(dun,3);
 			dv.setVisible(true);
 		}
 		
