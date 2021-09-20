@@ -1,4 +1,9 @@
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.annotation.Retention;
+import java.nio.file.Path;
 import java.util.Arrays;
 
 public class Dungeon implements Cloneable {
@@ -89,7 +94,7 @@ public class Dungeon implements Cloneable {
             int unchecked = 0;
             
             for(int c = 0; c < ret.length; c++) {
-                for(int r = 0; r < ret.length; r++) {
+                for(int r = 0; r < ret[0].length; r++) {
                     //if it's a wall, set the number to 0
                     if(in[c][r]){ret[c][r]=0;}
                     //if its an open space, set temporarily set it to -1
@@ -112,6 +117,29 @@ public class Dungeon implements Cloneable {
             }
             
             return ret;
+        }
+        
+        public void outputCSV(String path) throws IOException {
+            
+            File file = new File(path);
+            if(!file.exists()) {
+                file.createNewFile();
+            }
+            
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+            StringBuilder sb = new StringBuilder();
+            sb.append(X);
+            sb.append(",");
+            sb.append(Y);
+            sb.append(",");
+            for(boolean[] c : d) {
+                for(boolean r : c) {
+                    sb.append(r);
+                    sb.append(",");
+                }
+            }
+            bw.write(sb.toString());
+            bw.close();
         }
         
 //	public int[][] to2DIntArr() { //returns the layout as an array of every index where there is an open space
