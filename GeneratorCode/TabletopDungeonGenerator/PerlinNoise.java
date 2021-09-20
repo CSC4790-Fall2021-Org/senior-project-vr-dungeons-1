@@ -1,7 +1,6 @@
 //https://stackoverflow.com/questions/18279456/any-simplex-noise-tutorials-or-resources
 
 import java.util.Arrays;
-import noise.PerlinNoiseGenerator;
 import noise.SimplexNoise_octave;
 
 public class PerlinNoise {
@@ -13,7 +12,6 @@ public class PerlinNoise {
 		boolean[][] d = new boolean[in.length][in[0].length];
 		
 		//randomize the dungeon here
-//		PerlinNoiseGenerator pn = new PerlinNoiseGenerator(seed);
 		SimplexNoise_octave sn = new SimplexNoise_octave(seed);
 		
 		for(int x = 0; x < d.length; x++) {
@@ -27,19 +25,9 @@ public class PerlinNoise {
 	
 	public static void main(String args[]) {
 		//this is the test method, it prints out the random dungeon with a seed of 1234 at the default size
-		Dungeon dun = new Dungeon(1234, 20, 20);
+		Dungeon dun = new Dungeon(1234, 100, 100);
 		dun.setLayout(randomize(dun.d, dun.SEED));
-//		System.out.println(Arrays.toString(dun.d));
-//		boolean[][] arr = randomize(dun.d, dun.SEED);
-//		for(boolean[] x : arr) {
-//			System.out.print("\n[");
-//			for(boolean y : x) {
-//				System.out.print((y ? 1 : 0) + ", ");
-//			}
-//			System.out.print("]");
-//		}
-//		System.out.println(Arrays.deepToString(randomize(dun.d, dun.SEED)));
-		DungeonViewer dv = new DungeonViewer(dun,20);
+		DungeonViewer dv = new DungeonViewer(dun,5);
 		dv.setVisible(true);
 	}
 	
