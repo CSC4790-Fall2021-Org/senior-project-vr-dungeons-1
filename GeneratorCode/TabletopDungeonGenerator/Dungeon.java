@@ -121,12 +121,7 @@ public class Dungeon implements Cloneable {
         
         public void outputCSV(String path) throws IOException {
             
-            File file = new File(path);
-            if(!file.exists()) {
-                file.createNewFile();
-            }
-            
-            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(path));
             StringBuilder sb = new StringBuilder();
             sb.append(X);
             sb.append(",");
