@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.Random;
 import java.util.Stack;
 
@@ -24,7 +25,7 @@ public class BetterRandomWalk {
                 boolean horiz, vert;
                 int x = 0, y = 0;
                 Random rand = new Random(seed);
-                int steps = 0;
+                //int steps = 0;
                 Stack<Integer> path_x = new Stack<Integer>();
                 Stack<Integer> path_y = new Stack<Integer>();
                 int modX, modY;
@@ -37,12 +38,12 @@ public class BetterRandomWalk {
                     else if (r < 0.75) y--;
                     else if (r < 1.00) y++;
                     currX = x; currY = y;
-                    steps++;
+                    //steps++;
                     leftmost = (x < leftmost) ? x : leftmost;
                     rightmost = (x > rightmost) ? x : rightmost;
                     topmost = (y > topmost) ? y : topmost;
                     botmost = (y < botmost) ? y : botmost;
-                    System.out.println(steps);
+                    //System.out.println(steps);
                 }
                 
                 horiz = rightmost-leftmost > MAX_X;
@@ -71,8 +72,17 @@ public class BetterRandomWalk {
                 Dungeon dun = new Dungeon(1234,50,50);
                 dun.setLayout(randomize(dun.d, dun.SEED));
 //              System.out.println(Arrays.toString(dun.d));
-                DungeonViewer dv = new DungeonViewer(dun,10);
-                dv.setVisible(true);
+//                DungeonViewer dv = new DungeonViewer(dun,10);
+//                dv.setVisible(true);
+                try {
+                    dun.outputCSV("GeneratorCode\\output.csv");
+                    System.out.println("somehow, it worked");
+                }
+                catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                    System.out.println("didn't work");
+                }
         }
         
 }
