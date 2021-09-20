@@ -1,11 +1,36 @@
 ﻿import viz
 import vizact
 import vizshape
+import csv
 
 viz.fov(90)
-viz.go()
+#viz.go()
 
 vizshape.addGrid(color=[0.2]*3).setPosition([0.5,1,0.5])
 
 floor = vizshape.addQuad(size=(1.0,1.0),axis=vizshape.AXIS_Y,texture=viz.add("white.jpg"),)
-floor.setPosition([1,1,0])
+floor.setPosition([1,-1,0])
+
+with open('../GeneratorCode/output.csv') as csv_file:
+	reader = csv.reader(csv_file, delimiter=',')
+	data = list(reader)[0]
+
+layout = []
+
+#print(data)
+
+
+width = int(data.pop(0))
+height = int(data.pop(0))
+
+#print(data)
+row = -1
+
+for i in range(0,len(data)):
+	#print(i)
+	if(i%width == 0):
+		layout.append([])
+		row+=1
+	layout[row].append(data[i])
+
+#print(layout)
