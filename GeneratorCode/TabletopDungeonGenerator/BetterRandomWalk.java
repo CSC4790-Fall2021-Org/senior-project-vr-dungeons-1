@@ -20,7 +20,7 @@ public class BetterRandomWalk {
                 final int MAX_Y = d[0].length-1;
                 int currX = 0, currY = 0;
                 int leftmost = 0, rightmost = 0, topmost = 0, botmost = 0;
-//                boolean leftWall, rightWall, topWall, botWall;
+                //boolean leftWall, rightWall, topWall, botWall;
                 boolean horiz, vert;
                 int x = 0, y = 0;
                 Random rand = new Random(seed);
@@ -42,18 +42,11 @@ public class BetterRandomWalk {
                     rightmost = (x > rightmost) ? x : rightmost;
                     topmost = (y > topmost) ? y : topmost;
                     botmost = (y < botmost) ? y : botmost;
-                    System.out.println(steps);
                 }
                 
                 horiz = rightmost-leftmost > MAX_X;
                 vert = topmost-botmost > MAX_Y;
-                
-//                if(horiz) { System.out.println("HORIZ: " + (rightmost-leftmost) + "\nR = " + rightmost + "\tL = " + leftmost);
-//                            System.out.println("currX = " + currX + "\tcurrY = " + currY);}
-//                else if(vert) { System.out.println("VERT: " + (topmost-botmost) + "\nT = " + topmost + "\tB = " + botmost);
-//                            System.out.println("currX = " + currX + "\tcurrY = " + currY);}
-//                else { System.out.println("SOMETHING IS VERY WRONG HERE"); }
-                
+                                
                 //questionable
                 modX = -1*leftmost;
                 modY = -1*botmost;
