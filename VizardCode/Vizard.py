@@ -13,6 +13,7 @@ floor = vizshape.addQuad(size=(1.0,1.0),axis=vizshape.AXIS_Y,texture=viz.add("wh
 floor.setPosition([1,-1,0])
 
 #reads from the csv file in GeneratorCode rechange to open('../GeneatorCode/output.csv)
+
 with open('../GeneratorCode/output.csv') as csv_file:
 	reader = csv.reader(csv_file, delimiter=',')
 	data = list(reader)[0]
