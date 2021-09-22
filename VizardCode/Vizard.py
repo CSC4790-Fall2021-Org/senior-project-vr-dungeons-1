@@ -13,7 +13,6 @@ floor = vizshape.addQuad(size=(1.0,1.0),axis=vizshape.AXIS_Y,texture=viz.add("wh
 floor.setPosition([1,-1,0])
 
 #reads from the csv file in GeneratorCode rechange to open('../GeneatorCode/output.csv)
-
 with open('../GeneratorCode/output.csv') as csv_file:
 	reader = csv.reader(csv_file, delimiter=',')
 	data = list(reader)[0]
@@ -37,7 +36,7 @@ for i in range(0,len(data)):
 #row and col temp variables for counting, starting at 0 with the first row+=1 and col+=1
 row = -1
 col = -1
-box = vizshape.addBox(size=(1.0,3.0,1.0))
+box = vizshape.addBox(size=(1.0,3.0,1.0),texture=viz.addTexture("north.png"))
 box.color(viz.WHITE)
 #iterate over every entry in the 2d list
 for r in layout:
