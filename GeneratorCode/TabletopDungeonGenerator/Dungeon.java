@@ -9,6 +9,7 @@ public class Dungeon implements Cloneable {
 	public final int X; //X is the horizontal side length of the map
 	public final int Y; //Y is the vertical side length of the map 
 	public boolean[][] d; //The dungeon is stored in a 2D array of booleans, where True is a wall and False is open air
+	public int firstX, firstY, lastX, lastY;
 	
 	//this is the default constructor, it automatically gives the dungeon a default size of 500x500
 	public Dungeon(int seed) {
@@ -123,11 +124,21 @@ public class Dungeon implements Cloneable {
             sb.append(",");
             sb.append(Y);
             sb.append(",");
+            sb.append(firstX);
+            sb.append(",");
+            sb.append(firstY);
+            sb.append(",");
+            sb.append(lastX);
+            sb.append(",");
+            sb.append(lastY);
+            sb.append(",");
+            sb.append("\n");
             for(boolean[] c : d) {
                 for(boolean r : c) {
                     sb.append(r);
                     sb.append(",");
                 }
+                sb.append("\n");
             }
             bw.write(sb.toString());
             bw.close();

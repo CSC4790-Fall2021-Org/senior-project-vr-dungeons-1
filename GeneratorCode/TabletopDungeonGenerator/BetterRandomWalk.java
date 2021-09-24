@@ -3,7 +3,9 @@ import java.util.Random;
 import java.util.Stack;
 
 public class BetterRandomWalk {
-        
+    
+    static int firstX, firstY, lastX, lastY;
+    
         //use this template file to make your dungeon layout randomizer
         //be sure to try to implement the seed so the randomizer consistently outputs the same thing using any given seed
         public static boolean[][] randomize(boolean[][] in, int seed) {
@@ -44,22 +46,37 @@ public class BetterRandomWalk {
                 modX = -1*leftmost;
                 modY = -1*botmost;
                 
+                firstX = path_x.pop()+modX;
+                firstY = path_y.pop()+modY;
+                int currX = 0;
+                int currY = 0;
+                
+                d[firstX][firstY] = false;
                 
                 while(!path_x.empty() && !path_y.empty()) {
-                    d[path_x.pop()+modX][path_y.pop()+modY] = false;
+                    currX = path_x.pop()+modX;
+                    currY = path_y.pop()+modY;
+                    d[currX][currY] = false;
                 }
+                
+                lastX = currX;
+                lastY = currY;
                 
                 return d;
         }
         
         public static void main(String args[]) {
                 //this is the test method, it prints out the random dungeon with a seed of 1234 at the default size
-                Dungeon dun = new Dungeon(123,100,100);
+                Dungeon dun = new Dungeon(42069,100,100);
+                dun.firstX = firstX;
+                dun.firstY = firstY;
+                dun.lastX = lastX;
+                dun.lastY = lastY;
                 dun.setLayout(randomize(dun.d, dun.SEED));
-//                DungeonViewer dv = new DungeonViewer(dun,10);
-//                dv.setVisible(true);
+                DungeonViewer dv = new DungeonViewer(dun,5);
+                dv.setVisible(true);
                 try {
-                    dun.outputCSV("GeneratorCode\\output.csv");
+                    dun.outputCSV("GeneratorCode\\output2.csv");
                     System.out.println("somehow, it worked");
                 }
                 catch (IOException e) {
