@@ -62,8 +62,9 @@ for i in range(0,len(data)):
 row = -1
 col = -1
 
+tex1 = viz.addTexture("cobblestone2.png")
 
-wall = vizshape.addBox(size=(1.0,4.0,1.0),texture=viz.addTexture("north.png"))
+wall = vizshape.addBox(size=(1.0,1.0,1.0),texture=tex1)
 wall.color(viz.WHITE)
 
 #column number where the entrance is
@@ -83,7 +84,7 @@ for r in layout:
 				startPosition = col
 				print(col)
 		else:
-			wall.copy().setPosition(row,2,col)
+			wall.copy().setPosition(row,1.5,col)
 
 viz.MainView.setPosition([startPosition+3.5,2.8,0]) #sets the start position to 10 feet behind the entrance	
 viz.MainView.collision(viz.ON)		
