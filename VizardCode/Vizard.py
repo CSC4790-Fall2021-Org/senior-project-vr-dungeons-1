@@ -33,8 +33,12 @@ myLight.intensity(0.5)
 vizact.onkeydown('f', myLight.enable)
 vizact.onkeydown('g', myLight.disable)
 
+tex1 = viz.addTexture("cobblestone2.png")
+
+scale = 1
+
 #creates the master floor tile from which every other tile will be cloned and sets it at position [1,-1,0], underneath the floor
-floor = vizshape.addQuad(size=(1.0,1.0),axis=vizshape.AXIS_Y,texture=viz.add("white.jpg"),lighting=True)
+floor = vizshape.addQuad(size=(scale*1.0,scale*1.0),axis=vizshape.AXIS_Y,texture=tex1,lighting=True)
 floor.setPosition([1,-1,0])
 
 #reads from the csv file in GeneratorCode rechange to open('../GeneatorCode/output.csv)
@@ -62,9 +66,7 @@ for i in range(0,len(data)):
 row = -1
 col = -1
 
-tex1 = viz.addTexture("cobblestone2.png")
-
-wall = vizshape.addBox(size=(1.0,1.0,1.0),texture=tex1)
+wall = vizshape.addBox(size=(scale*1.0,scale*1.0,scale*1.0),texture=tex1)
 wall.color(viz.WHITE)
 
 #column number where the entrance is
@@ -78,16 +80,18 @@ for r in layout:
 		col+=1
 		#if there should be a floor at (row,col), clone the master floor to (row,1,col)
 		if(entry=="false"):
-			floor.copy().setPosition(row,1,col)
+			floor.copy().setPosition(scale*row,1,scale*col)
 			
 			if(row == 0): #finds the empty space in the first row the entrance)
 				startPosition = col
 				print(col)
 		else:
-			wall.copy().setPosition(row,1.5,col)
+			wall.copy().setPosition(scale*row,1.5,scale*col)
+			wall.copy().setPosition(scale*row,1.5+scale*1.0,scale*col)
+			wall.copy().setPosition(scale*row,1.5+scale*2.0,scale*col)
 
 viz.MainView.setPosition([startPosition+3.5,2.8,0]) #sets the start position to 10 feet behind the entrance	
-viz.MainView.collision(viz.ON)		
+#viz.MainView.collision(viz.ON)		
 print("Done")
 
 
