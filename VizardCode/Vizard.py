@@ -91,7 +91,7 @@ for r in layout:
 			wall.copy().setPosition(scale*row,1.5+scale*2.0,scale*col)
 
 viz.MainView.setPosition([startPosition+3.5,2.8,0]) #sets the start position to 10 feet behind the entrance	
-#viz.MainView.collision(viz.ON)		
+viz.MainView.collision(viz.ON)		
 print("Done")
 
 
