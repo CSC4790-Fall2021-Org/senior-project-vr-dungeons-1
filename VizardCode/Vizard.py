@@ -55,7 +55,7 @@ row = -1
 col = -1
 
 
-wall = vizshape.addBox(size=(1.0,4.0,1.0),texture=viz.addTexture("north.png"))
+wall = vizshape.addBox(size=(1.0,4.0,1.0),texture=viz.addTexture("cobblestone.png"))
 wall.color(viz.WHITE)
 
 #column number where the entrance is
