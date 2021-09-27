@@ -8,6 +8,21 @@ import csv
 viz.fov(90)
 viz.go()
 
+#=====================================
+#Position the view of the camera
+
+#CAVE specific:
+#CONFIG_FILE = "E:\\VizardProjects\\_CaveConfigFiles\\vizconnect_config_CaveFloor+ART_headnode.py"
+#vizconnect.go(CONFIG_FILE)
+#viz.clearcolor(viz.WHITE)
+#viewPoint = vizconnect.addViewpoint(pos=[1,1,-7])
+#viewPoint.add(vizconnect.getDisplay())
+#vizconnect.resetViewpoints()
+
+################################################################
+#p1 and p2 are points, each is an array of [x,y,z]
+
+
 #vizshape.addGrid(color=[0.2]*3).setPosition([0.5,1,0.5])
 
 #creates the master floor tile from which every other tile will be cloned and sets it at position [1,-1,0], underneath the floor
@@ -65,4 +80,5 @@ for r in layout:
 viz.MainView.setPosition([startPosition+3.5,2.8,0]) #sets the start position to 10 feet behind the entrance	
 viz.MainView.collision(viz.ON)		
 print("Done")
-#problem- with collision on, the user is too fat to fit through the entrance
+
+
