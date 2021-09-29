@@ -33,7 +33,7 @@ myLight.intensity(0.5)
 vizact.onkeydown('f', myLight.enable)
 vizact.onkeydown('g', myLight.disable)
 
-tex1 = viz.addTexture("cobblestone2.png")
+tex1 = viz.addTexture("stonewall.png")
 
 scale = 1
 
