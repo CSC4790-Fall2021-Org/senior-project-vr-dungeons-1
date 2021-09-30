@@ -3,8 +3,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 
-import space.*;
-
 public class SpacePartition {
 	
 	//use this template file to make your dungeon layout randomizer

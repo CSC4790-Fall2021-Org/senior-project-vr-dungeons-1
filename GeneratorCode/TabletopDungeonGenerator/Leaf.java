@@ -1,8 +1,6 @@
 //with credit to Timothy Hely
 //https://gamedevelopment.tutsplus.com/tutorials/how-to-use-bsp-trees-to-generate-game-maps--gamedev-12268
 
-package space;
-
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
