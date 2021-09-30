@@ -6,7 +6,6 @@ from vizconnect.util import view_collision
 import csv
 
 viz.fov(90)
-viz.go()
 
 #=====================================
 #Position the view of the camera
@@ -21,6 +20,35 @@ viz.go()
 
 ################################################################
 #p1 and p2 are points, each is an array of [x,y,z]
+
+#column number where the entrance is
+startPosition = 0
+
+def IsThisVillanovaCAVE():
+	cave_host_names = ["exx-PC","render-PC"]
+	import socket
+	if socket.gethostname() in cave_host_names:
+		return True
+	else:
+		return False
+	
+#example:
+if IsThisVillanovaCAVE():
+	#  =====================================
+	#Position the view of the camera
+	#CAVE specific:
+	CONFIG_FILE = "E:\\VizardProjects\\_CaveConfigFiles\\vizconnect_config_CaveFloor+ART_headnode.py"
+	vizconnect.go(CONFIG_FILE)
+	viewPoint = vizconnect.addViewpoint(pos=[1,1,-7])
+	viewPoint.add(vizconnect.getDisplay())
+	vizconnect.resetViewpoints()
+###############################################################
+#p1 and p2 are points, each is an array of [x,y,z]
+else:
+	viz.go()
+	viz.MainView.setPosition([startPosition+3.5,2.8,0]) #sets the start position to 10 feet behind the entrance	
+	viz.MainView.collision(viz.ON)
+	#boilerplate for my local laptop
 
 
 #vizshape.addGrid(color=[0.2]*3).setPosition([0.5,1,0.5])
@@ -69,9 +97,6 @@ col = -1
 wall = vizshape.addBox(size=(scale*1.0,scale*1.0,scale*1.0),texture=tex1)
 wall.color(viz.WHITE)
 
-#column number where the entrance is
-startPosition = 0
-
 #iterate over every entry in the 2d list
 for r in layout:
 	row+=1
@@ -89,9 +114,7 @@ for r in layout:
 			wall.copy().setPosition(scale*row,1.5,scale*col)
 			wall.copy().setPosition(scale*row,1.5+scale*1.0,scale*col)
 			wall.copy().setPosition(scale*row,1.5+scale*2.0,scale*col)
-
-viz.MainView.setPosition([startPosition+3.5,2.8,0]) #sets the start position to 10 feet behind the entrance	
-viz.MainView.collision(viz.ON)		
+		
 print("Done")
 
 
