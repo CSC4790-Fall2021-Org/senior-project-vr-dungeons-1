@@ -2,7 +2,6 @@
 
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JFrame;
@@ -10,6 +9,10 @@ import javax.swing.JPanel;
 
 class Surface extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5990773779976090772L;
 	Dungeon dun;
 	int scale;
 	
@@ -42,7 +45,9 @@ class Surface extends JPanel {
 
 public class DungeonViewer extends JFrame {
 
-    public DungeonViewer(Dungeon d, int scale) {
+	private static final long serialVersionUID = 6395800814116481651L;
+
+	public DungeonViewer(Dungeon d, int scale) {
 
         initUI(d, scale);
     }
