@@ -1,15 +1,10 @@
 import java.awt.Rectangle;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
+import java.awt.Point;
 
 //with credit to Timothy Hely
 //https://gamedevelopment.tutsplus.com/tutorials/how-to-use-bsp-trees-to-generate-game-maps--gamedev-12268
 
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.util.ArrayList;
-import java.util.Vector;
 
 class Leaf extends Object{
 	private final int MIN_LEAF_SIZE = 6;
@@ -286,11 +281,8 @@ public class SpacePartition extends Dungeon {
 
 		// next, iterate through each Leaf and create a room in each one.
 		root.createRooms();
-		int count = 1;
 		
 		for (Leaf t : leafs) {
-//		    System.out.println("Leaf #" + count);
-		    count++;
 			if (t.room != null)
 				d = changeMap(t.room.x, t.room.y, t.room.width, t.room.height, d);
 			if (t.halls != null) {

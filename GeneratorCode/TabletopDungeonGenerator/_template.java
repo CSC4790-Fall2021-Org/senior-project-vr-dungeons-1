@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 public class _template extends Dungeon {
 	
 	public _template(int seed) {
