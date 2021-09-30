@@ -3,7 +3,19 @@
 import java.util.Arrays;
 import noise.SimplexNoise_octave;
 
-public class PerlinNoise {
+public class PerlinNoise extends Dungeon {
+	
+	public PerlinNoise(int seed) {
+		super(seed);
+	}
+	
+	public PerlinNoise(int seed, int x, int y) {
+		super(seed,x,y);
+	}
+	
+	public PerlinNoise(int seed, boolean[][] dungeon) {
+		super(seed, dungeon);
+	}
 	
 	//use this template file to make your dungeon layout randomizer
 	//be sure to try to implement the seed so the randomizer consistently outputs the same thing using any given seed

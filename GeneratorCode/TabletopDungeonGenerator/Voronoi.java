@@ -2,7 +2,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-public class Voronoi {
+public class Voronoi extends Dungeon {
+	
+	public Voronoi(int seed) {
+		super(seed);
+	}
+	
+	public Voronoi(int seed, int x, int y) {
+		super(seed,x,y);
+	}
+	
+	public Voronoi(int seed, boolean[][] dungeon) {
+		super(seed, dungeon);
+	}
 	
 	static double distance(int x1, int x2, int y1, int y2) {
 		return Math.abs(x1 - x2) + Math.abs(y1 - y2); //Manhattan Distance looks cool

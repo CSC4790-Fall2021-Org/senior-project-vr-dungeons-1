@@ -78,8 +78,20 @@ class CellularAutomataHelper {
     }
 }
 
-public class CellularAutomata {
+public class CellularAutomata extends Dungeon {
 		
+	public CellularAutomata(int seed) {
+		super(seed);
+	}
+	
+	public CellularAutomata(int seed, int x, int y) {
+		super(seed,x,y);
+	}
+	
+	public CellularAutomata(int seed, boolean[][] dungeon) {
+		super(seed, dungeon);
+	}
+	
 		//use this template file to make your dungeon layout randomizer
 		//be sure to try to implement the seed so the randomizer consistently outputs the same thing using any given seed
 		public static boolean[][] randomize(boolean[][] in, int seed) {

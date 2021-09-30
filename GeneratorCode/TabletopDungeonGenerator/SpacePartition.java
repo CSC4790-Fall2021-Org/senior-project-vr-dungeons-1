@@ -221,7 +221,19 @@ class Leaf extends Object{
 }
 
 
-public class SpacePartition {
+public class SpacePartition extends Dungeon {
+	
+	public SpacePartition(int seed) {
+		super(seed);
+	}
+	
+	public SpacePartition(int seed, int x, int y) {
+		super(seed,x,y);
+	}
+	
+	public SpacePartition(int seed, boolean[][] dungeon) {
+		super(seed, dungeon);
+	}
 	
 	//use this template file to make your dungeon layout randomizer
 	//be sure to try to implement the seed so the randomizer consistently outputs the same thing using any given seed
