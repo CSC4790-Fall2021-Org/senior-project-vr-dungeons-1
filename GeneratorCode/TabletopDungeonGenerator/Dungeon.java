@@ -88,58 +88,59 @@ public class Dungeon implements Cloneable {
         public int[][] numberRooms(boolean[][] in) {
             int[][] ret = new int[in.length][in[0].length];
             
-            int unchecked = 0;
+            int uncheckedCount = 0;
             
             for(int c = 0; c < ret.length; c++) {
                 for(int r = 0; r < ret[0].length; r++) {
                     //if it's a wall, set the number to 0
                     if(in[c][r]){ret[c][r]=0;}
                     //if its an open space, set temporarily set it to -1
-                    else{ret[c][r]=-1;unchecked++;}
+                    else{ret[c][r]=-1;uncheckedCount++;}
                 }
             }
             
             int roomNum = 0;
-            Stack<Integer> uncheckedX = new Stack<Integer>();
-            Stack<Integer> uncheckedY = new Stack<Integer>();
+            Stack<Integer[]> unchecked = new Stack<Integer[]>();
+            Stack<Integer[]> checked = new Stack<Integer[]>();
+            boolean done = false;
             
-            while(unchecked > 0) {
+            while(!done) {
                 roomNum++;
                 int tempC = 0; int tempR = 0;
                 //find the next unchecked tile
-                while(ret[tempC][tempR] == -1 || ret[tempC][tempR] == 0) {
+                while(tempR != ret[0].length-1) {
                     //scan left-right and then down
                     if(tempC == ret.length-1) {tempC=0;tempR++;}
                     else{tempC++;}
+                    if(!checked.contains(new Integer[] {tempC,tempR}) && ret[tempC][tempR] == -1) {break;}
+                    if(tempC == ret.length-2 && tempR == ret[0].length-2 && ret[tempC][tempR] != -1) {done = true; break;}
                 }
                 //using new unchecked tile, find every tile connected to it
-                uncheckedX.add(tempC);
-                uncheckedY.add(tempR);
+                unchecked.add(new Integer[]{tempC,tempR});
                 int currX = -1; int currY = -1;
                 
-                while(!uncheckedX.isEmpty()&&!uncheckedY.isEmpty()) {
-                	currX = uncheckedX.pop();
-                	currY = uncheckedY.pop();
+                while(!unchecked.isEmpty()) {
+                	uncheckedCount--;
+                	Integer[] temp = unchecked.pop();
+                	currX = temp[0];
+                	currY = temp[1];
                 	ret[currX][currY] = roomNum;
+                	checked.add(new Integer[] {tempC,tempR});
                     //if left space is empty
-                    if(currX != 0 && !in[currX-1][currY]) {
-                    	uncheckedX.add(currX-1);
-                    	uncheckedY.add(currY);
+                    if(currX != 0 && ret[currX-1][currY] == -1) {
+                    	unchecked.add(new Integer[]{currX-1,currY});
                     }
                     //if right space is empty
-                    if(currX != in.length-1 && !in[currX+1][currY]) {
-                    	uncheckedX.add(currX+1);
-                    	uncheckedY.add(currY);
+                    if(currX != in.length-1 && ret[currX+1][currY] == -1) {
+                    	unchecked.add(new Integer[]{currX+1,currY});
                     }
                     //if top space is empty
-                    if(currY != 0 && !in[currX][currY-1]) {
-                    	uncheckedX.add(currX);
-                    	uncheckedY.add(currY-1);
+                    if(currY != 0 && ret[currX][currY-1] == -1) {
+                    	unchecked.add(new Integer[]{currX,currY-1});
                     }
                     //if bottom space is empty
-                    if(currY != in[0].length-1 && !in[currX][currY+1]) {
-                    	uncheckedX.add(currX);
-                    	uncheckedY.add(currY+1);
+                    if(currY != in[0].length-1 && ret[currX][currY+1] == -1) {
+                    	unchecked.add(new Integer[]{currX,currY+1});
                     }
                 }
             }

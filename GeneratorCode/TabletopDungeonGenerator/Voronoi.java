@@ -117,9 +117,10 @@ public class Voronoi extends Dungeon {
 		boolean[][] randomDun = randomize(dun.d, dun.SEED, 300, false);
 		dun.setLayout(randomDun); 
 //		dun.setLayout(Dungeon.getWireframe(randomDun));
-		DungeonViewer dv = new DungeonViewer(dun,5);
+        int[][] n = dun.numberRooms(dun.d);
+        DungeonViewer dv = new DungeonViewer(dun,10,n);
 		dv.setVisible(true);
-			
+		
 		
 	}
 	
