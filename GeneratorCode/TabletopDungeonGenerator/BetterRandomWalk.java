@@ -2,7 +2,7 @@ import java.util.Random;
 import java.util.Stack;
 
 public class BetterRandomWalk extends Dungeon {
-        
+            
 	public BetterRandomWalk(int seed) {
 		super(seed);
 	}
@@ -55,6 +55,9 @@ public class BetterRandomWalk extends Dungeon {
             modX = -1*leftmost;
             modY = -1*botmost;
             
+            firstX = path_x.pop()+modX;
+            firstY = path_y.pop()+modY;
+            d[firstX][firstY] = false;
             
             while(!path_x.empty() && !path_y.empty()) {
                 d[path_x.pop()+modX][path_y.pop()+modY] = false;
