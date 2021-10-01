@@ -21,8 +21,9 @@ viz.fov(90)
 ################################################################
 #p1 and p2 are points, each is an array of [x,y,z]
 
-#column number where the entrance is
-startPosition = 0
+#column & row number where the entrance is
+startColumn = 0
+startRow = 0
 
 def IsThisVillanovaCAVE():
 	cave_host_names = ["exx-PC","render-PC"]
@@ -46,7 +47,6 @@ if IsThisVillanovaCAVE():
 #p1 and p2 are points, each is an array of [x,y,z]
 else:
 	viz.go()
-	viz.MainView.setPosition([startPosition+3.5,2.8,0]) #sets the start position to 10 feet behind the entrance	
 	viz.MainView.collision(viz.ON)
 	#boilerplate for my local laptop
 
@@ -107,14 +107,19 @@ for r in layout:
 		if(entry=="false"):
 			floor.copy().setPosition(scale*row,1,scale*col)
 			
-			if(row == 0): #finds the empty space in the first row the entrance)
-				startPosition = col
+			if(row == 0 or col == 0): #finds the empty space in the first row, the entrance
+				viz.MainView.setPosition([row+3.5,col+2.8, 0])
+				print(row)
 				print(col)
 		else:
 			wall.copy().setPosition(scale*row,1.5,scale*col)
 			wall.copy().setPosition(scale*row,1.5+scale*1.0,scale*col)
 			wall.copy().setPosition(scale*row,1.5+scale*2.0,scale*col)
 		
+	
+#if not IsThisVillanovaCAVE():
+#	viz.MainView.setPosition([startColumn+3.5,2.8,2.8])
+#	print("made it here")
+#	#sets the start position to 10 feet behind the entrance	
+	
 print("Done")
-
-
