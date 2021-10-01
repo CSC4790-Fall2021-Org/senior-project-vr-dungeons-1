@@ -1,6 +1,7 @@
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Stack;
 
 public class Dungeon implements Cloneable {
 
@@ -99,6 +100,8 @@ public class Dungeon implements Cloneable {
             }
             
             int roomNum = 0;
+            Stack<Integer> uncheckedX = new Stack<Integer>();
+            Stack<Integer> uncheckedY = new Stack<Integer>();
             
             while(unchecked > 0) {
                 roomNum++;
@@ -110,8 +113,36 @@ public class Dungeon implements Cloneable {
                     else{tempC++;}
                 }
                 //using new unchecked tile, find every tile connected to it
+                uncheckedX.add(tempC);
+                uncheckedY.add(tempR);
+                int currX = -1; int currY = -1;
+                
+                while(!uncheckedX.isEmpty()&&!uncheckedY.isEmpty()) {
+                	currX = uncheckedX.pop();
+                	currY = uncheckedY.pop();
+                	ret[currX][currY] = roomNum;
+                    //if left space is empty
+                    if(currX != 0 && !in[currX-1][currY]) {
+                    	uncheckedX.add(currX-1);
+                    	uncheckedY.add(currY);
+                    }
+                    //if right space is empty
+                    if(currX != in.length-1 && !in[currX+1][currY]) {
+                    	uncheckedX.add(currX+1);
+                    	uncheckedY.add(currY);
+                    }
+                    //if top space is empty
+                    if(currY != 0 && !in[currX][currY-1]) {
+                    	uncheckedX.add(currX);
+                    	uncheckedY.add(currY-1);
+                    }
+                    //if bottom space is empty
+                    if(currY != in[0].length-1 && !in[currX][currY+1]) {
+                    	uncheckedX.add(currX);
+                    	uncheckedY.add(currY+1);
+                    }
+                }
             }
-            
             return ret;
         }
         
