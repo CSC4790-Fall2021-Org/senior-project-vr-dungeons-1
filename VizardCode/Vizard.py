@@ -6,6 +6,7 @@ from vizconnect.util import view_collision
 import csv
 
 viz.fov(90)
+view = viz.MainView
 
 #=====================================
 #Position the view of the camera
@@ -46,8 +47,7 @@ if IsThisVillanovaCAVE():
 ###############################################################
 #p1 and p2 are points, each is an array of [x,y,z]
 else:
-	viz.go()
-	viz.MainView.collision(viz.ON)
+	viz.go()	
 	#boilerplate for my local laptop
 
 
@@ -80,6 +80,9 @@ layout = []
 width = int(data.pop(0))
 height = int(data.pop(0))
 
+firstX = int(data.pop(0))
+firstY = int(data.pop(0))
+
 #row will be used to count the rows, starting at 0 with the first row+=1
 row = -1
 for i in range(0,len(data)):
@@ -107,19 +110,26 @@ for r in layout:
 		if(entry=="false"):
 			floor.copy().setPosition(scale*row,1,scale*col)
 			
-			if(row == 0 or col == 0): #finds the empty space in the first row, the entrance
-				viz.MainView.setPosition([row+3.5,col+2.8, 0])
-				print(row)
-				print(col)
+			#if(row == 0 or col == 0): #finds the empty space in the first row, the entrance
+				#viz.MainView.setPosition([row+3.5,col+2.8, 0])
+				#print(row)
+				#print(col)
 		else:
 			wall.copy().setPosition(scale*row,1.5,scale*col)
 			wall.copy().setPosition(scale*row,1.5+scale*1.0,scale*col)
 			wall.copy().setPosition(scale*row,1.5+scale*2.0,scale*col)
 		
-	
+view.setPosition([firstX*scale,3, firstY*scale])
+
 #if not IsThisVillanovaCAVE():
 #	viz.MainView.setPosition([startColumn+3.5,2.8,2.8])
 #	print("made it here")
 #	#sets the start position to 10 feet behind the entrance	
 	
+viz.MainView.collision(viz.ON)
+		
+	
 print("Done")
+print("firstX = ", firstX)
+print("firstY = ", firstY)
+print("getposition = ",view.getPosition())
