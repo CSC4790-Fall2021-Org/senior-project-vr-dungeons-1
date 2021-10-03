@@ -148,22 +148,29 @@ public class Dungeon implements Cloneable {
         
         public int[][] getCorners() {
             
-            int[][] ret = numberRooms();
+        	int[][] ret = new int[d.length][d[0].length];
+            int[][] nums = numberRooms();
             boolean[][] wire = getWireframe();
             
-            for(int c = 0; c < ret.length; c++) {
-                for(int r = 0; r < ret[0].length; r++) {
+            for(int c = 0; c < nums.length; c++) {
+                for(int r = 0; r < nums[0].length; r++) {
                     if(wire[c][r]) { ret[c][r] = 0; }
                     /*
                      * 
                      * if(c!=0 && c!=ret.length-1 && r!=0 && r!= ret[0].length-1
-                     * && !(wire[c+1][r]==0 && wire[c][r+1]==0)
-                     * && !(wire[c][r+1]==0 && wire[c-1][r]==0)
-                     * && !(wire[c-1][r]==0 && wire[c][r-1]==0)
-                     * && !(wire[c][r-1]==0 && wire[c+1][r]==0)
+                     * && !(ret[c+1][r]==0 && ret[c][r+1]==0)
+                     * && !(ret[c][r+1]==0 && ret[c-1][r]==0)
+                     * && !(ret[c-1][r]==0 && ret[c][r-1]==0)
+                     * && !(ret[c][r-1]==0 && ret[c+1][r]==0)
                      * )
                      */
-                    if(!(c!=0 && c!=ret.length-1 && r!=0 && r!= ret[0].length-1 && !(ret[c+1][r]==0 && ret[c][r+1]==0) || !(ret[c][r+1]==0 && ret[c-1][r]==0) || !(ret[c-1][r]==0 && ret[c][r-1]==0) || !(ret[c][r-1]==0 && ret[c+1][r]==0))) {ret[c][r]=0;}
+                    else if((c!=0 && c!=nums.length-1 && r!=0 && r!= nums[0].length-1)) {
+                    	if(!((nums[c+1][r]==0 && nums[c][r+1]==0) || (nums[c][r+1]==0 && nums[c-1][r]==0) || (nums[c-1][r]==0 && nums[c][r-1]==0) || (nums[c][r-1]==0 && nums[c+1][r]==0))) {
+                    		ret[c][r]=0;
+                    	} else {
+                    		ret[c][r]=nums[c][r];
+                    	}
+                    }
                 }
             }
             
