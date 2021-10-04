@@ -2,17 +2,38 @@ import java.util.Random;
 
 public class Voronoi extends Dungeon {
 	
+        int cells;
+        final int RATIO = 50;
+    
 	public Voronoi(int seed) {
 		super(seed);
+		cells = (X*Y/RATIO);
 	}
 	
 	public Voronoi(int seed, int x, int y) {
 		super(seed,x,y);
+		cells = (X*Y/RATIO);
 	}
 	
 	public Voronoi(int seed, boolean[][] dungeon) {
 		super(seed, dungeon);
+		cells = (X*Y/RATIO);
 	}
+	
+	public Voronoi(int seed, int x, int y, int cell) {
+            super(seed,x,y);
+            cells = cell;
+        }
+
+	public Voronoi(int seed, int cell) {
+	    super(seed);
+	    cells = cell;
+	}
+	
+	public Voronoi(int seed, boolean[][] dungeon, int cell) {
+            super(seed,dungeon);
+            cells = cell;
+        }
 	
 	static double distance(int x1, int x2, int y1, int y2) {
 		return Math.abs(x1 - x2) + Math.abs(y1 - y2); //Manhattan Distance looks cool
@@ -20,109 +41,113 @@ public class Voronoi extends Dungeon {
 	
 	//use this template file to make your dungeon layout randomizer
 	//be sure to try to implement the seed so the randomizer consistently outputs the same thing using any given seed
-	public static boolean[][] randomize(boolean[][] in, int seed, int cells, boolean connect) {
+	public boolean[][] randomize(int seed) {
+	    return randomize(seed,cells);
+	}
+	
+	public boolean[][] randomize(int seed, int cell) {
 		//d is the temporary array that you'll use to make the layout, currently initialized as all False values.
-		boolean[][] d = new boolean[in.length][in[0].length];
+		boolean[][] dun = new boolean[d.length][d[0].length];
 		
 		//randomize the dungeon here
 		//chooses random points to be nodes
 		int n = 0;
 		Random rand = new Random(seed);
-		int[] px = new int[cells];
-		int[] py = new int[cells];
-		for (int i = 0; i < cells; i++) {
-			px[i] = rand.nextInt(in[0].length);
-			py[i] = rand.nextInt(in.length);
+		int[] px = new int[cell];
+		int[] py = new int[cell];
+		for (int i = 0; i < cell; i++) {
+			px[i] = rand.nextInt(d[0].length);
+			py[i] = rand.nextInt(d.length);
  
 		}
 		
 		//for each point x,y in the dungeon, it finds the nearest node. If the node number is n%3==2, it becomes open space, if not it becomes a wall.
-		for (int x = 0; x < in[0].length; x++) {
-			for (int y = 0; y < in.length; y++) {
+		for (int x = 0; x < d[0].length; x++) {
+			for (int y = 0; y < d.length; y++) {
 				n = 0;
-				for (int i = 0; i < cells; i++) {
+				for (int i = 0; i < cell; i++) {
 					if (distance(px[i], x, py[i], y) < distance(px[n], x, py[n], y)) {
 						n = i; //find the closest point to x,y
 					}
 				}
 				if(n%3==0||n%3==1) {
-					d[x][y]= true;
+					dun[x][y]= true;
 				}
 			}
 		}
 		
 		//connect rooms with 3-wide hallways
-		if(connect) {
-			boolean vert = rand.nextBoolean();
-			for(int o = 2; o < cells-3; o+=3) {
-				int x1 = px[o];
-				int x2 = px[o+3];
-				int y1 = py[o];
-				int y2 = py[o+3];
-				if(vert && y1 < y2) {
-					for(int i = y1; i <= y2; i++) {
-						d[x1][i]=false;
-						d[x1-1][i]=false;
-						d[x1+1][i]=false;
-					}
-					for(int j = x1; j <= x2; j++) {
-						d[j][y2]=false;
-						d[j][y2-1]=false;
-						d[j][y2+1]=false;
-					}
-				} else if(vert && y1 > y2) {
-					for(int i = y2; i <= y1; i++) {
-						d[x2][i]=false;
-						d[x2-1][i]=false;
-						d[x2+1][i]=false;
-					}
-					for(int j = x2; j <= x1; j++) {
-						d[j][y1]=false;
-						d[j][y1-1]=false;
-						d[j][y1+1]=false;
-					}
-				} else if(!vert && x1 < x2) {
-					for(int i = x1; i <= x2; i++) {
-						d[i][y1]=false;
-						d[i][y1-1]=false;
-						d[i][y1+1]=false;
-					}
-					for(int j = y1; j <= y2; j++) {
-						d[x2][j]=false;
-						d[x2-1][j]=false;
-						d[x2+1][j]=false;
-					}
-				} else if(!vert && x1 > x2) {
-					for(int i = x2; i <= x1; i++) {
-						d[i][y2]=false;
-						d[i][y2-1]=false;
-						d[i][y2+1]=false;
-					}
-					for(int j = y2; j <= y1; j++) {
-						d[x1][j]=false;
-						d[x1-1][j]=false;
-						d[x1+1][j]=false;
-					}
-				}
-				vert = rand.nextBoolean();
-			}
-		}
+//		if(connect) {
+//			boolean vert = rand.nextBoolean();
+//			for(int o = 2; o < cells-3; o+=3) {
+//				int x1 = px[o];
+//				int x2 = px[o+3];
+//				int y1 = py[o];
+//				int y2 = py[o+3];
+//				if(vert && y1 < y2) {
+//					for(int i = y1; i <= y2; i++) {
+//						dun[x1][i]=false;
+//						dun[x1-1][i]=false;
+//						dun[x1+1][i]=false;
+//					}
+//					for(int j = x1; j <= x2; j++) {
+//						dun[j][y2]=false;
+//						dun[j][y2-1]=false;
+//						dun[j][y2+1]=false;
+//					}
+//				} else if(vert && y1 > y2) {
+//					for(int i = y2; i <= y1; i++) {
+//						dun[x2][i]=false;
+//						dun[x2-1][i]=false;
+//						dun[x2+1][i]=false;
+//					}
+//					for(int j = x2; j <= x1; j++) {
+//						dun[j][y1]=false;
+//						dun[j][y1-1]=false;
+//						dun[j][y1+1]=false;
+//					}
+//				} else if(!vert && x1 < x2) {
+//					for(int i = x1; i <= x2; i++) {
+//						dun[i][y1]=false;
+//						dun[i][y1-1]=false;
+//						dun[i][y1+1]=false;
+//					}
+//					for(int j = y1; j <= y2; j++) {
+//						dun[x2][j]=false;
+//						dun[x2-1][j]=false;
+//						dun[x2+1][j]=false;
+//					}
+//				} else if(!vert && x1 > x2) {
+//					for(int i = x2; i <= x1; i++) {
+//						dun[i][y2]=false;
+//						dun[i][y2-1]=false;
+//						dun[i][y2+1]=false;
+//					}
+//					for(int j = y2; j <= y1; j++) {
+//						dun[x1][j]=false;
+//						dun[x1-1][j]=false;
+//						dun[x1+1][j]=false;
+//					}
+//				}
+//				vert = rand.nextBoolean();
+//			}
+//		}
 			
-		return d;
+		return dun;
 	}
 	
-	public static void main(String args[]) {
-		//this is the test method, it prints out the random dungeon with a seed of 1234 at the default size
-		Dungeon dun = new Dungeon(1234, 100, 100);
-		boolean[][] randomDun = randomize(dun.d, dun.SEED, 300, false);
-		dun.setLayout(randomDun); 
-//		dun.setLayout(Dungeon.getWireframe(randomDun));
-                int[][] n = dun.numberRooms();
-//                DungeonViewer dv = new DungeonViewer(dun,10,n);
-//		dv.setVisible(true);
-		DungeonViewer dv2 = new DungeonViewer(dun,10,dun.getCorners());
-		dv2.setVisible(true);
-	}
+//	public static void main(String args[]) {
+//		//this is the test method, it prints out the random dungeon with a seed of 1234 at the default size
+//		Dungeon dun = new Dungeon(1234, 100, 100);
+//		boolean[][] randomDun = randomize(dun.SEED, 300);
+//		dun.setLayout(randomDun); 
+////		dun.setLayout(Dungeon.getWireframe(randomDun));
+//                int[][] n = dun.numberRooms();
+////                DungeonViewer dv = new DungeonViewer(dun,10,n);
+////		dv.setVisible(true);
+//		DungeonViewer dv2 = new DungeonViewer(dun,10,dun.getCorners());
+//		dv2.setVisible(true);
+//	}
 	
 //	
 //	//then we connect the individual rooms with corridors

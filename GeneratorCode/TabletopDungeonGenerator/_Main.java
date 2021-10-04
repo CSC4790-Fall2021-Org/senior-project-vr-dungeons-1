@@ -111,20 +111,40 @@ public class _Main {
 			d = new SpacePartition(seed,width,height);
 			break;
 		case 4:
-			d = new Voronoi(seed,width,height);
+		        int cells = -1;
+		        done = false;
+		        while(!done) {
+		            try {
+                                bw.write("\n\nEnter the number of cells you want in the Voronoi diagram: ");
+                                bw.flush();
+                                
+                                cells = Integer.parseInt(br.readLine());
+                                done = true;
+                            } catch(Exception e) {
+                                bw.write("\nInvalid input, try again.\n");
+                                bw.flush();
+                            }
+                        }
+		        d = new Voronoi(seed,width,height,cells);
 			break;
 		}
+		
+		bw.write("\nGenerating Dungeon...");
+		bw.flush();
 		
 		boolean[][] dun = d.randomize(seed);
 		d.setLayout(dun);
 		
-		int scale = (1980/width <= 1055/height) ? 1980/width : 1055/height;
+		int scale = (1366/width <= 743/height) ? 1366/width : 743/height;
 		
 //		bw.write(Integer.toString(scale));
 //		bw.flush();
 		
 		DungeonViewer dv = new DungeonViewer(d,scale);
 		dv.setVisible(true);
+		
+		bw.write("\n Dungeon Generated!\n");
+		bw.flush();
 		
 		bw.close();
 		br.close();
