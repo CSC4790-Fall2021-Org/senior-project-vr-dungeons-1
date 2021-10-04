@@ -1,6 +1,7 @@
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Stack;
 
 public class Dungeon implements Cloneable {
@@ -10,8 +11,9 @@ public class Dungeon implements Cloneable {
 	public final int X; //X is the horizontal side length of the map
 	public final int Y; //Y is the vertical side length of the map 
 	public boolean[][] d; //The dungeon is stored in a 2D array of booleans, where True is a wall and False is open air
-	public static int firstX;
-	public static int firstY;
+	public int firstX;
+	public int firstY;
+	public int numberOfRooms;
 	
 	//this is the default constructor, it automatically gives the dungeon a default size of 500x500
 	public Dungeon(int seed) {
@@ -92,7 +94,7 @@ public class Dungeon implements Cloneable {
         }
         
         //individually numbers each "room" (a room is a group of connected open spaces)
-        public int[][] numberRooms() {
+        public int[][] numberRoomsMap() {
             int[][] ret = new int[d.length][d[0].length];
             
             for(int c = 0; c < ret.length; c++) {
@@ -148,13 +150,14 @@ public class Dungeon implements Cloneable {
                     }
                 }
             }
+            numberOfRooms = roomNum;
             return ret;
         }
         
-        public int[][] getCorners() {
+        public int[][] getCornersMap() {
             
         	int[][] ret = new int[d.length][d[0].length];
-            int[][] nums = numberRooms();
+            int[][] nums = numberRoomsMap();
             boolean[][] wire = getWireframe();
             
             for(int c = 0; c < nums.length; c++) {
@@ -181,6 +184,42 @@ public class Dungeon implements Cloneable {
             
             return ret;
         }
+        
+        public ArrayList<ArrayList<Integer[]>> getCornersList() {
+            
+            ArrayList<ArrayList<Integer[]>> ret = new ArrayList<ArrayList<Integer[]>>(numberOfRooms);
+            
+            for(ArrayList al : ret) {
+                al.add(new ArrayList<Integer[]>());
+            }
+            
+            int[][] nums = numberRoomsMap();
+            boolean[][] wire = getWireframe();
+        
+            for(int c = 0; c < nums.length; c++) {
+                for(int r = 0; r < nums[0].length; r++) {
+                    /*
+                     * 
+                     * if(c!=0 && c!=ret.length-1 && r!=0 && r!= ret[0].length-1
+                     * && !(ret[c+1][r]==0 && ret[c][r+1]==0)
+                     * && !(ret[c][r+1]==0 && ret[c-1][r]==0)
+                     * && !(ret[c-1][r]==0 && ret[c][r-1]==0)
+                     * && !(ret[c][r-1]==0 && ret[c+1][r]==0)
+                     * )
+                     */
+                    if((c!=0 && c!=nums.length-1 && r!=0 && r!= nums[0].length-1)) {
+                        if(((nums[c+1][r]==0 && nums[c][r+1]==0) || (nums[c][r+1]==0 && nums[c-1][r]==0) || (nums[c-1][r]==0 && nums[c][r-1]==0) || (nums[c][r-1]==0 && nums[c+1][r]==0))) {
+                            ret.get(nums[c][r]).add(new Integer[] {c,r});
+                        }
+                    }
+                }
+            }
+        
+            return ret;
+        }
+        
+        
+        
         
         public void outputCSV(String path) throws IOException {
             

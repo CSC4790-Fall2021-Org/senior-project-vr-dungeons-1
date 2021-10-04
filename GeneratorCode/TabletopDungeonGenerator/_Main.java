@@ -192,7 +192,7 @@ public class _Main {
 		bw.flush();
 		
 		if("y".equals(br.readLine().toLowerCase())) {
-		    DungeonViewer dv2 = new DungeonViewer(d,scale,d.numberRooms());
+		    DungeonViewer dv2 = new DungeonViewer(d,scale,d.numberRoomsMap());
 		    dv2.setVisible(true);
 		}
 		
@@ -200,7 +200,7 @@ public class _Main {
 		bw.flush();
 		
 		if("y".equals(br.readLine().toLowerCase())) {
-		    DungeonViewer dv3 = new DungeonViewer(d,scale,d.getCorners());
+		    DungeonViewer dv3 = new DungeonViewer(d,scale,d.getCornersMap());
 		    dv3.setVisible(true);
 		}
 		
