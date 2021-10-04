@@ -145,11 +145,37 @@ public class _Main {
 			break;
 		}
 		
+		String path = "";
+		done = false;
+                while(!done) {
+                    try {
+                        bw.write("\n\nIf you want to output a CSV, enter the filename (WARNING: WILL OVERWRITE A FILE WITH THE SAME NAME). Leave blank if you don't want a CSV generated: ");
+                        bw.flush();
+                        
+                        path = br.readLine();
+                        done = true;
+                    } catch(Exception e) {
+                        bw.write("\nInvalid input, try again.\n");
+                        bw.flush();
+                    }
+                }
+		
 		bw.write("\nGenerating Dungeon...");
 		bw.flush();
 		
 		boolean[][] dun = d.randomize(seed);
 		d.setLayout(dun);
+
+                if(!"".equals(path)) {
+                    try {
+                        d.outputCSV(path);
+                        bw.write("CSV output worked, check file at " + path);
+                        bw.flush();
+                    } catch(Exception e) {
+                        bw.write("CSV output didn't work, filepath \'" + path + "\' was bad");
+                        bw.flush();
+                    }
+                }
 		
 		int scale = (1366/width <= 743/height) ? 1366/width : 743/height;
 		
