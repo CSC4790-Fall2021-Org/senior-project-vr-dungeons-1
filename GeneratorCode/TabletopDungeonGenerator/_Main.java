@@ -108,7 +108,22 @@ public class _Main {
 			d = new CellularAutomata(seed,width,height);
 			break;
 		case 3:
-			d = new SpacePartition(seed,width,height);
+		        int leaf_size = -1;
+                        done = false;
+                        while(!done) {
+                            try {
+                                bw.write("\n\nEnter the minimum leaf size you want from the algorithm: ");
+                                bw.flush();
+                                
+                                leaf_size = Integer.parseInt(br.readLine());
+                                if(leaf_size<1) {throw new Exception();}
+                                done = true;
+                            } catch(Exception e) {
+                                bw.write("\nInvalid input, try again.\n");
+                                bw.flush();
+                            }
+                        }
+                        d = new SpacePartition(seed,width,height,leaf_size);
 			break;
 		case 4:
 		        int cells = -1;
@@ -119,6 +134,7 @@ public class _Main {
                                 bw.flush();
                                 
                                 cells = Integer.parseInt(br.readLine());
+                                if(cells<1) {throw new Exception();}
                                 done = true;
                             } catch(Exception e) {
                                 bw.write("\nInvalid input, try again.\n");
@@ -143,7 +159,7 @@ public class _Main {
 		DungeonViewer dv = new DungeonViewer(d,scale);
 		dv.setVisible(true);
 		
-		bw.write("\n Dungeon Generated!\n");
+		bw.write("\nDungeon Generated!\n");
 		bw.flush();
 		
 		bw.close();

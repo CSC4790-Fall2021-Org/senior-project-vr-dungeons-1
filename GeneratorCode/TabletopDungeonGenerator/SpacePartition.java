@@ -7,7 +7,8 @@ import java.awt.Point;
 
 
 class Leaf extends Object{
-	private final int MIN_LEAF_SIZE = 6;
+        private final int DEFAULT_MIN_LEAF_SIZE = 6;
+	private int min_leaf_size;
 
 	public int y, x, width, height; // the position and size of this Leaf
 	
@@ -17,12 +18,22 @@ class Leaf extends Object{
 	public ArrayList<Rectangle> halls; // hallways to connect this Leaf to other Leafs
 	
 	public Leaf(int X, int Y, int Width, int Height) {
-	    // initialize our leaf
-	    x = X;
-	    y = Y;
-	    width = Width;
-	    height = Height;
-	}
+            // initialize our leaf
+            x = X;
+            y = Y;
+            width = Width;
+            height = Height;
+            min_leaf_size = DEFAULT_MIN_LEAF_SIZE;
+        }
+	
+	public Leaf(int X, int Y, int Width, int Height, int leaf_size) {
+            // initialize our leaf
+            x = X;
+            y = Y;
+            width = Width;
+            height = Height;
+            min_leaf_size = leaf_size;
+        }
 	
 	public boolean split() {
 	    // begin splitting the leaf into two children
@@ -39,22 +50,22 @@ class Leaf extends Object{
 	    else if (height > width && height / width >= 1.25)
 	        splitH = true;
 	
-	    int max = (splitH ? height : width) - MIN_LEAF_SIZE; // determine the maximum height or width
-	    if (max <= MIN_LEAF_SIZE)
+	    int max = (splitH ? height : width) - min_leaf_size; // determine the maximum height or width
+	    if (max <= min_leaf_size)
 	        return false; // the area is too small to split any more...
 	
-	    int split = (int) (Math.random() * (max - MIN_LEAF_SIZE) + MIN_LEAF_SIZE); // determine where we're going to split
+	    int split = (int) (Math.random() * (max - min_leaf_size) + min_leaf_size); // determine where we're going to split
 	
 	    // create our left and right children based on the direction of the split
 	    if (splitH)
 	    {
-	        leftChild = new Leaf(x, y, width, split);
-	        rightChild = new Leaf(x, y + split, width, height - split);
+	        leftChild = new Leaf(x, y, width, split, min_leaf_size);
+	        rightChild = new Leaf(x, y + split, width, height - split, min_leaf_size);
 	    }
 	    else
 	    {
-	        leftChild = new Leaf(x, y, split, height);
-	        rightChild = new Leaf(x + split, y, width - split, height);
+	        leftChild = new Leaf(x, y, split, height, min_leaf_size);
+	        rightChild = new Leaf(x + split, y, width - split, height, min_leaf_size);
 	    }
 	    return true; // split successful!
 	}
@@ -74,10 +85,10 @@ class Leaf extends Object{
 			}
 
 			// if there are both left and right children in this Leaf, create a hallway between them
-			if (leftChild != null && rightChild != null)
-			{
-				createHall(leftChild.getRoom(), rightChild.getRoom());
-			}
+//			if (leftChild != null && rightChild != null)
+//			{
+//				createHall(leftChild.getRoom(), rightChild.getRoom());
+//			}
 
 		}
 		else
@@ -218,6 +229,8 @@ class Leaf extends Object{
 
 public class SpacePartition extends Dungeon {
 	
+        int leaf_size = -1;
+    
 	public SpacePartition(int seed) {
 		super(seed);
 	}
@@ -230,15 +243,20 @@ public class SpacePartition extends Dungeon {
 		super(seed, dungeon);
 	}
 	
+	public SpacePartition(int seed, int x, int y, int leaf) {
+            super(seed,x,y);
+            leaf_size = leaf;
+        }
+	
 	//use this template file to make your dungeon layout randomizer
 	//be sure to try to implement the seed so the randomizer consistently outputs the same thing using any given seed
-	public static boolean[][] randomize(boolean[][] in, int seed) {
+	public boolean[][] randomize(int seed) {
 		//d is the temporary array that you'll use to make the layout, currently initialized as all False values.
-		boolean[][] d = new boolean[in.length][in[0].length];
+		boolean[][] dun = new boolean[d.length][d[0].length];
 		
-		for(int a = 0; a < d.length; a++) {
-		    for(int b = 0; b < d[0].length; b++) {
-		        d[a][b] = true;
+		for(int a = 0; a < dun.length; a++) {
+		    for(int b = 0; b < dun[0].length; b++) {
+		        dun[a][b] = true;
 		    }
 		}
 		
@@ -251,7 +269,7 @@ public class SpacePartition extends Dungeon {
 		//Leaf l; // helper Leaf
 
 		// first, create a Leaf to be the 'root' of all Leafs.
-		Leaf root = new Leaf(0, 0, in.length, in[0].length);
+		Leaf root = new Leaf(0, 0, d.length, d[0].length, leaf_size);
 		leafs.add(root);
 
 		boolean did_split = true;
@@ -284,15 +302,15 @@ public class SpacePartition extends Dungeon {
 		
 		for (Leaf t : leafs) {
 			if (t.room != null)
-				d = changeMap(t.room.x, t.room.y, t.room.width, t.room.height, d);
+				dun = changeMap(t.room.x, t.room.y, t.room.width, t.room.height, dun);
 			if (t.halls != null) {
 				for (Rectangle r : t.halls) {
-					d = changeMap(r.x, r.y, r.width, r.height, d);
+					dun = changeMap(r.x, r.y, r.width, r.height, dun);
 				}
 			}
 		}
 		
-		return d;
+		return dun;
 	}
 	
 	public static boolean[][] changeMap(int x, int y, int w, int h, boolean[][] map) {
@@ -334,14 +352,14 @@ public class SpacePartition extends Dungeon {
 		return map;
 	}
 	
-	public static void main(String args[]) {
-		//this is the test method, it prints out the random dungeon with a seed of 1234 at the default size
-		Dungeon dun = new Dungeon(1234, 100, 100);
-		dun.setLayout(randomize(dun.d, dun.SEED));
-//		for (boolean[] b : dun.d)
-//			System.out.println(Arrays.toString(b));
-		DungeonViewer dv = new DungeonViewer(dun,10);
-		dv.setVisible(true);
-	}
+//	public static void main(String args[]) {
+//		//this is the test method, it prints out the random dungeon with a seed of 1234 at the default size
+//		Dungeon dun = new Dungeon(1234, 100, 100);
+//		dun.setLayout(randomize(dun.d, dun.SEED));
+////		for (boolean[] b : dun.d)
+////			System.out.println(Arrays.toString(b));
+//		DungeonViewer dv = new DungeonViewer(dun,10);
+//		dv.setVisible(true);
+//	}
 	
 }
