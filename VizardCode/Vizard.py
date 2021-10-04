@@ -1,6 +1,8 @@
 ﻿import viz
 import vizact
 import vizshape
+import vizconnect
+from vizconnect.util import view_collision
 import csv
 
 viz.fov(90)
@@ -36,8 +38,12 @@ for i in range(0,len(data)):
 #row and col temp variables for counting, starting at 0 with the first row+=1 and col+=1
 row = -1
 col = -1
-box = vizshape.addBox(size=(1.0,3.0,1.0),texture=viz.addTexture("north.png"))
-box.color(viz.WHITE)
+
+wall = vizshape.addBox(size=(1.0,4.0,1.0),texture=viz.addTexture("north.png"))
+
+#column number where the entrance is
+startPosition = 0
+
 #iterate over every entry in the 2d list
 for r in layout:
 	row+=1
@@ -47,8 +53,13 @@ for r in layout:
 		#if there should be a floor at (row,col), clone the master floor to (row,1,col)
 		if(entry=="false"):
 			floor.copy().setPosition(row,1,col)
+			
+			if(row == 0): #finds the empty space in the first row the entrance)
+				startPosition = col
+				print(col)
 		else:
-			box.copy().setPosition(row,1,col)
-			
-			
+			wall.copy().setPosition(row,3,col)
+
+viz.MainView.setPosition([startPosition+3.5,2.8,-5]) #sets the start position to 10 feet behind the entrance	
+viz.MainView.collision(viz.ON)		
 print("Done")
