@@ -118,7 +118,7 @@ public class _Main {
 		boolean[][] dun = d.randomize(seed);
 		d.setLayout(dun);
 		
-		int scale = (1980/width >= 1055/height) ? 1980/width : 1055/height;
+		int scale = (1980/width <= 1055/height) ? 1980/width : 1055/height;
 		
 //		bw.write(Integer.toString(scale));
 //		bw.flush();
