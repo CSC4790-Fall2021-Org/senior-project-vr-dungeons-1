@@ -33,7 +33,7 @@ public class _Main {
 			bw.write("\n2. CellularAutomata");
 			bw.write("\n3. SpacePartition");
 			bw.write("\n4. Voronoi");
-			bw.write("\n\n");
+			bw.write("\n");
 			bw.flush();
 					
 			try {
@@ -51,7 +51,7 @@ public class _Main {
 		
 		//get seed
 		while(!done) {
-			bw.write("\n\nEnter the seed of the dungeon you want (or leave it blank if you want a random one): ");
+			bw.write("\nEnter the seed of the dungeon you want (or leave it blank if you want a random one): ");
 			bw.flush();
 			
 			try {
@@ -169,10 +169,10 @@ public class _Main {
                 if(!"".equals(path)) {
                     try {
                         d.outputCSV(path);
-                        bw.write("CSV output worked, check file at " + path);
+                        bw.write("\n\nCSV output worked, check file at " + path);
                         bw.flush();
                     } catch(Exception e) {
-                        bw.write("CSV output didn't work, filepath \'" + path + "\' was bad");
+                        bw.write("\n\nCSV output didn't work, filepath \'" + path + "\' was bad");
                         bw.flush();
                     }
                 }
@@ -187,6 +187,22 @@ public class _Main {
 		
 		bw.write("\nDungeon Generated!\n");
 		bw.flush();
+		
+		bw.write("\nDo you want to see the d.numberRooms? (y/n)\n");
+		bw.flush();
+		
+		if("y".equals(br.readLine().toLowerCase())) {
+		    DungeonViewer dv2 = new DungeonViewer(d,scale,d.numberRooms());
+		    dv2.setVisible(true);
+		}
+		
+		bw.write("\nDo you want to see the d.getCorners? (y/n)\n");
+		bw.flush();
+		
+		if("y".equals(br.readLine().toLowerCase())) {
+		    DungeonViewer dv3 = new DungeonViewer(d,scale,d.getCorners());
+		    dv3.setVisible(true);
+		}
 		
 		bw.close();
 		br.close();
