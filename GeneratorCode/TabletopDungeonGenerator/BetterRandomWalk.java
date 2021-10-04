@@ -2,9 +2,22 @@ import java.io.IOException;
 import java.util.Random;
 import java.util.Stack;
 
-public class BetterRandomWalk {
+public class BetterRandomWalk extends Dungeon {
     
-    static int firstX, firstY, lastX, lastY;
+    static int firstX, firstY;
+    
+    public BetterRandomWalk(int seed) {
+        super(seed);
+    }
+
+    public BetterRandomWalk(int seed, int x, int y) {
+        super(seed,x,y);
+    }
+
+    public BetterRandomWalk(int seed, boolean[][] dungeon) {
+        super(seed, dungeon);
+    }
+
     
         //use this template file to make your dungeon layout randomizer
         //be sure to try to implement the seed so the randomizer consistently outputs the same thing using any given seed
@@ -59,8 +72,8 @@ public class BetterRandomWalk {
                     d[currX][currY] = false;
                 }
                 
-                lastX = currX;
-                lastY = currY;
+//                lastX = currX;
+//                lastY = currY;
                 
                 return d;
         }
