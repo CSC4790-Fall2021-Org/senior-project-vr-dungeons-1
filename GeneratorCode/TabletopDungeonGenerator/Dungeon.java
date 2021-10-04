@@ -21,6 +21,11 @@ public class Dungeon implements Cloneable {
 		d = new boolean[X][Y];
 	}
 	
+	public boolean[][] randomize(int seed) {
+		//temporary method
+		return d;
+	}
+	
 	public Dungeon(int seed, int x, int y) {
 		SEED = seed;
 		X = x;
