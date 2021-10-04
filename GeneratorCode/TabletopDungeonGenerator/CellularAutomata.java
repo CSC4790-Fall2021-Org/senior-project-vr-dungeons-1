@@ -1,4 +1,3 @@
-import java.util.Arrays;
 import java.util.Random;
 
 class CellularAutomataHelper {
@@ -78,26 +77,38 @@ class CellularAutomataHelper {
     }
 }
 
-public class CellularAutomata {
+public class CellularAutomata extends Dungeon {
 		
+	public CellularAutomata(int seed) {
+		super(seed);
+	}
+	
+	public CellularAutomata(int seed, int x, int y) {
+		super(seed,x,y);
+	}
+	
+	public CellularAutomata(int seed, boolean[][] dungeon) {
+		super(seed, dungeon);
+	}
+	
 		//use this template file to make your dungeon layout randomizer
 		//be sure to try to implement the seed so the randomizer consistently outputs the same thing using any given seed
-		public static boolean[][] randomize(boolean[][] in, int seed) {
+		public boolean[][] randomize(int seed) {
 			//d is the temporary array that you'll use to make the layout, currently initialized as all False values.
-			boolean[][] d = new boolean[in.length][in[0].length];
+			boolean[][] dun = new boolean[d.length][d[0].length];
 	        CellularAutomataHelper help = new CellularAutomataHelper();
-	       	d = help.generateMap(in.length,in[0].length);
-			return d;
+	       	dun = help.generateMap(d.length,d[0].length);
+			return dun;
 		}
 		
-		public static void main(String args[]) {
-			//this is the test method, it prints out the random dungeon with a seed of 1234 at the default size
-			Dungeon dun = new Dungeon(1234,25,25);
-			dun.setLayout(randomize(dun.d, dun.SEED));
-//                        dun.setLayout(Dungeon.getWireframe(randomize(dun.d, dun.SEED)));
-//			System.out.println(Arrays.toString(dun.d));
-			DungeonViewer dv = new DungeonViewer(dun,10);
-			dv.setVisible(true);
-		}
+//		public static void main(String args[]) {
+//			//this is the test method, it prints out the random dungeon with a seed of 1234 at the default size
+//			Dungeon dun = new Dungeon(1234,25,25);
+//			dun.setLayout(randomize(dun.SEED));
+////                        dun.setLayout(Dungeon.getWireframe(randomize(dun.d, dun.SEED)));
+////			System.out.println(Arrays.toString(dun.d));
+//			DungeonViewer dv = new DungeonViewer(dun,10);
+//			dv.setVisible(true);
+//		}
 		
 }
