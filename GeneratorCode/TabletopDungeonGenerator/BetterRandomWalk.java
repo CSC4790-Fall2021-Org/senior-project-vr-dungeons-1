@@ -70,8 +70,6 @@ public class BetterRandomWalk {
                 Dungeon dun = new Dungeon(42069,100,100);
                 dun.firstX = firstX;
                 dun.firstY = firstY;
-                dun.lastX = lastX;
-                dun.lastY = lastY;
                 dun.setLayout(randomize(dun.d, dun.SEED));
                 DungeonViewer dv = new DungeonViewer(dun,5);
                 dv.setVisible(true);

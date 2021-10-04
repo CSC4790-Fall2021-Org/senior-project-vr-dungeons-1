@@ -1,7 +1,17 @@
-import java.util.Arrays;
-
-public class _template {
+public class _template extends Dungeon {
 	
+	public _template(int seed) {
+		super(seed);
+	}
+	
+	public _template(int seed, int x, int y) {
+		super(seed,x,y);
+	}
+	
+	public _template(int seed, boolean[][] dungeon) {
+		super(seed, dungeon);
+	}
+
 	//use this template file to make your dungeon layout randomizer
 	//be sure to try to implement the seed so the randomizer consistently outputs the same thing using any given seed
 	public static boolean[][] randomize(boolean[][] in, int seed) {
