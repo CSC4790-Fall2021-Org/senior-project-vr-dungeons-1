@@ -199,6 +199,7 @@ public class Dungeon implements Cloneable {
                     sb.append(r);
                     sb.append(",");
                 }
+                sb.append("\n");
             }
             bw.write(sb.toString());
             bw.close();
