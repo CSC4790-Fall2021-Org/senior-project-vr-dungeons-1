@@ -41,18 +41,18 @@ public class Voronoi extends Dungeon {
 	
 	//use this template file to make your dungeon layout randomizer
 	//be sure to try to implement the seed so the randomizer consistently outputs the same thing using any given seed
-	public boolean[][] randomize(int seed) {
-	    return randomize(seed,cells);
+	public boolean[][] randomize() {
+	    return randomize(cells);
 	}
 	
-	public boolean[][] randomize(int seed, int cell) {
+	public boolean[][] randomize(int cell) {
 		//d is the temporary array that you'll use to make the layout, currently initialized as all False values.
 		boolean[][] dun = new boolean[d.length][d[0].length];
 		
 		//randomize the dungeon here
 		//chooses random points to be nodes
 		int n = 0;
-		Random rand = new Random(seed);
+		Random rand = new Random(SEED);
 		int[] px = new int[cell];
 		int[] py = new int[cell];
 		for (int i = 0; i < cell; i++) {

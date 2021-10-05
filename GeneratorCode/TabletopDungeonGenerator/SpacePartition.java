@@ -1,5 +1,6 @@
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.Random;
 import java.awt.Point;
 
 //with credit to Timothy Hely
@@ -7,6 +8,9 @@ import java.awt.Point;
 
 
 class Leaf extends Object{
+        private Random rand;
+        int seed;
+        private final int DEFAULT_SEED = 69;
         private final int DEFAULT_MIN_LEAF_SIZE = 6;
 	private int min_leaf_size;
 
@@ -24,15 +28,19 @@ class Leaf extends Object{
             width = Width;
             height = Height;
             min_leaf_size = DEFAULT_MIN_LEAF_SIZE;
+            seed = DEFAULT_SEED;
+            rand = new Random(DEFAULT_SEED);
         }
 	
-	public Leaf(int X, int Y, int Width, int Height, int leaf_size) {
+        public Leaf(int X, int Y, int Width, int Height, int leaf_size, int seeds) {
             // initialize our leaf
             x = X;
             y = Y;
             width = Width;
             height = Height;
             min_leaf_size = leaf_size;
+            seed = seeds;
+            rand = new Random(seeds);
         }
 	
 	public boolean split() {
@@ -44,7 +52,7 @@ class Leaf extends Object{
 	    // if the width is >25% larger than height, we split vertically
 	    // if the height is >25% larger than the width, we split horizontally
 	    // otherwise we split randomly
-	    boolean splitH = Math.random() > 0.5;
+	    boolean splitH = rand.nextDouble() > 0.5;
 	    if (width > height && width / height >= 1.25)
 	        splitH = false;
 	    else if (height > width && height / width >= 1.25)
@@ -54,18 +62,18 @@ class Leaf extends Object{
 	    if (max <= min_leaf_size)
 	        return false; // the area is too small to split any more...
 	
-	    int split = (int) (Math.random() * (max - min_leaf_size) + min_leaf_size); // determine where we're going to split
+	    int split = (int) (rand.nextDouble() * (max - min_leaf_size) + min_leaf_size); // determine where we're going to split
 	
 	    // create our left and right children based on the direction of the split
 	    if (splitH)
 	    {
-	        leftChild = new Leaf(x, y, width, split, min_leaf_size);
-	        rightChild = new Leaf(x, y + split, width, height - split, min_leaf_size);
+	        leftChild = new Leaf(x, y, width, split, min_leaf_size, seed);
+	        rightChild = new Leaf(x, y + split, width, height - split, min_leaf_size, seed);
 	    }
 	    else
 	    {
-	        leftChild = new Leaf(x, y, split, height, min_leaf_size);
-	        rightChild = new Leaf(x + split, y, width - split, height, min_leaf_size);
+	        leftChild = new Leaf(x, y, split, height, min_leaf_size, seed);
+	        rightChild = new Leaf(x + split, y, width - split, height, min_leaf_size, seed);
 	    }
 	    return true; // split successful!
 	}
@@ -97,9 +105,9 @@ class Leaf extends Object{
 			Point roomSize;
 			Point roomPos;
 			// the room can be between 3 x 3 tiles to the size of the leaf - 2.
-			roomSize = new Point((int) (Math.random() * (width - 4) + 3), (int) (Math.random() * (height - 4) + 3));
+			roomSize = new Point((int) (rand.nextDouble() * (width - 4) + 3), (int) (rand.nextDouble() * (height - 4) + 3));
 			// place the room within the Leaf, but don't put it right against the side of the leaf (that would merge rooms together)
-			roomPos = new Point((int) (Math.random() * (width - roomSize.x - 1) + 1), (int) (Math.random() * (height - roomSize.y - 1) + 1));
+			roomPos = new Point((int) (rand.nextDouble() * (width - roomSize.x - 1) + 1), (int) (rand.nextDouble() * (height - roomSize.y - 1) + 1));
 			room = new Rectangle(x + roomPos.x, y + roomPos.y, roomSize.x, roomSize.y);
 		}
 	}
@@ -126,7 +134,7 @@ class Leaf extends Object{
 				return lRoom;
 			else if (lRoom == null)
 				return rRoom;
-			else if (Math.random() > .5)
+			else if (rand.nextDouble() > .5)
 				return lRoom;
 			else
 				return rRoom;
@@ -140,8 +148,8 @@ class Leaf extends Object{
 	 
 	    halls = new ArrayList<Rectangle>();
 	    
-	    Point point1 = new Point((int) (Math.random() * (l.getWidth() - 2) + l.getX()), (int) (Math.random() * (l.getHeight() - 2) + l.getY()));
-	    Point point2 = new Point((int) (Math.random() * (r.getWidth() - 2) + r.getX()), (int) (Math.random() * (r.getHeight() - 2) + r.getY()));
+	    Point point1 = new Point((int) (rand.nextDouble() * (l.getWidth() - 2) + l.getX()), (int) (rand.nextDouble() * (l.getHeight() - 2) + l.getY()));
+	    Point point2 = new Point((int) (rand.nextDouble() * (r.getWidth() - 2) + r.getX()), (int) (rand.nextDouble() * (r.getHeight() - 2) + r.getY()));
 	 
 	    int w = point2.x - point1.x;
 	    int h = point2.y - point1.y;
@@ -150,7 +158,7 @@ class Leaf extends Object{
 	    {
 	        if (h < 0)
 	        {
-	            if (Math.random() < 0.5)
+	            if (rand.nextDouble() < 0.5)
 	            {
 	                halls.add(new Rectangle(point2.x, point1.y, Math.abs(w), 1));
 	                halls.add(new Rectangle(point2.x, point2.y, 1, Math.abs(h)));
@@ -163,7 +171,7 @@ class Leaf extends Object{
 	        }
 	        else if (h > 0)
 	        {
-	            if (Math.random() < 0.5)
+	            if (rand.nextDouble() < 0.5)
 	            {
 	                halls.add(new Rectangle(point2.x, point1.y, Math.abs(w), 1));
 	                halls.add(new Rectangle(point2.x, point1.y, 1, Math.abs(h)));
@@ -183,7 +191,7 @@ class Leaf extends Object{
 	    {
 	        if (h < 0)
 	        {
-	            if (Math.random() < 0.5)
+	            if (rand.nextDouble() < 0.5)
 	            {
 	                halls.add(new Rectangle(point1.x, point2.y, Math.abs(w), 1));
 	                halls.add(new Rectangle(point1.x, point2.y, 1, Math.abs(h)));
@@ -196,7 +204,7 @@ class Leaf extends Object{
 	        }
 	        else if (h > 0)
 	        {
-	            if (Math.random() < 0.5)
+	            if (rand.nextDouble() < 0.5)
 	            {
 	                halls.add(new Rectangle(point1.x, point1.y, Math.abs(w), 1));
 	                halls.add(new Rectangle(point2.x, point1.y, 1, Math.abs(h)));
@@ -250,9 +258,10 @@ public class SpacePartition extends Dungeon {
 	
 	//use this template file to make your dungeon layout randomizer
 	//be sure to try to implement the seed so the randomizer consistently outputs the same thing using any given seed
-	public boolean[][] randomize(int seed) {
+	public boolean[][] randomize() {
 		//d is the temporary array that you'll use to make the layout, currently initialized as all False values.
 		boolean[][] dun = new boolean[d.length][d[0].length];
+		Random rand = new Random(SEED);
 		
 		for(int a = 0; a < dun.length; a++) {
 		    for(int b = 0; b < dun[0].length; b++) {
@@ -269,7 +278,7 @@ public class SpacePartition extends Dungeon {
 		//Leaf l; // helper Leaf
 
 		// first, create a Leaf to be the 'root' of all Leafs.
-		Leaf root = new Leaf(0, 0, d.length, d[0].length, leaf_size);
+		Leaf root = new Leaf(0, 0, d.length, d[0].length, leaf_size, SEED);
 		leafs.add(root);
 
 		boolean did_split = true;
@@ -283,7 +292,7 @@ public class SpacePartition extends Dungeon {
 				if (l.leftChild == null && l.rightChild == null) // if this Leaf is not already split...
 				{
 					// if this Leaf is too big, or 75% chance...
-					if (l.width > MAX_LEAF_SIZE || l.height > MAX_LEAF_SIZE || Math.random() > 0.25)
+					if (l.width > MAX_LEAF_SIZE || l.height > MAX_LEAF_SIZE || rand.nextDouble() > 0.25)
 					{
 						if (l.split()) // split the Leaf!
 						{

@@ -1,10 +1,11 @@
 import java.util.Random;
 
 class CellularAutomataHelper {
-    Random rand = new Random();
+    Random rand;
     float chanceToStartAlive = 0.43f;
     
-    public boolean[][] initialiseMap(boolean[][] map){
+    public boolean[][] initialiseMap(boolean[][] map, int seed){
+        rand = new Random(seed);
         for(int x=0; x<map.length; x++){
             for(int y=0; y<map[0].length; y++){
                 if(rand.nextFloat() < chanceToStartAlive){
@@ -64,11 +65,11 @@ class CellularAutomataHelper {
         }
         return newMap;
     }
-    public boolean[][] generateMap(int x, int y){
+    public boolean[][] generateMap(int x, int y, int seed){
         //Create a new map
         boolean[][] cellmap = new boolean[x][y];
         //Set up the map with random values
-        cellmap = initialiseMap(cellmap);
+        cellmap = initialiseMap(cellmap,seed);
         //And now run the simulation for a set number of steps
         for(int i=0; i<1000; i++){
             cellmap = doSimulationStep(cellmap, x, y);
@@ -93,11 +94,11 @@ public class CellularAutomata extends Dungeon {
 	
 		//use this template file to make your dungeon layout randomizer
 		//be sure to try to implement the seed so the randomizer consistently outputs the same thing using any given seed
-		public boolean[][] randomize(int seed) {
+		public boolean[][] randomize() {
 			//d is the temporary array that you'll use to make the layout, currently initialized as all False values.
 			boolean[][] dun = new boolean[d.length][d[0].length];
-	        CellularAutomataHelper help = new CellularAutomataHelper();
-	       	dun = help.generateMap(d.length,d[0].length);
+	                CellularAutomataHelper help = new CellularAutomataHelper();
+	                dun = help.generateMap(d.length,d[0].length,SEED);
 			return dun;
 		}
 		
