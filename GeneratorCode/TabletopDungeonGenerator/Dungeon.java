@@ -23,7 +23,7 @@ public class Dungeon implements Cloneable {
 		d = new boolean[X][Y];
 	}
 	
-	public boolean[][] randomize(int seed) {
+	public boolean[][] randomize() {
 		//temporary method
 		return d;
 	}
@@ -156,7 +156,7 @@ public class Dungeon implements Cloneable {
         
         public int[][] getCornersMap() {
             
-        	int[][] ret = new int[d.length][d[0].length];
+            int[][] ret = new int[d.length][d[0].length];
             int[][] nums = numberRoomsMap();
             boolean[][] wire = getWireframe();
             
@@ -187,17 +187,20 @@ public class Dungeon implements Cloneable {
         
         public ArrayList<ArrayList<Integer[]>> getCornersList() {
             
-            ArrayList<ArrayList<Integer[]>> ret = new ArrayList<ArrayList<Integer[]>>(numberOfRooms);
-            
-            for(ArrayList al : ret) {
-                al.add(new ArrayList<Integer[]>());
-            }
+            ArrayList<ArrayList<Integer[]>> ret = new ArrayList<ArrayList<Integer[]>>();
             
             int[][] nums = numberRoomsMap();
             boolean[][] wire = getWireframe();
+            
+            for(int a = 0; a <= numberOfRooms; a++) {
+                ret.add(new ArrayList<Integer[]>());
+            }
+            
+            System.out.println("ret = " + ret.toString());
         
             for(int c = 0; c < nums.length; c++) {
                 for(int r = 0; r < nums[0].length; r++) {
+                    if(wire[c][r]) { nums[c][r] = 0; }
                     /*
                      * 
                      * if(c!=0 && c!=ret.length-1 && r!=0 && r!= ret[0].length-1
@@ -209,16 +212,18 @@ public class Dungeon implements Cloneable {
                      */
                     if((c!=0 && c!=nums.length-1 && r!=0 && r!= nums[0].length-1)) {
                         if(((nums[c+1][r]==0 && nums[c][r+1]==0) || (nums[c][r+1]==0 && nums[c-1][r]==0) || (nums[c-1][r]==0 && nums[c][r-1]==0) || (nums[c][r-1]==0 && nums[c+1][r]==0))) {
-                            ret.get(nums[c][r]).add(new Integer[] {c,r});
+                            if(nums[c][r]!=0) {ret.get(nums[c][r]).add(new Integer[] {c,r});}
                         }
                     }
                 }
             }
-        
+            System.out.println("Done with getCornersList");
             return ret;
         }
         
-        
+//        public boolean[][] connectRooms() {
+//            
+//        }
         
         
         public void outputCSV(String path) throws IOException {
