@@ -23,11 +23,6 @@ public class Dungeon implements Cloneable {
 		d = new boolean[X][Y];
 	}
 	
-	public boolean[][] randomize() {
-		//temporary method
-		return d;
-	}
-	
 	public Dungeon(int seed, int x, int y) {
 		SEED = seed;
 		X = x;
@@ -41,6 +36,11 @@ public class Dungeon implements Cloneable {
 		Y = b.length;
 		d = b;
 	}
+	
+	public boolean[][] randomize() {
+            //abstract method
+            return d;
+        }
 	
 	public void setLayout(boolean[][] in) {
 		d = in;
@@ -185,6 +185,8 @@ public class Dungeon implements Cloneable {
             return ret;
         }
         
+        //returns an ArrayList<ArrayList<Integer[]>> that lists the coordinates of every corner point.
+        //ret[roomNumber][cornerNumber] = {x,y}
         public ArrayList<ArrayList<Integer[]>> getCornersList() {
             
             ArrayList<ArrayList<Integer[]>> ret = new ArrayList<ArrayList<Integer[]>>();
@@ -221,9 +223,59 @@ public class Dungeon implements Cloneable {
             return ret;
         }
         
-//        public boolean[][] connectRooms() {
-//            
-//        }
+        private int getManhattanDistance(int x1, int x2, int y1, int y2) {
+            return Math.abs(x1 - x2) + Math.abs(y1 - y2); //Manhattan Distance looks cool
+        }
+        
+        public boolean[][] connectRooms() {
+            boolean[][] temp = d;
+            int count = 0;
+            int dist;
+            
+            ArrayList<ArrayList<Integer[]>> cornerList = getCornersList();
+            
+            //for every room in the dungeon
+            for(ArrayList<Integer[]> room : cornerList) {
+                int shortest = Integer.MAX_VALUE;
+                int startX = -1;
+                int startY = -1;
+                int endX = -1;
+                int endY = -1;
+                
+                //can't tell if this is O(n^2) or O(n^3) but whatever it is I don't think it's very optimal LOL
+                
+                //for every point in the current room
+                for(Integer[] point : room) {
+                    //if the room has corners (which it should, unless it's the 0 room)
+                    if(point.length>0) {
+                        //for every room with room number > current room number
+                        for(int i = count; i < numberOfRooms; i++) {
+                            //for every point in the second room
+                            for(Integer[] point2 : cornerList.get(i)) {
+                                //check to see if the distance between the current point and the checking point is shorter than the current shortest distance
+                                dist = getManhattanDistance(point[0],point2[0],point[1],point2[1]);
+                                //if yes, record shortest distance and first and last points to connect
+                                if(dist < shortest) {
+                                    shortest = dist;
+                                    startX = point[0];
+                                    startY = point[1];
+                                    endX = point2[0];
+                                    endY = point2[0];
+                                }
+                            }
+                        }
+                    }
+                }
+                //connect the two points
+                int xDist = Math.abs(endX-startX);
+                int yDist = Math.abs(endY-startY);
+                for(int j = 0; j < xDist+yDist; j++) {
+                    
+                }
+            }
+            
+            return temp;
+        }
         
         
         public void outputCSV(String path) throws IOException {
