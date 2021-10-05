@@ -163,7 +163,7 @@ public class _Main {
 		bw.write("\nGenerating Dungeon...");
 		bw.flush();
 		
-		boolean[][] dun = d.randomize(seed);
+		boolean[][] dun = d.randomize();
 		d.setLayout(dun);
 
                 if(!"".equals(path)) {
