@@ -217,6 +217,29 @@ public class _Main {
                     } catch (CloneNotSupportedException e) {
                         e.printStackTrace();
                     }
+                    
+                    bw.write("\nDo you want to generate a CSV? (y/n)\n");
+                    bw.flush();
+                    if("y".equals(br.readLine().toLowerCase())) {
+                        bw.write("\n\nEnter the filename (WARNING: WILL OVERWRITE A FILE WITH THE SAME NAME): ");
+                        bw.flush();
+                        
+                        String newPath = "";
+                        newPath = br.readLine();
+                        if(!"".equals(newPath)) {
+                            try {
+                                d.outputCSV(newPath);
+                                bw.write("\n\nCSV output worked, check file at " + newPath);
+                                bw.flush();
+                            } catch(Exception e) {
+                                bw.write("\n\nCSV output didn't work, filepath \'" + newPath + "\' was bad");
+                                bw.flush();
+                            }
+                        }
+                    }
+                    
+                    path = br.readLine();
+                    
                 }
 		
 		bw.close();
