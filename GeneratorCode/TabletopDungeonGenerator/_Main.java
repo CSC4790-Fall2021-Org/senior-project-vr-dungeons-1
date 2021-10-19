@@ -168,7 +168,7 @@ public class _Main {
 
                 if(!"".equals(path)) {
                     try {
-                        d.outputCSV(path);
+                        d.outputCSV("GeneratorCode/" + path);
                         bw.write("\n\nCSV output worked, check file at " + path);
                         bw.flush();
                     } catch(Exception e) {
@@ -228,7 +228,7 @@ public class _Main {
                         newPath = br.readLine();
                         if(!"".equals(newPath)) {
                             try {
-                                d.outputCSV(newPath);
+                                d.outputCSV("GeneratorCode/" + newPath);
                                 bw.write("\n\nCSV output worked, check file at " + newPath);
                                 bw.flush();
                             } catch(Exception e) {
