@@ -25,14 +25,21 @@ public class test {
         
         System.out.println("step 3");
         
-        d.d = d.connectRooms();
-        DungeonViewer dv2 = new DungeonViewer(d,5);
-        dv2.setVisible(true);
-        
-        System.out.println("step 4");
-        
-        DungeonViewer dv3 = new DungeonViewer(d,5,d.numberRoomsMap());
-//        dv3.setVisible(true);
+        Dungeon d1;
+        try {
+            d1 = (Dungeon) d.clone();
+            d1.d = d1.connectRooms();
+            DungeonViewer dv2 = new DungeonViewer(d1,5);
+            dv2.setVisible(true);
+            System.out.println("step 4");
+            
+            DungeonViewer dv3 = new DungeonViewer(d1,5,d.numberRoomsMap());
+//            dv3.setVisible(true);
+        }
+        catch (CloneNotSupportedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         
         System.out.println("done");
     }
