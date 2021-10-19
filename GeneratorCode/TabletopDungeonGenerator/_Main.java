@@ -204,6 +204,15 @@ public class _Main {
 		    dv3.setVisible(true);
 		}
 		
+		bw.write("\nDo you want to see the d.connectRooms? (y/n)\n");
+                bw.flush();
+                
+                if("y".equals(br.readLine().toLowerCase())) {
+                    d.d = d.connectRooms();
+                    DungeonViewer dv4 = new DungeonViewer(d,scale);
+                    dv4.setVisible(true);
+                }
+		
 		bw.close();
 		br.close();
 		

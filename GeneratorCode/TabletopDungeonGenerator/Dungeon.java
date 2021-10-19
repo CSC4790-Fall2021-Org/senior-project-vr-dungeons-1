@@ -229,10 +229,11 @@ public class Dungeon implements Cloneable {
         
         public boolean[][] connectRooms() {
             boolean[][] temp = d;
-            int count = 0;
+            int count = 1;
             int dist;
             
             ArrayList<ArrayList<Integer[]>> cornerList = getCornersList();
+            cornerList.remove(0);
             
             //for every room in the dungeon
             for(ArrayList<Integer[]> room : cornerList) {
@@ -267,16 +268,86 @@ public class Dungeon implements Cloneable {
                     }
                 }
                 //connect the two points
+                if(endX < startX) {
+                    int temp2 = endX;
+                    endX = startX;
+                    startX = temp2;
+                }
+                if(endY < startY) {
+                    int temp2 = endY;
+                    endX = startY;
+                    startY = temp2;
+                }
                 int xDist = Math.abs(endX-startX);
                 int yDist = Math.abs(endY-startY);
-                for(int j = 0; j < xDist+yDist; j++) {
-                    
+                //RASTERIZATION (I found this algorithm on Wikipedia lmao)
+                //https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm#Line_equation
+                if(startX!=-1 && endX!=-1 && startY!=-1 && endY!=-1) {
+                    if(yDist<xDist) {
+                        d = plotLineLow(d,startX,endX,startY,endY);
+                    } else {
+                        d = plotLineHigh(d,startX,endX,startY,endY);
+                    }
                 }
             }
             
             return temp;
         }
         
+        private boolean[][] plotLineLow(boolean[][] in, int x0, int x1, int y0, int y1) {
+            
+            boolean[][] ret = in;
+            int dx = x1-x0;
+            int dy = y1-y0;
+            int yi = 1;
+            if(dy<0) {
+                yi = -1;
+                dy = -dy;
+            } 
+            int D = (2*dy) - dx;
+            int y = y0;
+            
+            for(int x = x0; x <= x1; x++) {
+                ret[x][y] = false;
+                if(D>0) {
+                    y += yi;
+                    D += (2*(dy-dx));
+                } else {
+                    D += 2*dy; 
+                }
+            }
+            
+            return ret;
+            
+        }
+        
+        private boolean[][] plotLineHigh(boolean[][] in, int x0, int x1, int y0, int y1) {
+            
+            boolean[][] ret = in;
+            int dx = x1-x0;
+            int dy = y1-y0;
+            int xi = 1;
+            
+            if(dx<0) {
+                xi = -1;
+                dx = -dx;
+            }
+            int D = (2*dx) - dy;
+            int x = x0;
+            
+            for(int y = y0; y <= y1; y++) {
+                ret[x][y] = false;
+                if(D>0) {
+                    x += xi;
+                    D += (2*(dx-dy));
+                } else {
+                    D += 2*dx;
+                }
+            }
+            
+            return ret;
+            
+        }
         
         public void outputCSV(String path) throws IOException {
             

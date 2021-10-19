@@ -19,6 +19,14 @@ public class test {
         System.out.println("al.toString() = " + al.toString());
         
         System.out.println("bruh");
+        
+        System.out.println("step 3");
+        
+        d.d = d.connectRooms();
+        DungeonViewer dv2 = new DungeonViewer(d,10);
+        dv2.setVisible(true);
+        
+        System.out.println("done");
     }
     
 }
