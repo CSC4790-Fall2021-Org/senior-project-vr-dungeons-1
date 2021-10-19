@@ -99,6 +99,17 @@ public class CellularAutomata extends Dungeon {
 			boolean[][] dun = new boolean[d.length][d[0].length];
 	                CellularAutomataHelper help = new CellularAutomataHelper();
 	                dun = help.generateMap(d.length,d[0].length,SEED);
+	                
+	                int x,y;
+	                Random r = new Random(SEED);
+	                do {
+	                    x = r.nextInt(d.length);
+	                    y = r.nextInt(d[0].length);
+	                } while(dun[x][y]);
+	                
+	                firstX = x;
+	                firstY = y;
+	                
 			return dun;
 		}
 		
