@@ -227,10 +227,15 @@ public class Dungeon implements Cloneable {
             return Math.abs(x1 - x2) + Math.abs(y1 - y2); //Manhattan Distance looks cool
         }
         
+        private double getEuclidianDistance(int x1, int x2, int y1, int y2) {
+            return Math.sqrt(((x1-x2)*(x1-x2))+((y1-y2)*(y1-y2)));
+        }
+        
         public boolean[][] connectRooms() {
             boolean[][] temp = d;
-            int count = 1;
             int dist;
+//            double dist;
+            int roomNum = 0;
             
             ArrayList<ArrayList<Integer[]>> cornerList = getCornersList();
             cornerList.remove(0);
@@ -238,15 +243,18 @@ public class Dungeon implements Cloneable {
             //for every room in the dungeon
             for(ArrayList<Integer[]> room : cornerList) {
                 int shortest = Integer.MAX_VALUE;
+//                double shortest = Double.MAX_VALUE;
                 int startX = -1;
                 int startY = -1;
                 int endX = -1;
                 int endY = -1;
                 
+                
                 //can't tell if this is O(n^2) or O(n^3) but whatever it is I don't think it's very optimal LOL
                 
                 //for every point in the current room
                 for(Integer[] point : room) {
+                    int count = roomNum+1;
                     //if the room has corners (which it should, unless it's the 0 room)
                     if(point.length>0) {
                         //for every room with room number > current room number
@@ -255,38 +263,39 @@ public class Dungeon implements Cloneable {
                             for(Integer[] point2 : cornerList.get(i)) {
                                 //check to see if the distance between the current point and the checking point is shorter than the current shortest distance
                                 dist = getManhattanDistance(point[0],point2[0],point[1],point2[1]);
+//                                dist = getEuclidianDistance(point[0],point2[0],point[1],point2[1]);
                                 //if yes, record shortest distance and first and last points to connect
                                 if(dist < shortest) {
                                     shortest = dist;
                                     startX = point[0];
                                     startY = point[1];
                                     endX = point2[0];
-                                    endY = point2[0];
+                                    endY = point2[1];
                                 }
                             }
                         }
                     }
+                    count++;
                 }
+                roomNum++;
                 //connect the two points
-                if(endX < startX) {
-                    int temp2 = endX;
-                    endX = startX;
-                    startX = temp2;
-                }
-                if(endY < startY) {
-                    int temp2 = endY;
-                    endX = startY;
-                    startY = temp2;
-                }
                 int xDist = Math.abs(endX-startX);
                 int yDist = Math.abs(endY-startY);
                 //RASTERIZATION (I found this algorithm on Wikipedia lmao)
                 //https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm#Line_equation
                 if(startX!=-1 && endX!=-1 && startY!=-1 && endY!=-1) {
                     if(yDist<xDist) {
-                        d = plotLineLow(d,startX,endX,startY,endY);
+                        if(startX>endX) {
+                            temp = plotLineLow(temp,endX,startX,endY,startY);
+                        } else {
+                            temp = plotLineLow(temp,startX,endX,startY,endY);
+                        }
                     } else {
-                        d = plotLineHigh(d,startX,endX,startY,endY);
+                        if(startY>endY) {
+                            temp = plotLineHigh(temp,endX,startX,endY,startY);
+                        } else {
+                            temp = plotLineHigh(temp,startX,endX,startY,endY);
+                        }
                     }
                 }
             }
@@ -311,6 +320,7 @@ public class Dungeon implements Cloneable {
                 ret[x][y] = false;
                 if(D>0) {
                     y += yi;
+                    ret[x][y] = false;
                     D += (2*(dy-dx));
                 } else {
                     D += 2*dy; 
@@ -339,6 +349,7 @@ public class Dungeon implements Cloneable {
                 ret[x][y] = false;
                 if(D>0) {
                     x += xi;
+                    ret[x][y] = false;
                     D += (2*(dx-dy));
                 } else {
                     D += 2*dx;

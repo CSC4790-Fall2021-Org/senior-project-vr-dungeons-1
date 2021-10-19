@@ -4,13 +4,16 @@ public class test {
 
     public static void main(String[] args) {
         
-        Dungeon d = new Voronoi(123,50,50,200);
+        Dungeon d = new Voronoi(1234,100,100,100);
         d.setLayout(d.randomize());
         
         System.out.println("step 1");
         
-        DungeonViewer dv = new DungeonViewer(d,10,d.getCornersMap());
-        dv.setVisible(true);
+        DungeonViewer dv1 = new DungeonViewer(d,5);
+        dv1.setVisible(true);
+        
+        DungeonViewer dv = new DungeonViewer(d,5,d.getCornersMap());
+//        dv.setVisible(true);
         
         ArrayList<ArrayList<Integer[]>> al = d.getCornersList();
         
@@ -23,7 +26,7 @@ public class test {
         System.out.println("step 3");
         
         d.d = d.connectRooms();
-        DungeonViewer dv2 = new DungeonViewer(d,10);
+        DungeonViewer dv2 = new DungeonViewer(d,5);
         dv2.setVisible(true);
         
         System.out.println("done");
