@@ -194,23 +194,29 @@ public class _Main {
 		if("y".equals(br.readLine().toLowerCase())) {
 		    DungeonViewer dv2 = new DungeonViewer(d,scale,d.numberRoomsMap());
 		    dv2.setVisible(true);
-		}
 		
-		bw.write("\nDo you want to see the d.getCorners? (y/n)\n");
-		bw.flush();
-		
-		if("y".equals(br.readLine().toLowerCase())) {
-		    DungeonViewer dv3 = new DungeonViewer(d,scale,d.getCornersMap());
-		    dv3.setVisible(true);
+		    bw.write("\nDo you want to see the d.getCorners? (y/n)\n");
+	            bw.flush();
+	                
+	            if("y".equals(br.readLine().toLowerCase())) {
+	                DungeonViewer dv3 = new DungeonViewer(d,scale,d.getCornersMap());
+	                dv3.setVisible(true);
+	            }		    
 		}
 		
 		bw.write("\nDo you want to see the d.connectRooms? (y/n)\n");
                 bw.flush();
                 
                 if("y".equals(br.readLine().toLowerCase())) {
-                    d.d = d.connectRooms();
-                    DungeonViewer dv4 = new DungeonViewer(d,scale);
-                    dv4.setVisible(true);
+                    try {
+                        Dungeon d1 = (Dungeon) d.clone();
+                        d1.d = d1.connectRooms();
+                        DungeonViewer dv4 = new DungeonViewer(d1,scale);
+                        dv4.setVisible(true);
+                        System.out.println("viewing dv4");
+                    } catch (CloneNotSupportedException e) {
+                        e.printStackTrace();
+                    }
                 }
 		
 		bw.close();

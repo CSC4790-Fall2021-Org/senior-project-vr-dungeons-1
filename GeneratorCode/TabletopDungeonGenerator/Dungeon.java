@@ -198,7 +198,7 @@ public class Dungeon implements Cloneable {
                 ret.add(new ArrayList<Integer[]>());
             }
             
-            System.out.println("ret = " + ret.toString());
+//            System.out.println("ret = " + ret.toString());
         
             for(int c = 0; c < nums.length; c++) {
                 for(int r = 0; r < nums[0].length; r++) {
@@ -219,7 +219,7 @@ public class Dungeon implements Cloneable {
                     }
                 }
             }
-            System.out.println("Done with getCornersList");
+//            System.out.println("Done with getCornersList");
             return ret;
         }
         
@@ -227,11 +227,14 @@ public class Dungeon implements Cloneable {
             return Math.abs(x1 - x2) + Math.abs(y1 - y2); //Manhattan Distance looks cool
         }
         
-        private double getEuclidianDistance(int x1, int x2, int y1, int y2) {
-            return Math.sqrt(((x1-x2)*(x1-x2))+((y1-y2)*(y1-y2)));
-        }
+//        private double getEuclidianDistance(int x1, int x2, int y1, int y2) {
+//            return Math.sqrt(((x1-x2)*(x1-x2))+((y1-y2)*(y1-y2)));
+//        }
         
         public boolean[][] connectRooms() {
+            
+            numberRoomsMap();
+            
             int startNumRooms = numberOfRooms;
             boolean[][] temp = d;
             

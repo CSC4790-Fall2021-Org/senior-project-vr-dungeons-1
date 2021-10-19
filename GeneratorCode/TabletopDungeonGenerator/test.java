@@ -4,7 +4,7 @@ public class test {
 
     public static void main(String[] args) {
         
-        Dungeon d = new Voronoi(1234,100,100,100);
+        Dungeon d = new CellularAutomata(123,100,100);
         d.setLayout(d.randomize());
         
         System.out.println("step 1");
