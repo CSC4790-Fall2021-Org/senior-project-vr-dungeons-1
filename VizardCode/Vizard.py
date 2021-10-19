@@ -74,11 +74,20 @@ with open('../GeneratorCode/output.csv') as csv_file:
 	reader = csv.reader(csv_file, delimiter=',')
 	data = list(reader)[0]
 
+#reads from the csv file in GeneratorCode rechange to open('../outputCellAutoHallways.csv)
+#with open('../GeneratorCode/outputCellAutoHallways.csv') as csv_file:
+#	reader = csv.reader(csv_file, delimiter=',')
+#	data = list(reader)[0]
+
+
 layout = []
 
 #takes the first two numbers from the csv, which contain the width and height of the 2d dungeon
 width = int(data.pop(0))
 height = int(data.pop(0))
+
+print("width = ", width)
+print("height = ", height)
 
 firstX = int(data.pop(0))
 firstY = int(data.pop(0))
@@ -97,7 +106,7 @@ for i in range(0,len(data)):
 row = -1
 col = -1
 
-wall = vizshape.addBox(size=(scale*1.0,scale*1.0,scale*1.0),texture=tex1)
+wall = vizshape.addBox(size=(scale*1.0,scale*1.0,scale*1.0),texture=tex1,lighting=True)
 wall.color(viz.WHITE)
 
 #iterate over every entry in the 2d list
