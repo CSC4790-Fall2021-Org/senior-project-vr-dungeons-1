@@ -232,16 +232,20 @@ public class Dungeon implements Cloneable {
         }
         
         public boolean[][] connectRooms() {
+            int startNumRooms = numberOfRooms;
             boolean[][] temp = d;
-            int dist;
-//            double dist;
-            int roomNum = 0;
             
-            ArrayList<ArrayList<Integer[]>> cornerList = getCornersList();
-            cornerList.remove(0);
+            for(int a = 0; a < startNumRooms; a++) {
             
-            //for every room in the dungeon
-            for(ArrayList<Integer[]> room : cornerList) {
+                int dist;
+    //            double dist;
+                
+                ArrayList<ArrayList<Integer[]>> cornerList = getCornersList();
+                cornerList.remove(0);
+                
+                //for every room in the dungeon
+//                for(ArrayList<Integer[]> room : cornerList) {
+                ArrayList<Integer[]> room = cornerList.get(0);
                 int shortest = Integer.MAX_VALUE;
 //                double shortest = Double.MAX_VALUE;
                 int startX = -1;
@@ -254,7 +258,7 @@ public class Dungeon implements Cloneable {
                 
                 //for every point in the current room
                 for(Integer[] point : room) {
-                    int count = roomNum+1;
+                    int count = 1;
                     //if the room has corners (which it should, unless it's the 0 room)
                     if(point.length>0) {
                         //for every room with room number > current room number
@@ -277,7 +281,6 @@ public class Dungeon implements Cloneable {
                     }
                     count++;
                 }
-                roomNum++;
                 //connect the two points
                 int xDist = Math.abs(endX-startX);
                 int yDist = Math.abs(endY-startY);

@@ -29,6 +29,11 @@ public class test {
         DungeonViewer dv2 = new DungeonViewer(d,5);
         dv2.setVisible(true);
         
+        System.out.println("step 4");
+        
+        DungeonViewer dv3 = new DungeonViewer(d,5,d.numberRoomsMap());
+//        dv3.setVisible(true);
+        
         System.out.println("done");
     }
     
