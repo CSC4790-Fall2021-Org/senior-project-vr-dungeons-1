@@ -236,10 +236,7 @@ public class _Main {
                                 bw.flush();
                             }
                         }
-                    }
-                    
-                    path = br.readLine();
-                    
+                    }                    
                 }
 		
 		bw.close();
