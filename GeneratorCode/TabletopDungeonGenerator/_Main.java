@@ -163,12 +163,12 @@ public class _Main {
 		bw.write("\nGenerating Dungeon...");
 		bw.flush();
 		
-		boolean[][] dun = d.randomize(seed);
+		boolean[][] dun = d.randomize();
 		d.setLayout(dun);
 
                 if(!"".equals(path)) {
                     try {
-                        d.outputCSV(path);
+                        d.outputCSV("GeneratorCode/" + path);
                         bw.write("\n\nCSV output worked, check file at " + path);
                         bw.flush();
                     } catch(Exception e) {
@@ -192,17 +192,52 @@ public class _Main {
 		bw.flush();
 		
 		if("y".equals(br.readLine().toLowerCase())) {
-		    DungeonViewer dv2 = new DungeonViewer(d,scale,d.numberRooms());
+		    DungeonViewer dv2 = new DungeonViewer(d,scale,d.numberRoomsMap());
 		    dv2.setVisible(true);
+		
+		    bw.write("\nDo you want to see the d.getCorners? (y/n)\n");
+	            bw.flush();
+	                
+	            if("y".equals(br.readLine().toLowerCase())) {
+	                DungeonViewer dv3 = new DungeonViewer(d,scale,d.getCornersMap());
+	                dv3.setVisible(true);
+	            }		    
 		}
 		
-		bw.write("\nDo you want to see the d.getCorners? (y/n)\n");
-		bw.flush();
-		
-		if("y".equals(br.readLine().toLowerCase())) {
-		    DungeonViewer dv3 = new DungeonViewer(d,scale,d.getCorners());
-		    dv3.setVisible(true);
-		}
+		bw.write("\nDo you want to see the d.connectRooms? (y/n)\n");
+                bw.flush();
+                
+                if("y".equals(br.readLine().toLowerCase())) {
+                    try {
+                        Dungeon d1 = (Dungeon) d.clone();
+                        d1.d = d1.connectRooms();
+                        DungeonViewer dv4 = new DungeonViewer(d1,scale);
+                        dv4.setVisible(true);
+                        System.out.println("viewing dv4");
+                    } catch (CloneNotSupportedException e) {
+                        e.printStackTrace();
+                    }
+                    
+                    bw.write("\nDo you want to generate a CSV? (y/n)\n");
+                    bw.flush();
+                    if("y".equals(br.readLine().toLowerCase())) {
+                        bw.write("\n\nEnter the filename (WARNING: WILL OVERWRITE A FILE WITH THE SAME NAME): ");
+                        bw.flush();
+                        
+                        String newPath = "";
+                        newPath = br.readLine();
+                        if(!"".equals(newPath)) {
+                            try {
+                                d.outputCSV("GeneratorCode/" + newPath);
+                                bw.write("\n\nCSV output worked, check file at " + newPath);
+                                bw.flush();
+                            } catch(Exception e) {
+                                bw.write("\n\nCSV output didn't work, filepath \'" + newPath + "\' was bad");
+                                bw.flush();
+                            }
+                        }
+                    }                    
+                }
 		
 		bw.close();
 		br.close();

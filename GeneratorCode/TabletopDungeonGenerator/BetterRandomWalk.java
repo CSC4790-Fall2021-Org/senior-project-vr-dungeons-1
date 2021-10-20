@@ -17,7 +17,7 @@ public class BetterRandomWalk extends Dungeon {
 	
         //use this template file to make your dungeon layout randomizer
         //be sure to try to implement the seed so the randomizer consistently outputs the same thing using any given seed
-    public boolean[][] randomize(int seed) {
+    public boolean[][] randomize() {
             //d is the temporary array that you'll use to make the layout, currently initialized as all False values.
             boolean[][] dun = new boolean[d.length][d[0].length];
             
@@ -33,7 +33,7 @@ public class BetterRandomWalk extends Dungeon {
             int leftmost = 0, rightmost = 0, topmost = 0, botmost = 0;
             //boolean leftWall, rightWall, topWall, botWall;
             int x = 0, y = 0;
-            Random rand = new Random(seed);
+            Random rand = new Random(SEED);
             Stack<Integer> path_x = new Stack<Integer>();
             Stack<Integer> path_y = new Stack<Integer>();
             int modX, modY;
