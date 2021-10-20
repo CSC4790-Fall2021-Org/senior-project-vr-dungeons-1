@@ -70,14 +70,14 @@ floor = vizshape.addQuad(size=(scale*1.0,scale*1.0),axis=vizshape.AXIS_Y,texture
 floor.setPosition([1,-1,0])
 
 #reads from the csv file in GeneratorCode rechange to open('../GeneatorCode/output.csv)
-with open('../GeneratorCode/output.csv') as csv_file:
-	reader = csv.reader(csv_file, delimiter=',')
-	data = list(reader)[0]
-
-#reads from the csv file in GeneratorCode rechange to open('../outputCellAutoHallways.csv)
-#with open('../GeneratorCode/outputCellAutoHallways.csv') as csv_file:
+#with open('../GeneratorCode/output.csv') as csv_file:
 #	reader = csv.reader(csv_file, delimiter=',')
 #	data = list(reader)[0]
+
+#reads from the csv file in GeneratorCode rechange to open('../outputCellAutoHallways.csv)
+with open('../GeneratorCode/outputDemo2.csv') as csv_file:
+	reader = csv.reader(csv_file, delimiter=',')
+	data = list(reader)[0]
 
 
 layout = []
