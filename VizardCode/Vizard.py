@@ -62,12 +62,30 @@ vizact.onkeydown('f', myLight.enable)
 vizact.onkeydown('g', myLight.disable)
 
 tex1 = viz.addTexture("stonewall.png")
+northTex = viz.addTexture("north.png")
+southTex = viz.addTexture("south.png")
+eastTex = viz.addTexture("east.png")
+westTex = viz.addTexture("west.png")
 
 scale = 1
+view.setPosition(0,1,-2)
 
 #creates the master floor tile from which every other tile will be cloned and sets it at position [1,-1,0], underneath the floor
-floor = vizshape.addQuad(size=(scale*1.0,scale*1.0),axis=vizshape.AXIS_Y,texture=tex1,lighting=True)
-floor.setPosition([1,-1,0])
+floor = vizshape.addQuad(size=(scale*1.0,scale*1.0),axis=vizshape.AXIS_Y,texture=tex1,lighting=False)
+floor.setPosition([0,-5,0])
+
+#creates the master north south east and west wall tiles from which every other wall tile will be cloned and sets their position at [1,-1,0], underneath the floor
+north = vizshape.addQuad(size=(scale*1.0,scale*1.0),axis=-vizshape.AXIS_Z,texture=northTex,lighting=False)
+north.setPosition([0,-4.5,0.5])
+
+south = vizshape.addQuad(size=(scale*1.0,scale*1.0),axis=vizshape.AXIS_Z,texture=southTex,lighting=False)
+south.setPosition([0,-4.5,-0.5])
+
+east = vizshape.addQuad(size=(scale*1.0,scale*1.0),axis=-vizshape.AXIS_X,texture=eastTex,lighting=False)
+east.setPosition([0.5,-4.5,0])
+
+west = vizshape.addQuad(size=(scale*1.0,scale*1.0),axis=vizshape.AXIS_X,texture=westTex,lighting=False)
+west.setPosition([-0.5,-4.5,0])
 
 #reads from the csv file in GeneratorCode rechange to open('../GeneatorCode/output.csv)
 #with open('../GeneratorCode/output.csv') as csv_file:
@@ -75,9 +93,10 @@ floor.setPosition([1,-1,0])
 #	data = list(reader)[0]
 
 #reads from the csv file in GeneratorCode rechange to open('../outputCellAutoHallways.csv)
-with open('../GeneratorCode/outputDemo2.csv') as csv_file:
+with open('../GeneratorCode/outputDemo.csv') as csv_file:
 	reader = csv.reader(csv_file, delimiter=',')
 	data = list(reader)[0]
+
 
 
 layout = []
@@ -106,29 +125,48 @@ for i in range(0,len(data)):
 row = -1
 col = -1
 
-wall = vizshape.addBox(size=(scale*1.0,scale*1.0,scale*1.0),texture=tex1,lighting=True)
-wall.color(viz.WHITE)
+#wall = vizshape.addBox(size=(scale*1.0,scale*1.0,scale*1.0),texture=tex1,lighting=False)
+#wall.color(viz.WHITE)
 
 #iterate over every entry in the 2d list
-for r in layout:
-	row+=1
-	col=-1
-	for entry in r:
-		col+=1
+for r in range(0,height-1):
+	for c in range(0,width-1):
+		entry = layout[r][c]
 		#if there should be a floor at (row,col), clone the master floor to (row,1,col)
 		if(entry=="false"):
-			floor.copy().setPosition(scale*row,1,scale*col)
+			floor.copy().setPosition(scale*r,0,scale*c)
 			
 			#if(row == 0 or col == 0): #finds the empty space in the first row, the entrance
 				#viz.MainView.setPosition([row+3.5,col+2.8, 0])
+			
+			##if there should be a wall on the left (west)
+			if((c==0 or layout[r-1][c]=="true")):
+				west.copy().setPosition(scale*(r-0.5),0.5,scale*c)
+				west.copy().setPosition(scale*(r-0.5),1.5,scale*c)
+				west.copy().setPosition(scale*(r-0.5),2.5,scale*c)
+			##if there should be a wall on the right (east)
+			if((c==width-1 or layout[r+1][c]=="true")):
+				east.copy().setPosition(scale*(r+0.5),0.5,scale*c)
+				east.copy().setPosition(scale*(r+0.5),1.5,scale*c)
+				east.copy().setPosition(scale*(r+0.5),2.5,scale*c)
+			##if there should be a wall on the top (north)
+			if((r==0 or layout[r][c+1]=="true")):
+				north.copy().setPosition(scale*r,0.5,scale*(c+0.5))
+				north.copy().setPosition(scale*r,1.5,scale*(c+0.5))
+				north.copy().setPosition(scale*r,2.5,scale*(c+0.5))
+			##if there should be a wall on the bottom (south)
+			if((r==height-1 or layout[r][c-1]=="true")):
+				south.copy().setPosition(scale*r,0.5,scale*(c-0.5))
+				south.copy().setPosition(scale*r,1.5,scale*(c-0.5))
+				south.copy().setPosition(scale*r,2.5,scale*(c-0.5))
 				#print(row)
 				#print(col)
-		else:
-			wall.copy().setPosition(scale*row,1.5,scale*col)
-			wall.copy().setPosition(scale*row,1.5+scale*1.0,scale*col)
-			wall.copy().setPosition(scale*row,1.5+scale*2.0,scale*col)
+		#else:
+			#wall.copy().setPosition(scale*row,1.5,scale*col)
+			#wall.copy().setPosition(scale*row,1.5+scale*1.0,scale*col)
+			#wall.copy().setPosition(scale*row,1.5+scale*2.0,scale*col)
 		
-view.setPosition([firstX*scale,3, firstY*scale])
+view.setPosition([firstX*scale,0.5,firstY*scale])
 
 #if not IsThisVillanovaCAVE():
 #	viz.MainView.setPosition([startColumn+3.5,2.8,2.8])
