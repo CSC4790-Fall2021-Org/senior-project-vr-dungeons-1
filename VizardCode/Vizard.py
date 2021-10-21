@@ -94,7 +94,7 @@ west.setPosition([-0.5,-4.5,0])
 #	data = list(reader)[0]
 
 #reads from the csv file in GeneratorCode rechange to open('../outputCellAutoHallways.csv)
-with open('../GeneratorCode/outputDemo.csv') as csv_file:
+with open('../GeneratorCode/outputDemo2.csv') as csv_file:
 	reader = csv.reader(csv_file, delimiter=',')
 	data = list(reader)[0]
 
@@ -141,16 +141,16 @@ for r in range(0,height-1):
 				#viz.MainView.setPosition([row+3.5,col+2.8, 0])
 			
 			##if there should be a wall on the left (west)
-			if((c==0 or layout[r-1][c]=="true")):
+			if((r==0 or layout[r-1][c]=="true")):
 				west.copy().setPosition(scale*(r-0.5),1.5,scale*c)
 			##if there should be a wall on the right (east)
-			if((c==width-1 or layout[r+1][c]=="true")):
+			if((r==width-1 or layout[r+1][c]=="true")):
 				east.copy().setPosition(scale*(r+0.5),1.5,scale*c)
 			##if there should be a wall on the top (north)
-			if((r==0 or layout[r][c+1]=="true")):
+			if((c==0 or layout[r][c+1]=="true")):
 				north.copy().setPosition(scale*r,1.5,scale*(c+0.5))
 			##if there should be a wall on the bottom (south)
-			if((r==height-1 or layout[r][c-1]=="true")):
+			if((c==height-1 or layout[r][c-1]=="true")):
 				south.copy().setPosition(scale*r,1.5,scale*(c-0.5))
 				#print(row)
 				#print(col)
