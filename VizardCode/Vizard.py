@@ -71,21 +71,22 @@ scale = 1
 view.setPosition(0,1,-2)
 
 #creates the master floor tile from which every other tile will be cloned and sets it at position [1,-1,0], underneath the floor
-floor = vizshape.addQuad(size=(scale*1.0,scale*1.0),axis=vizshape.AXIS_Y,texture=tex1,lighting=False)
+floor = vizshape.addQuad(size=(scale*1.0,scale*1.0),axis=vizshape.AXIS_Y,texture=tex1,lighting=True)
 floor.setPosition([0,-5,0])
 
 #creates the master north south east and west wall tiles from which every other wall tile will be cloned and sets their position at [1,-1,0], underneath the floor
-north = vizshape.addQuad(size=(scale*1.0,scale*1.0),axis=-vizshape.AXIS_Z,texture=northTex,lighting=False)
+north = vizshape.addQuad(size=(scale*1.0,scale*3.0),axis=-vizshape.AXIS_Z,texture=northTex,lighting=True)
 north.setPosition([0,-4.5,0.5])
 
-south = vizshape.addQuad(size=(scale*1.0,scale*1.0),axis=vizshape.AXIS_Z,texture=southTex,lighting=False)
+south = vizshape.addQuad(size=(scale*1.0,scale*3.0),axis=vizshape.AXIS_Z,texture=southTex,lighting=True)
 south.setPosition([0,-4.5,-0.5])
 
-east = vizshape.addQuad(size=(scale*1.0,scale*1.0),axis=-vizshape.AXIS_X,texture=eastTex,lighting=False)
+east = vizshape.addQuad(size=(scale*1.0,scale*3.0),axis=-vizshape.AXIS_X,texture=eastTex,lighting=True)
 east.setPosition([0.5,-4.5,0])
 
-west = vizshape.addQuad(size=(scale*1.0,scale*1.0),axis=vizshape.AXIS_X,texture=westTex,lighting=False)
+west = vizshape.addQuad(size=(scale*1.0,scale*3.0),axis=vizshape.AXIS_X,texture=westTex,lighting=True)
 west.setPosition([-0.5,-4.5,0])
+
 
 #reads from the csv file in GeneratorCode rechange to open('../GeneatorCode/output.csv)
 #with open('../GeneratorCode/output.csv') as csv_file:
@@ -141,24 +142,16 @@ for r in range(0,height-1):
 			
 			##if there should be a wall on the left (west)
 			if((c==0 or layout[r-1][c]=="true")):
-				west.copy().setPosition(scale*(r-0.5),0.5,scale*c)
 				west.copy().setPosition(scale*(r-0.5),1.5,scale*c)
-				west.copy().setPosition(scale*(r-0.5),2.5,scale*c)
 			##if there should be a wall on the right (east)
 			if((c==width-1 or layout[r+1][c]=="true")):
-				east.copy().setPosition(scale*(r+0.5),0.5,scale*c)
 				east.copy().setPosition(scale*(r+0.5),1.5,scale*c)
-				east.copy().setPosition(scale*(r+0.5),2.5,scale*c)
 			##if there should be a wall on the top (north)
 			if((r==0 or layout[r][c+1]=="true")):
-				north.copy().setPosition(scale*r,0.5,scale*(c+0.5))
 				north.copy().setPosition(scale*r,1.5,scale*(c+0.5))
-				north.copy().setPosition(scale*r,2.5,scale*(c+0.5))
 			##if there should be a wall on the bottom (south)
 			if((r==height-1 or layout[r][c-1]=="true")):
-				south.copy().setPosition(scale*r,0.5,scale*(c-0.5))
 				south.copy().setPosition(scale*r,1.5,scale*(c-0.5))
-				south.copy().setPosition(scale*r,2.5,scale*(c-0.5))
 				#print(row)
 				#print(col)
 		#else:
