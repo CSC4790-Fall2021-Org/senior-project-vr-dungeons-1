@@ -38,7 +38,7 @@ ORTHO_RANGE = [-13,13]
 # Overhead image size
 IMAGE_SIZE = [512,512]
 
-def CreateOverHeadImageTask():
+""" def CreateOverHeadImageTask():
 	global overheadImage
 
 	# Render overhead scene to texture
@@ -50,22 +50,28 @@ def CreateOverHeadImageTask():
 	cam.setEuler([0,90,0])
 	min_ortho, max_ortho = ORTHO_RANGE
 	cam.setProjectionMatrix(viz.Matrix.ortho(min_ortho,max_ortho,min_ortho,max_ortho,0.1,100))
-	cam.setAutoClip(False)
-
+	cam.setAutoClip(False) 
+"""
+"""
 	# Wait a frame to allow texture to render
 	yield None
 
 	# Save texture to buffer base64 encoded png buffer
 	overheadImage = base64.b64encode(texture.saveToBuffer('.png'))
+"""
 
 	# Send image to existing clients
 	vizhtml.sendAll('set_image',viz.Data(data=overheadImage))
 
+"""
 	# Remove resources
 	cam.remove()
 	texture.remove()
+"""
 
+"""
 viztask.schedule( CreateOverHeadImageTask() )
+"""
 
 def PixelToWorld(pos):
 	"""Converts overhead image pixel coordinates to world coordinates"""
@@ -82,6 +88,8 @@ def WorldToPixel(pos):
 	px = int(round(px*(IMAGE_SIZE[0]-1)))
 	py = int(round(py*(IMAGE_SIZE[1]-1)))
 	return [px,py]
+
+
 
 def ClientConnect(e):
 	"""Send overhead image when new client connects"""
