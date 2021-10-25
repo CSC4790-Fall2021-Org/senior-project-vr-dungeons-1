@@ -50,7 +50,7 @@ else:
 	viz.go()	
 	#boilerplate for my local laptop
 
-
+viz.phys.enable()
 #vizshape.addGrid(color=[0.2]*3).setPosition([0.5,1,0.5])
 
 #Changes how lighting works around the main view
@@ -68,16 +68,17 @@ scale = 1
 #creates the master floor tile from which every other tile will be cloned and sets it at position [1,-1,0], underneath the floor
 floor = vizshape.addQuad(size=(scale*1.0,scale*1.0),axis=vizshape.AXIS_Y,texture=tex1,lighting=True)
 floor.setPosition([1,-1,0])
+floor.collidePlane()
 
 #reads from the csv file in GeneratorCode rechange to open('../GeneatorCode/output.csv)
-with open('../GeneratorCode/output.csv') as csv_file:
-	reader = csv.reader(csv_file, delimiter=',')
-	data = list(reader)[0]
-
-#reads from the csv file in GeneratorCode rechange to open('../outputCellAutoHallways.csv)
-#with open('../GeneratorCode/outputCellAutoHallways.csv') as csv_file:
+#with open('../GeneratorCode/output.csv') as csv_file:
 #	reader = csv.reader(csv_file, delimiter=',')
 #	data = list(reader)[0]
+
+#reads from the csv file in GeneratorCode rechange to open('../outputCellAutoHallways.csv)
+with open('../GeneratorCode/outputDemo2.csv') as csv_file:
+	reader = csv.reader(csv_file, delimiter=',')
+	data = list(reader)[0]
 
 
 layout = []
