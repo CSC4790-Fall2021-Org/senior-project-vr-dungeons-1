@@ -50,7 +50,7 @@ else:
 	viz.go()	
 	#boilerplate for my local laptop
 
-
+viz.phys.enable()
 #vizshape.addGrid(color=[0.2]*3).setPosition([0.5,1,0.5])
 
 #Changes how lighting works around the main view
@@ -87,6 +87,7 @@ east.setPosition([0.5,-4.5,0])
 west = vizshape.addQuad(size=(scale*1.0,scale*3.0),axis=vizshape.AXIS_X,texture=westTex,lighting=True)
 west.setPosition([-0.5,-4.5,0])
 
+floor.collidePlane()
 
 #reads from the csv file in GeneratorCode rechange to open('../GeneatorCode/output.csv)
 #with open('../GeneratorCode/output.csv') as csv_file:
