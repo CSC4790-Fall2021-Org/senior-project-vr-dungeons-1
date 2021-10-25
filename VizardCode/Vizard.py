@@ -103,6 +103,11 @@ floor.collidePlane()
 with open('../GeneratorCode/outputDemo2.csv') as csv_file:
 	reader = csv.reader(csv_file, delimiter=',')
 	data = list(reader)[0]
+	
+with open('../GeneratorCode/outputDemo.csv') as csv_file:
+	reader2 = csv.reader(csv_file, delimiter=',')
+	data2 = list(reader2)[0]
+
 
 
 
