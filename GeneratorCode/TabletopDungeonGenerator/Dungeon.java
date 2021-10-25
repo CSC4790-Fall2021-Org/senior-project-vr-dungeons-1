@@ -1,6 +1,7 @@
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -368,7 +369,7 @@ public class Dungeon implements Cloneable {
         
         public void outputCSV(String path) throws IOException {
             
-            BufferedWriter bw = new BufferedWriter(new FileWriter(path));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(Paths.get(path).toString()));
             StringBuilder sb = new StringBuilder();
             sb.append(X);
             sb.append(",");
