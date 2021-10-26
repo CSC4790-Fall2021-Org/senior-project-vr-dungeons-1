@@ -73,7 +73,7 @@ eastTex = tex1
 westTex = tex1
 
 scale = 1
-light = True
+light = False
 
 #creates the master floor tile from which every other tile will be cloned and sets it at position [1,-1,0], underneath the floor
 floor = vizshape.addQuad(size=(scale*1.0,scale*1.0),axis=vizshape.AXIS_Y,texture=tex1,lighting=light)
@@ -169,7 +169,14 @@ for r in range(0,height-1):
 			#wall.copy().setPosition(scale*row,1.5,scale*col)
 			#wall.copy().setPosition(scale*row,1.5+scale*1.0,scale*col)
 			#wall.copy().setPosition(scale*row,1.5+scale*2.0,scale*col)
-		
+#generate roof
+ceiling = vizshape.addQuad(size=(scale*1.0,scale*1.0),axis=vizshape.AXIS_Y,texture=tex1,lighting=light)
+ceiling.setPosition([0,-6,0])
+
+for h in range(0,height-1):
+	for w in range(0,width-1):
+		ceiling.copy().setPosition(scale*w,3,scale*h)
+
 view.setPosition([firstX*scale,0.5,firstY*scale])
 
 #if not IsThisVillanovaCAVE():
