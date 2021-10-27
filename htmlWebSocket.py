@@ -24,7 +24,7 @@ viz.fov(60)
 viz.go()
 
 # Add environment
-model = viz.addChild('maze.osgb')
+#model = viz.addChild('maze.osgb')
 
 # Initialize walk navigation
 vizcam.WalkNavigate()
@@ -59,9 +59,12 @@ IMAGE_SIZE = [512,512]
 	# Save texture to buffer base64 encoded png buffer
 	overheadImage = base64.b64encode(texture.saveToBuffer('.png'))
 """
-
+	
+	# import Overhead from GitHub
+overheadImage = 'Overhead.png'
+	
 	# Send image to existing clients
-	vizhtml.sendAll('set_image',viz.Data(data=overheadImage))
+vizhtml.sendAll('set_image',viz.Data(data=overheadImage))
 
 """
 	# Remove resources
