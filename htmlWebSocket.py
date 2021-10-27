@@ -6,7 +6,7 @@ view position overlayed. The browser client can click on the map
 to move the viewpoint and can disorient the user and send messages.
 
 Enter the following URL in your browser to communicate with the script:
-{}
+{http://technofortress:8080/vizhtml/websocket/}
 """
 import viz
 import vizact
@@ -38,7 +38,7 @@ ORTHO_RANGE = [-13,13]
 # Overhead image size
 IMAGE_SIZE = [512,512]
 
-""" def CreateOverHeadImageTask():
+def CreateOverHeadImageTask():
 	global overheadImage
 
 	# Render overhead scene to texture
@@ -51,20 +51,20 @@ IMAGE_SIZE = [512,512]
 	min_ortho, max_ortho = ORTHO_RANGE
 	cam.setProjectionMatrix(viz.Matrix.ortho(min_ortho,max_ortho,min_ortho,max_ortho,0.1,100))
 	cam.setAutoClip(False) 
-"""
-"""
+
+
 	# Wait a frame to allow texture to render
 	yield None
 
 	# Save texture to buffer base64 encoded png buffer
 	overheadImage = base64.b64encode(texture.saveToBuffer('.png'))
-"""
+
 	
 	# import Overhead from GitHub
-overheadImage = 'Overhead.png'
+	#overheadImage = 'Overhead.png'
 	
 	# Send image to existing clients
-vizhtml.sendAll('set_image',viz.Data(data=overheadImage))
+	vizhtml.sendAll('set_image',viz.Data(data=overheadImage))
 
 """
 	# Remove resources
@@ -72,9 +72,9 @@ vizhtml.sendAll('set_image',viz.Data(data=overheadImage))
 	texture.remove()
 """
 
-"""
+
 viztask.schedule( CreateOverHeadImageTask() )
-"""
+
 
 def PixelToWorld(pos):
 	"""Converts overhead image pixel coordinates to world coordinates"""
