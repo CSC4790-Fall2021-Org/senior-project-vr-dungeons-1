@@ -76,6 +76,16 @@ public class Voronoi extends Dungeon {
 			}
 		}
 		
+		int x,y;
+                Random r = new Random(SEED);
+                do {
+                    x = r.nextInt(d.length);
+                    y = r.nextInt(d[0].length);
+                } while(dun[x][y]);
+                
+                firstX = x;
+                firstY = y;
+		
 		//connect rooms with 3-wide hallways
 //		if(connect) {
 //			boolean vert = rand.nextBoolean();
