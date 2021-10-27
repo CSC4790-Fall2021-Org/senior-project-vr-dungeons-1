@@ -73,7 +73,7 @@ eastTex = tex1
 westTex = tex1
 
 scale = 1
-light = False
+light = False #will need to be reset to True
 
 #creates the master floor tile from which every other tile will be cloned and sets it at position [1,-1,0], underneath the floor
 floor = vizshape.addQuad(size=(scale*1.0,scale*1.0),axis=vizshape.AXIS_Y,texture=tex1,lighting=light)
@@ -104,10 +104,6 @@ with open('../GeneratorCode/outputDemo2.csv') as csv_file:
 	reader = csv.reader(csv_file, delimiter=',')
 	data = list(reader)[0]
 	
-with open('../GeneratorCode/outputDemo.csv') as csv_file:
-	reader2 = csv.reader(csv_file, delimiter=',')
-	data2 = list(reader2)[0]
-
 
 
 
@@ -176,6 +172,67 @@ ceiling.setPosition([0,-6,0])
 for h in range(0,height-1):
 	for w in range(0,width-1):
 		ceiling.copy().setPosition(scale*w,3,scale*h)
+		
+#create second floor
+with open('../GeneratorCode/outputDemo.csv') as csv_file:
+	reader2 = csv.reader(csv_file, delimiter=',')
+	data2 = list(reader2)[0]
+	
+layout2 = []
+
+#takes the first two numbers from the csv, which contain the width and height of the 2d dungeon
+width2 = int(data2.pop(0))
+height2 = int(data2.pop(0))
+
+print("width = ", width2)
+print("height = ", height2)
+
+firstX2 = int(data2.pop(0))
+firstY2 = int(data2.pop(0))
+
+#row will be used to count the rows, starting at 0 with the first row+=1
+row2 = -1
+for k in range(0,len(data2)):
+	#if we've reached the beginning of a new row, add a new list to the list
+	if(k%width2 == 0):
+		layout2.append([])
+		row2+=1
+	#add the data from the csv to the current row
+	layout2[row2].append(data2[k])
+
+#row and col temp variables for counting, starting at 0 with the first row+=1 and col+=1
+row2 = -1
+col2 = -1
+
+#iterate over every entry in the 2d list
+for r2 in range(0,height2-1):
+	for c2 in range(0,width2-1):
+		entry2 = layout2[r2][c2]
+		#if there should be a floor at (row,col), clone the master floor to (row,1,col)
+		if(entry2=="false"):
+			floor.copy().setPosition(scale*r,3,scale*c)
+			
+			#if(row == 0 or col == 0): #finds the empty space in the first row, the entrance
+				#viz.MainView.setPosition([row+3.5,col+2.8, 0])
+			
+			##if there should be a wall on the left (west)
+			if((r2==0 or layout[r2-1][c2]=="true")):
+				west.copy().setPosition(scale*(r2-0.5),4.5,scale*c2)
+			##if there should be a wall on the right (east)
+			if((r2==width2-1 or layout2[r2+1][c2]=="true")):
+				east.copy().setPosition(scale*(r2+0.5),4.5,scale*c2)
+			##if there should be a wall on the top (north)
+			if((c2==0 or layout2[r2][c2+1]=="true")):
+				north.copy().setPosition(scale*r,4.5,scale*(c2+0.5))
+			##if there should be a wall on the bottom (south)
+			if((c2==height2-1 or layout2[r2][c2-1]=="true")):
+				south.copy().setPosition(scale*r2,4.5,scale*(c2-0.5))
+				#print(row)
+				#print(col)
+		#else:
+			#wall.copy().setPosition(scale*row,1.5,scale*col)
+			#wall.copy().setPosition(scale*row,1.5+scale*1.0,scale*col)
+			#wall.copy().setPosition(scale*row,1.5+scale*2.0,scale*col)
 
 view.setPosition([firstX*scale,0.5,firstY*scale])
 
