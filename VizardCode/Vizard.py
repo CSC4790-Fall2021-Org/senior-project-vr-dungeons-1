@@ -2,6 +2,7 @@
 import vizact
 import vizshape
 import vizconnect
+import vizfx
 from vizconnect.util import view_collision
 import csv
 
@@ -50,16 +51,19 @@ else:
 	viz.go()	
 	#boilerplate for my local laptop
 
-viz.phys.enable()
+#viz.phys.enable()
 #vizshape.addGrid(color=[0.2]*3).setPosition([0.5,1,0.5])
 
 #Changes how lighting works around the main view
 myLight = viz.MainView.getHeadLight()
 myLight.disable()
-myLight.color(viz.ORANGE)
+myLight.color(viz.WHITE)
 myLight.intensity(0.5)
 vizact.onkeydown('f', myLight.enable)
 vizact.onkeydown('g', myLight.disable)
+vizfx.setAmbientColor(viz.ORANGE)
+
+
 
 tex1 = viz.addTexture("stonewall.png")
 northTex = viz.addTexture("north.png")
@@ -167,6 +171,21 @@ for r in range(0,height-1):
 		
 view.setPosition([firstX*scale,0.5,firstY*scale])
 
+
+spotLight1 = viz.addSpotLight()
+spotLight1.direction(100000,10000,100) 
+spotLight1.spread(10000) 
+spotLight1.intensity(10) 
+spotLight1.spotexponent(0) 
+spotLight1.setPosition(view.getPosition())
+spotLight2 = viz.addSpotLight()
+spotLight2.direction(-100000,10000,100) 
+spotLight2.spread(10000) 
+spotLight2.intensity(10) 
+spotLight2.spotexponent(0) 
+spotLight2.setPosition(view.getPosition())
+
+
 #if not IsThisVillanovaCAVE():
 #	viz.MainView.setPosition([startColumn+3.5,2.8,2.8])
 #	print("made it here")
@@ -179,3 +198,4 @@ print("Done")
 print("firstX = ", firstX)
 print("firstY = ", firstY)
 print("getposition = ",view.getPosition())
+
