@@ -185,9 +185,25 @@ else:
 sphere = vizshape.addSphere(radius=1.0,pos=(firstX*scale,0,firstY*scale),lighting=False)
 sphere.color(viz.WHITE)
 
+spotLight1 = viz.addSpotLight()
+spotLight1.direction(100000,10000,100) 
+spotLight1.spread(10000) 
+spotLight1.intensity(10) 
+spotLight1.spotexponent(0) 
+spotLight1.setPosition(view.getPosition())
+spotLight2 = viz.addSpotLight()
+spotLight2.direction(-100000,10000,100) 
+spotLight2.spread(10000) 
+spotLight2.intensity(10) 
+spotLight2.spotexponent(0) 
+spotLight2.setPosition(view.getPosition())
+
 
 
 print("Done")
 print("firstX = ", firstX)
 print("firstY = ", firstY)
 print("getposition = ",view.getPosition())
+
+
+
