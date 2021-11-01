@@ -2,6 +2,7 @@
 import vizact
 import vizshape
 import vizconnect
+import vizfx
 from vizconnect.util import view_collision
 import csv
 
@@ -62,12 +63,9 @@ scale = 1
 light = True
 
 #Create the master Light Orb to copy to different places around the map
-orbLight = viz.addLight()
-orbLight.enable()
-orbLight.position(0,1,0)
-orbLight.spread(180)
+orbLight = vizfx.addPointLight(pos=(0,2,0), color=viz.ORANGE)
 orbLight.intensity(2)
-sphere = vizshape.addSphere(radius=0.5,pos=(0,-5,0),lighting=True)
+sphere = vizshape.addSphere(radius=0.5,pos=(0,-5,0),lighting=False)
 sphere.visible(viz.OFF)
 viz.link(sphere, orbLight)
 
@@ -139,7 +137,9 @@ for r in range(0,height-1):
 		#if there should be a floor at (row,col), clone the master floor to (row,1,col)
 		if(entry=="false"):
 			floor.copy().setPosition(scale*r,0,scale*c)
-			sphere.copy().setPosition(scale*r,0,scale*c)
+			copysphere = sphere.copy()
+			copysphere.setPosition(scale*r,4,scale*c)
+			copysphere.visible(viz.OFF)
 			
 			#if(row == 0 or col == 0): #finds the empty space in the first row, the entrance
 				#viz.MainView.setPosition([row+3.5,col+2.8, 0])
