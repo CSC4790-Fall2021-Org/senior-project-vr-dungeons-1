@@ -2,6 +2,7 @@
 import vizact
 import vizshape
 import vizconnect
+import vizfx
 from vizconnect.util import view_collision
 import csv
 
@@ -128,6 +129,7 @@ for r in range(0,height-1):
 		#if there should be a floor at (row,col), clone the master floor to (row,1,col)
 		if(entry=="false"):
 			floor.copy().setPosition(scale*r,0,scale*c)
+	
 			
 			#if(row == 0 or col == 0): #finds the empty space in the first row, the entrance
 				#viz.MainView.setPosition([row+3.5,col+2.8, 0])
@@ -185,18 +187,12 @@ else:
 sphere = vizshape.addSphere(radius=1.0,pos=(firstX*scale,0,firstY*scale),lighting=False)
 sphere.color(viz.WHITE)
 
-spotLight1 = viz.addSpotLight()
-spotLight1.direction(100000,10000,100) 
-spotLight1.spread(10000) 
-spotLight1.intensity(10) 
-spotLight1.spotexponent(0) 
-spotLight1.setPosition(view.getPosition())
-spotLight2 = viz.addSpotLight()
-spotLight2.direction(-100000,10000,100) 
-spotLight2.spread(10000) 
-spotLight2.intensity(10) 
-spotLight2.spotexponent(0) 
-spotLight2.setPosition(view.getPosition())
+# Create directional lights
+light1 = vizfx.addDirectionalLight(euler=(40,20,0), color=[0.7,0.7,0.7])
+light2 = vizfx.addDirectionalLight(euler=(-65,15,0), color=[0.5,0.25,0.0])
+
+# Adjust ambient color
+vizfx.setAmbientColor([0.3,0.3,0.4])
 
 
 
