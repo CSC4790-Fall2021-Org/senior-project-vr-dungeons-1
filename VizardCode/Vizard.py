@@ -41,7 +41,7 @@ viz.phys.enable()
 
 #Changes how lighting works around the main view
 myLight = viz.MainView.getHeadLight()
-#myLight.disable()
+myLight.disable()
 myLight.color(viz.ORANGE)
 myLight.intensity(0.5)
 vizact.onkeydown('f', myLight.enable)
@@ -60,6 +60,17 @@ westTex = tex1
 
 scale = 1
 light = True
+
+#Create the master Light Orb to copy to different places around the map
+orbLight = viz.addLight()
+orbLight.enable()
+orbLight.position(0,1,0)
+orbLight.spread(180)
+orbLight.intensity(2)
+sphere = vizshape.addSphere(radius=0.5,pos=(0,-5,0),lighting=True)
+sphere.visible(viz.OFF)
+viz.link(sphere, orbLight)
+
 
 #creates the master floor tile from which every other tile will be cloned and sets it at position [1,-1,0], underneath the floor
 floor = vizshape.addQuad(size=(scale*1.0,scale*1.0),axis=vizshape.AXIS_Y,texture=tex1,lighting=light)
@@ -128,6 +139,7 @@ for r in range(0,height-1):
 		#if there should be a floor at (row,col), clone the master floor to (row,1,col)
 		if(entry=="false"):
 			floor.copy().setPosition(scale*r,0,scale*c)
+			sphere.copy().setPosition(scale*r,0,scale*c)
 			
 			#if(row == 0 or col == 0): #finds the empty space in the first row, the entrance
 				#viz.MainView.setPosition([row+3.5,col+2.8, 0])
