@@ -75,9 +75,7 @@ westTex = tex1
 scale = 1
 light = False #will need to be reset to True
 
-#creates the master floor tile from which every other tile will be cloned and sets it at position [1,-1,0], underneath the floor
-floor = vizshape.addQuad(size=(scale*1.0,scale*1.0),axis=vizshape.AXIS_Y,texture=tex1,lighting=light)
-floor.setPosition([0,-5,0])
+
 
 #creates the master north south east and west wall tiles from which every other wall tile will be cloned and sets their position at [1,-1,0], underneath the floor
 north = vizshape.addQuad(size=(scale*1.0,scale*3.0),axis=-vizshape.AXIS_Z,texture=northTex,lighting=light)
@@ -92,7 +90,7 @@ east.setPosition([0.5,-4.5,0])
 west = vizshape.addQuad(size=(scale*1.0,scale*3.0),axis=vizshape.AXIS_X,texture=westTex,lighting=light)
 west.setPosition([-0.5,-4.5,0])
 
-floor.collidePlane()
+
 
 #reads from the csv file in GeneratorCode rechange to open('../GeneatorCode/output.csv)
 #with open('../GeneratorCode/output.csv') as csv_file:
@@ -112,6 +110,11 @@ layout = []
 #takes the first two numbers from the csv, which contain the width and height of the 2d dungeon
 width = int(data.pop(0))
 height = int(data.pop(0))
+
+#creates the floor tile from which every other tile will be cloned and sets it at position [1,-1,0], underneath the floor
+floor = vizshape.addQuad(size=(scale*(width-1),scale*(height-1)),axis=vizshape.AXIS_Y,texture=tex1,lighting=light)
+floor.collidePlane()
+floor.setPosition((width-1)/2,0,(height-1)/2)
 
 print("width = ", width)
 print("height = ", height)
@@ -136,14 +139,15 @@ col = -1
 #wall = vizshape.addBox(size=(scale*1.0,scale*1.0,scale*1.0),texture=tex1,lighting=False)
 #wall.color(viz.WHITE)
 
+
+
 #iterate over every entry in the 2d list
 for r in range(0,height-1):
 	for c in range(0,width-1):
 		entry = layout[r][c]
 		#if there should be a floor at (row,col), clone the master floor to (row,1,col)
 		if(entry=="false"):
-			floor.copy().setPosition(scale*r,0,scale*c)
-			
+		
 			#if(row == 0 or col == 0): #finds the empty space in the first row, the entrance
 				#viz.MainView.setPosition([row+3.5,col+2.8, 0])
 			
@@ -203,7 +207,7 @@ for k in range(0,len(data2)):
 #row and col temp variables for counting, starting at 0 with the first row+=1 and col+=1
 row2 = -1
 col2 = -1
-
+"""
 #iterate over every entry in the 2d list
 for r2 in range(0,height2-1):
 	for c2 in range(0,width2-1):
@@ -233,7 +237,7 @@ for r2 in range(0,height2-1):
 			#wall.copy().setPosition(scale*row,1.5,scale*col)
 			#wall.copy().setPosition(scale*row,1.5+scale*1.0,scale*col)
 			#wall.copy().setPosition(scale*row,1.5+scale*2.0,scale*col)
-
+"""
 view.setPosition([firstX*scale,0.5,firstY*scale])
 
 #if not IsThisVillanovaCAVE():
