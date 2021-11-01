@@ -34,28 +34,14 @@ def IsThisVillanovaCAVE():
 	else:
 		return False
 	
-#example:
-if IsThisVillanovaCAVE():
-	#  =====================================
-	#Position the view of the camera
-	#CAVE specific:
-	CONFIG_FILE = "E:\\VizardProjects\\_CaveConfigFiles\\vizconnect_config_CaveFloor+ART_headnode.py"
-	vizconnect.go(CONFIG_FILE)
-	viewPoint = vizconnect.addViewpoint(pos=[1,1,-7])
-	viewPoint.add(vizconnect.getDisplay())
-	vizconnect.resetViewpoints()
-###############################################################
-#p1 and p2 are points, each is an array of [x,y,z]
-else:
-	viz.go()	
-	#boilerplate for my local laptop
+
 
 viz.phys.enable()
 #vizshape.addGrid(color=[0.2]*3).setPosition([0.5,1,0.5])
 
 #Changes how lighting works around the main view
 myLight = viz.MainView.getHeadLight()
-myLight.disable()
+#myLight.disable()
 myLight.color(viz.ORANGE)
 myLight.intensity(0.5)
 vizact.onkeydown('f', myLight.enable)
@@ -165,16 +151,42 @@ for r in range(0,height-1):
 			#wall.copy().setPosition(scale*row,1.5+scale*1.0,scale*col)
 			#wall.copy().setPosition(scale*row,1.5+scale*2.0,scale*col)
 		
-view.setPosition([firstX*scale,0.5,firstY*scale])
+
 
 #if not IsThisVillanovaCAVE():
 #	viz.MainView.setPosition([startColumn+3.5,2.8,2.8])
 #	print("made it here")
 #	#sets the start position to 10 feet behind the entrance	
 	
-viz.MainView.collision(viz.ON)
+#viz.MainView.collision(viz.ON)
 		
 	
+#example:
+if IsThisVillanovaCAVE():
+	#  =====================================
+	#Position the view of the camera
+	#CAVE specific:
+	CONFIG_FILE = "E:\\VizardProjects\\_CaveConfigFiles\\vizconnect_config_CaveFloor+ART_headnode.py"
+	vizconnect.go(CONFIG_FILE)
+	viewPoint = vizconnect.addViewpoint(pos=[firstX*scale,1,firstY*scale])
+	viewPoint.add(vizconnect.getDisplay())
+	vizconnect.resetViewpoints()
+	
+	testPosition = [ 0.677198, 0.000000, 0.735801, 0.000000, 0.000000, 1.000000, -0.000000, 0.000000, -0.735801, -0.000000, 0.677198, 0.000000, 0.519656, -0.579802, -0.446693, 1.000000 ]
+	vizconnect.getTransport('wandmagiccarpet').getNode3d().setMatrix(testPosition)
+###############################################################
+#p1 and p2 are points, each is an array of [x,y,z]
+else:
+	viz.go()	
+	view.setPosition([firstX*scale,1,firstY*scale])
+		
+	#boilerplate for my local laptop	
+
+sphere = vizshape.addSphere(radius=1.0,pos=(firstX*scale,0,firstY*scale),lighting=False)
+sphere.color(viz.WHITE)
+
+
+
 print("Done")
 print("firstX = ", firstX)
 print("firstY = ", firstY)
