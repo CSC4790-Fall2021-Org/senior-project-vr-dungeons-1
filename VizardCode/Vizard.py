@@ -42,7 +42,6 @@ viz.phys.enable()
 
 #Changes how lighting works around the main view
 myLight = viz.MainView.getHeadLight()
-#myLight.disable()
 myLight.color(viz.ORANGE)
 myLight.intensity(0.5)
 vizact.onkeydown('f', myLight.enable)
@@ -61,6 +60,13 @@ westTex = tex1
 
 scale = 1
 light = True
+
+#Create the master Light Orb to copy to different places around the map
+orbLight = vizfx.addPointLight(pos=(0,2,0), color=viz.ORANGE)
+orbLight.intensity(2)
+sphere = vizshape.addSphere(radius=0.5,pos=(0,-5,0),lighting=False)
+sphere.visible(viz.OFF)
+viz.link(sphere, orbLight)
 
 #creates the master floor tile from which every other tile will be cloned and sets it at position [1,-1,0], underneath the floor
 floor = vizshape.addQuad(size=(scale*1.0,scale*1.0),axis=vizshape.AXIS_Y,texture=tex1,lighting=light)
@@ -81,16 +87,10 @@ west.setPosition([-0.5,-4.5,0])
 
 floor.collidePlane()
 
-#reads from the csv file in GeneratorCode rechange to open('../GeneatorCode/output.csv)
-#with open('../GeneratorCode/output.csv') as csv_file:
-#	reader = csv.reader(csv_file, delimiter=',')
-#	data = list(reader)[0]
-
 #reads from the csv file in GeneratorCode rechange to open('../outputCellAutoHallways.csv)
 with open('../GeneratorCode/outputDemo2.csv') as csv_file:
 	reader = csv.reader(csv_file, delimiter=',')
 	data = list(reader)[0]
-
 
 
 layout = []
@@ -119,9 +119,6 @@ for i in range(0,len(data)):
 row = -1
 col = -1
 
-#wall = vizshape.addBox(size=(scale*1.0,scale*1.0,scale*1.0),texture=tex1,lighting=False)
-#wall.color(viz.WHITE)
-
 #iterate over every entry in the 2d list
 for r in range(0,height-1):
 	for c in range(0,width-1):
@@ -129,7 +126,6 @@ for r in range(0,height-1):
 		#if there should be a floor at (row,col), clone the master floor to (row,1,col)
 		if(entry=="false"):
 			floor.copy().setPosition(scale*r,0,scale*c)
-	
 			
 			#if(row == 0 or col == 0): #finds the empty space in the first row, the entrance
 				#viz.MainView.setPosition([row+3.5,col+2.8, 0])
@@ -143,6 +139,9 @@ for r in range(0,height-1):
 			##if there should be a wall on the top (north)
 			if((c==0 or layout[r][c+1]=="true")):
 				north.copy().setPosition(scale*r,1.5,scale*(c+0.5))
+				copysphere = sphere.copy()
+				copysphere.setPosition(scale*r,1.5,scale*(c+0.5))
+				copysphere.visible(viz.OFF)
 			##if there should be a wall on the bottom (south)
 			if((c==height-1 or layout[r][c-1]=="true")):
 				south.copy().setPosition(scale*r,1.5,scale*(c-0.5))
@@ -187,13 +186,13 @@ else:
 sphere = vizshape.addSphere(radius=1.0,pos=(firstX*scale,0,firstY*scale),lighting=False)
 sphere.color(viz.WHITE)
 
+
+
 # Create directional lights
 light1 = vizfx.addDirectionalLight(euler=(40,20,0), color=[0.7,0.7,0.7])
 light2 = vizfx.addDirectionalLight(euler=(-65,15,0), color=[0.5,0.25,0.0])
-
 # Adjust ambient color
 vizfx.setAmbientColor([0.3,0.3,0.4])
-
 
 
 print("Done")
