@@ -114,7 +114,11 @@ height = int(data.pop(0))
 #creates the floor tile from which every other tile will be cloned and sets it at position [1,-1,0], underneath the floor
 floor = vizshape.addQuad(size=(scale*(width-1),scale*(height-1)),axis=vizshape.AXIS_Y,texture=tex1,lighting=light)
 floor.collidePlane()
-floor.setPosition((width-1)/2,0,(height-1)/2)
+floor.setPosition((width-1)/2,3,(height-1)/2)
+
+ceiling = vizshape.addQuad(size=(scale*(width-1),scale*(height-1)),axis=vizshape.AXIS_Y,texture=tex1,lighting=light)
+ceiling.collidePlane()
+ceiling.setPosition((width-1)/2,0,(height-1)/2)
 
 print("width = ", width)
 print("height = ", height)
@@ -172,10 +176,6 @@ for r in range(0,height-1):
 #generate roof
 ceiling = vizshape.addQuad(size=(scale*1.0,scale*1.0),axis=vizshape.AXIS_Y,texture=tex1,lighting=light)
 ceiling.setPosition([0,-6,0])
-
-for h in range(0,height-1):
-	for w in range(0,width-1):
-		ceiling.copy().setPosition(scale*w,3,scale*h)
 		
 #create second floor
 with open('../GeneratorCode/outputDemo.csv') as csv_file:
