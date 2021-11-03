@@ -233,7 +233,7 @@ view.setPosition([firstX*scale,0.5,firstY*scale])
 #	print("made it here")
 #	#sets the start position to 10 feet behind the entrance	
 	
-#viz.MainView.collision(viz.ON)
+viz.MainView.collision(viz.ON)
 		
 	
 #example:
@@ -257,8 +257,8 @@ else:
 		
 	#boilerplate for my local laptop	
 
-sphere = vizshape.addSphere(radius=1.0,pos=(firstX*scale,0,firstY*scale),lighting=False)
-sphere.color(viz.WHITE)
+#sphere = vizshape.addSphere(radius=1.0,pos=(firstX*scale,0,firstY*scale),lighting=False)
+#sphere.color(viz.WHITE)
 
 
 
