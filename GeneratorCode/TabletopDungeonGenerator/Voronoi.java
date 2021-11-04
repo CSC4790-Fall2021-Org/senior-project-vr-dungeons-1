@@ -41,11 +41,11 @@ public class Voronoi extends Dungeon {
 	
 	//use this template file to make your dungeon layout randomizer
 	//be sure to try to implement the seed so the randomizer consistently outputs the same thing using any given seed
-	public boolean[][] randomize() {
-	    return randomize(cells);
+	public void randomize() {
+	    randomize(cells);
 	}
 	
-	public boolean[][] randomize(int cell) {
+	public void randomize(int cell) {
 		//d is the temporary array that you'll use to make the layout, currently initialized as all False values.
 		boolean[][] dun = new boolean[X][Y];
 		
@@ -143,7 +143,7 @@ public class Voronoi extends Dungeon {
 //			}
 //		}
 			
-		return dun;
+		setLayout(dun);
 	}
 	
 //	public static void main(String args[]) {

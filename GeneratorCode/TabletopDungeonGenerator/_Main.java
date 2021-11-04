@@ -129,8 +129,7 @@ public class _Main {
 		bw.write("\nGenerating Dungeon...");
 		bw.flush();
 		
-		boolean[][] dun = d.randomize();
-		d.setLayout(dun);
+		d.randomize();
 		d.setLayout(d.connectRooms());
 		
 		int scale = (1366/width <= 743/height) ? 1366/width : 743/height;
