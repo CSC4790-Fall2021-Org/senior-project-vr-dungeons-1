@@ -12,7 +12,7 @@ class Surface extends JPanel {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 5990773779976090772L;
+//	private static final long serialVersionUID = 5990773779976090772L;
 	Dungeon dun;
 	int scale;
 	int[][] nums = null;
