@@ -31,8 +31,7 @@ public class _Main {
 			bw.write("Enter the type of dungeon you want: ");
 			bw.write("\n1. BetterRandomWalk");
 			bw.write("\n2. CellularAutomata");
-			bw.write("\n3. SpacePartition");
-			bw.write("\n4. Voronoi");
+			bw.write("\n3. Voronoi");
 			bw.write("\n");
 			bw.flush();
 					
@@ -108,24 +107,6 @@ public class _Main {
 			d = new CellularAutomata(seed,width,height);
 			break;
 		case 3:
-		        int leaf_size = -1;
-                        done = false;
-                        while(!done) {
-                            try {
-                                bw.write("\n\nEnter the minimum leaf size you want from the algorithm: ");
-                                bw.flush();
-                                
-                                leaf_size = Integer.parseInt(br.readLine());
-                                if(leaf_size<1) {throw new Exception();}
-                                done = true;
-                            } catch(Exception e) {
-                                bw.write("\nInvalid input, try again.\n");
-                                bw.flush();
-                            }
-                        }
-                        d = new SpacePartition(seed,width,height,leaf_size);
-			break;
-		case 4:
 		        int cells = -1;
 		        done = false;
 		        while(!done) {
