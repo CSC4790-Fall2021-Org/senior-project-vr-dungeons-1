@@ -37,7 +37,7 @@ public class _Main {
 					
 			try {
 				dunType = Integer.parseInt(br.readLine());
-				if(dunType > 4 || dunType < 1) { throw new Exception(); }
+				if(dunType > 3 || dunType < 1) { throw new Exception(); }
 				done = true;
 			} catch(Exception e) {
 				bw.write("\nInvalid input, try again.\n");
