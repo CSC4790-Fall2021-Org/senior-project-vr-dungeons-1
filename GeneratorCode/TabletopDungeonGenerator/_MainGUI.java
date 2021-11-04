@@ -71,33 +71,7 @@ public class _MainGUI extends JPanel implements ActionListener {
         
         outputCSV = new JButton("Output CSV");
         generate = new JButton("Generate");
-        generate.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                seedValue = Integer.parseInt(seed.getText());
-                System.out.println("Seed = " + seedValue);
-                xValue = Integer.parseInt(x.getText());
-                yValue = Integer.parseInt(y.getText());
-                cellsValue = Integer.parseInt(cells.getText());
-                csvValue = csv.getText();
-                scale = (xValue >= yValue) ? 500/xValue : 500/yValue;
-                switch(typeValue) {
-                    case "Random Walk":
-                        dun = new BetterRandomWalk(seedValue,xValue,yValue);
-                        break;
-                    case "Cellular Automata":
-                        dun = new CellularAutomata(seedValue,xValue,yValue);
-                        break;
-                    case "Voronoi":
-                        dun = new Voronoi(seedValue,xValue,yValue,cellsValue);
-                        break;
-                }
-                
-                dun.randomize();
-                dun.setLayout(dun.connectRooms());
-                
-                dungeonView = new Surface(dun,scale);
-            }
-        });
+        generate.addActionListener(this);
         
         dungeonView = new Surface(new Dungeon(0,100,100),5);
         
@@ -210,27 +184,26 @@ public class _MainGUI extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        
-        if(e.getSource() == type) {
-            typeValue = (String) type.getSelectedItem();
-        } else if (e.getSource() == seed) {
-            seedValue = Integer.parseInt(seed.getText());
-            System.out.println("Seed = " + seedValue);
-        } else if (e.getSource() == x) {
-            xValue = Integer.parseInt(x.getText());
-        } else if (e.getSource() == y) {
-            yValue = Integer.parseInt(y.getText());
-        } else if (e.getSource() == cells) {
-            cellsValue = Integer.parseInt(cells.getText());
-        } else if (e.getSource() == csv) {
-            csvValue = csv.getText();
-        } else if (e.getSource() == outputCSV) {
-            System.out.println("you're supposed to output a CSV here");
-        } else if (e.getSource() == generate) {
-            dun.randomize();
-            scale = (xValue >= yValue) ? 500/xValue : 500/yValue;
+    
+//        if(e.getSource() == type) {
+        typeValue = (String) type.getSelectedItem();
+//        } else if (e.getSource() == seed) {
+        seedValue = Integer.parseInt(seed.getText());
+        System.out.println("Seed = " + seedValue);
+//        } else if (e.getSource() == x) {
+        xValue = Integer.parseInt(x.getText());
+//        } else if (e.getSource() == y) {
+        yValue = Integer.parseInt(y.getText());
+//        } else if (e.getSource() == cells) {
+        cellsValue = Integer.parseInt(cells.getText());
+//        } else if (e.getSource() == csv) {
+        csvValue = csv.getText();
+//        } else if (e.getSource() == outputCSV) {
+//            System.out.println("you're supposed to output a CSV here");
+//        } else if (e.getSource() == generate) {
+        scale = (xValue >= yValue) ? 500/xValue : 500/yValue;
 //            DungeonViewer dv = new DungeonViewer(dun,scale);
-        }
+//        }
         
         switch(typeValue) {
             case "Random Walk":
