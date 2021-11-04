@@ -43,29 +43,61 @@ public class _MainGUI extends JPanel implements ActionListener {
         type = new JComboBox<String>(new String[] {"Random Walk", "Cellular Automata", "Voronoi"});
         typeText = new JLabel("Type: ");
         typeValue = "Random Walk";
+        type.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                typeValue = (String) type.getSelectedItem();
+            }
+        });
         
-        seed = new JEditorPane("text", "0");
+        seed = new JEditorPane("text/plain", "0");
         seedText = new JLabel("Seed: ");
         seedValue = 0;
         
-        x = new JEditorPane("text", "100");
+        x = new JEditorPane("text/plain", "100");
         xText = new JLabel("Width: ");
         xValue = 100;
         
-        y = new JEditorPane("text", "100");
+        y = new JEditorPane("text/plain", "100");
         yText = new JLabel("Height: ");
         yValue = 100;
         
-        cells = new JEditorPane("text", "400");
+        cells = new JEditorPane("text/plain", "400");
         cellsText = new JLabel("Cells: ");
         cellsValue = 400;
         
-        csv = new JEditorPane("text", "output.csv");
+        csv = new JEditorPane("text/plain", "output.csv");
         csvText = new JLabel("CSV Filepath: ");
         csvValue = "output.csv";
         
         outputCSV = new JButton("Output CSV");
         generate = new JButton("Generate");
+        generate.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                seedValue = Integer.parseInt(seed.getText());
+                System.out.println("Seed = " + seedValue);
+                xValue = Integer.parseInt(x.getText());
+                yValue = Integer.parseInt(y.getText());
+                cellsValue = Integer.parseInt(cells.getText());
+                csvValue = csv.getText();
+                scale = (xValue >= yValue) ? 500/xValue : 500/yValue;
+                switch(typeValue) {
+                    case "Random Walk":
+                        dun = new BetterRandomWalk(seedValue,xValue,yValue);
+                        break;
+                    case "Cellular Automata":
+                        dun = new CellularAutomata(seedValue,xValue,yValue);
+                        break;
+                    case "Voronoi":
+                        dun = new Voronoi(seedValue,xValue,yValue,cellsValue);
+                        break;
+                }
+                
+                dun.randomize();
+                dun.setLayout(dun.connectRooms());
+                
+                dungeonView = new Surface(dun,scale);
+            }
+        });
         
         dungeonView = new Surface(new Dungeon(0,100,100),5);
         
@@ -174,7 +206,6 @@ public class _MainGUI extends JPanel implements ActionListener {
         jf.add(gui);
 //        jf.pack();
         jf.setVisible(true);
-        
     }
 
     @Override
@@ -184,6 +215,7 @@ public class _MainGUI extends JPanel implements ActionListener {
             typeValue = (String) type.getSelectedItem();
         } else if (e.getSource() == seed) {
             seedValue = Integer.parseInt(seed.getText());
+            System.out.println("Seed = " + seedValue);
         } else if (e.getSource() == x) {
             xValue = Integer.parseInt(x.getText());
         } else if (e.getSource() == y) {
@@ -196,7 +228,7 @@ public class _MainGUI extends JPanel implements ActionListener {
             System.out.println("you're supposed to output a CSV here");
         } else if (e.getSource() == generate) {
             dun.randomize();
-            scale = (1366/xValue <= 743/xValue) ? 1366/xValue : 743/xValue;
+            scale = (xValue >= yValue) ? 500/xValue : 500/yValue;
 //            DungeonViewer dv = new DungeonViewer(dun,scale);
         }
         
@@ -214,6 +246,8 @@ public class _MainGUI extends JPanel implements ActionListener {
         
         dun.randomize();
         dun.setLayout(dun.connectRooms());
+        
+        dungeonView = new Surface(dun,scale);
         
     }
     
