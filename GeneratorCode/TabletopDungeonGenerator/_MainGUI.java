@@ -80,6 +80,7 @@ public class _MainGUI extends JPanel implements ActionListener {
         csvValue = "output.csv";
     
         outputCSV = new JButton("Output CSV");
+        outputCSV.addActionListener(this);
         generate = new JButton("Generate");
         generate.addActionListener(this);
     
@@ -253,6 +254,16 @@ public class _MainGUI extends JPanel implements ActionListener {
         //    DungeonViewer dv = new DungeonViewer(dun,scale);
         //    dv.setVisible(true);
     
+        if(e.getSource().equals(outputCSV)) {
+            
+            try {
+                dun.outputCSV("GeneratorCode/dungeonCSV/" + csvValue);
+                System.out.println("\n\nCSV output worked, check file at " + "GeneratorCode/dungeonCSV/" + csvValue);
+            } catch(Exception ex) {
+                System.out.println("\n\nCSV output didn't work, filepath \'" + "GeneratorCode/dungeonCSV/" + csvValue + "\' was bad");
+            }
+            
+        }
     
         System.out.println("Done.");
     }
