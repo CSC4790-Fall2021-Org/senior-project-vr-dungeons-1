@@ -70,9 +70,9 @@ sphere.visible(viz.OFF)
 viz.link(sphere, orbLight)
 
 #creates the master floor tile from which every other tile will be cloned and sets it at position [1,-1,0], underneath the floor
-#floor = vizshape.addQuad(size=(scale*1.0,scale*1.0),axis=vizshape.AXIS_Y,texture=tex1,lighting=light)
-#floor.setPosition([0,-5,0])
-
+floor = vizshape.addQuad(size=(scale*1.0,scale*1.0),axis=vizshape.AXIS_Y,texture=tex1,lighting=light)
+floor.setPosition([0,-5,0])
+floor.collidePlane()
 
 #creates the master north south east and west wall tiles from which every other wall tile will be cloned and sets their position at [1,-1,0], underneath the floor
 north = vizshape.addQuad(size=(scale*1.0,scale*3.0),axis=-vizshape.AXIS_Z,texture=northTex,lighting=light)
@@ -102,14 +102,9 @@ layout = []
 width = int(data.pop(0))
 height = int(data.pop(0))
 
-#creates the floor tile from which every other tile will be cloned and sets it at position [1,-1,0], underneath the floor
-floor = vizshape.addQuad(size=(scale*(width-1),scale*(height-1)),axis=vizshape.AXIS_Y,texture=tex1,lighting=light)
-floor.collidePlane()
-floor.setPosition((width-1)/2,3,(height-1)/2)
 
-ceiling = vizshape.addQuad(size=(scale*(width-1),scale*(height-1)),axis=vizshape.AXIS_Y,texture=tex1,lighting=light)
-ceiling.collidePlane()
-ceiling.setPosition((width-1)/2,0,(height-1)/2)
+
+
 
 print("width = ", width)
 print("height = ", height)
@@ -137,7 +132,7 @@ for r in range(0,height-1):
 		entry = layout[r][c]
 		#if there should be a floor at (row,col), clone the master floor to (row,1,col)
 		if(entry=="false"):
-		
+			floor.copy().setPosition(scale*r,0,scale*c)
 			#if(row == 0 or col == 0): #finds the empty space in the first row, the entrance
 				#viz.MainView.setPosition([row+3.5,col+2.8, 0])
 			
@@ -165,6 +160,10 @@ for r in range(0,height-1):
 #generate roof
 ceiling = vizshape.addQuad(size=(scale*1.0,scale*1.0),axis=vizshape.AXIS_Y,texture=tex1,lighting=light)
 ceiling.setPosition([0,-6,0])
+
+for i in range(0,height):
+	for j in range(0,width):
+		ceiling.copy().setPosition([j,3,i])
 
 #create second floor
 with open('../GeneratorCode/outputDemo.csv') as csv_file:
@@ -234,7 +233,7 @@ view.setPosition([firstX*scale,0.5,firstY*scale])
 #	print("made it here")
 #	#sets the start position to 10 feet behind the entrance	
 	
-#viz.MainView.collision(viz.ON)
+viz.MainView.collision(viz.ON)
 		
 	
 #example:
@@ -258,8 +257,8 @@ else:
 		
 	#boilerplate for my local laptop	
 
-sphere = vizshape.addSphere(radius=1.0,pos=(firstX*scale,0,firstY*scale),lighting=False)
-sphere.color(viz.WHITE)
+#sphere = vizshape.addSphere(radius=1.0,pos=(firstX*scale,0,firstY*scale),lighting=False)
+#sphere.color(viz.WHITE)
 
 
 
