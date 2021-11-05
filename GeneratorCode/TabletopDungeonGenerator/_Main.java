@@ -134,9 +134,6 @@ public class _Main {
 		
 		int scale = (1366/width <= 743/height) ? 1366/width : 743/height;
 		
-//		bw.write(Integer.toString(scale));
-//		bw.flush();
-		
 		DungeonViewer dv = new DungeonViewer(d,scale);
 		dv.setVisible(true);
 		

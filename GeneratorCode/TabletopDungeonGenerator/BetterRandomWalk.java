@@ -66,22 +66,4 @@ public class BetterRandomWalk extends Dungeon {
             setLayout(dun);
     }
         
-//    public static void main(String args[]) {
-            //this is the test method, it prints out the random dungeon with a seed of 1234 at the default size
-//            Dungeon dun = new Dungeon(123,100,100);
-//            dun.setLayout(randomize(dun.d, dun.SEED));
-//            int[][] n = dun.numberRooms(dun.d);
-//            DungeonViewer dv = new DungeonViewer(dun,10,n);
-//            dv.setVisible(true);
-//            try {
-//                dun.outputCSV("GeneratorCode\\output.csv");
-//                System.out.println("somehow, it worked");
-//            }
-//            catch (IOException e) {
-                // TODO Auto-generated catch block
-//                e.printStackTrace();
-//                System.out.println("didn't work");
-//            }
-//        }
-        
 }
