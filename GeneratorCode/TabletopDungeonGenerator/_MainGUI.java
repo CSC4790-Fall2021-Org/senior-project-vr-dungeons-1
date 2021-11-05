@@ -86,9 +86,9 @@ public class _MainGUI extends JPanel implements ActionListener {
     
         dun = new BetterRandomWalk(seedValue,xValue,yValue);
         dun.randomize();
-        scale = 2;
+        scale = 5;
         dungeonView = new Surface(dun,scale);
-        dungeonView.setPreferredSize(new Dimension(200,200));
+        dungeonView.setPreferredSize(new Dimension(500,500));
     
         c.anchor = c.EAST;
         c.gridx = 1;
@@ -211,7 +211,7 @@ public class _MainGUI extends JPanel implements ActionListener {
         //    } else if (e.getSource() == outputCSV) {
         //        System.out.println("you're supposed to output a CSV here");
         //    } else if (e.getSource() == generate) {
-        scale = (xValue >= yValue) ? 200/xValue : 200/yValue;
+        scale = (xValue >= yValue) ? 500/xValue : 500/yValue;
         //        DungeonViewer dv = new DungeonViewer(dun,scale);
         //    }
     
@@ -234,7 +234,7 @@ public class _MainGUI extends JPanel implements ActionListener {
         
         dungeonView = new Surface(dun,scale);
         
-        dungeonView.setSize(200, 200);
+        dungeonView.setSize(500, 500);
         
         dungeonView.repaint();
         
@@ -250,10 +250,7 @@ public class _MainGUI extends JPanel implements ActionListener {
         add(dungeonView,c);
         
         update();
-    
-        //    DungeonViewer dv = new DungeonViewer(dun,scale);
-        //    dv.setVisible(true);
-    
+        
         if(e.getSource().equals(outputCSV)) {
             
             try {
