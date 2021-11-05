@@ -59,7 +59,7 @@ eastTex = tex1
 westTex = tex1
 
 scale = 1
-light = False #will need to be reset to True
+light = True
 
 
 #Create the master Light Orb to copy to different places around the map
