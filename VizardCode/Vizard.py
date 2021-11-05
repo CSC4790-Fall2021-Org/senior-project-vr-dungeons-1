@@ -65,7 +65,7 @@ light = True
 #Create the master Light Orb to copy to different places around the map
 orbLight = vizfx.addPointLight(pos=(0,2,0), color=viz.ORANGE)
 orbLight.intensity(2)
-sphere = vizshape.addSphere(radius=0.5,pos=(0,-5,0),lighting=False)
+sphere = vizshape.addSphere(radius=0.5,pos=(0,-5,0),lighting=light)
 sphere.visible(viz.OFF)
 viz.link(sphere, orbLight)
 
