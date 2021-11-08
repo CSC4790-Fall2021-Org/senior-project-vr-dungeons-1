@@ -31,14 +31,13 @@ public class _Main {
 			bw.write("Enter the type of dungeon you want: ");
 			bw.write("\n1. BetterRandomWalk");
 			bw.write("\n2. CellularAutomata");
-			bw.write("\n3. SpacePartition");
-			bw.write("\n4. Voronoi");
+			bw.write("\n3. Voronoi");
 			bw.write("\n");
 			bw.flush();
 					
 			try {
 				dunType = Integer.parseInt(br.readLine());
-				if(dunType > 4 || dunType < 1) { throw new Exception(); }
+				if(dunType > 3 || dunType < 1) { throw new Exception(); }
 				done = true;
 			} catch(Exception e) {
 				bw.write("\nInvalid input, try again.\n");
@@ -108,24 +107,6 @@ public class _Main {
 			d = new CellularAutomata(seed,width,height);
 			break;
 		case 3:
-		        int leaf_size = -1;
-                        done = false;
-                        while(!done) {
-                            try {
-                                bw.write("\n\nEnter the minimum leaf size you want from the algorithm: ");
-                                bw.flush();
-                                
-                                leaf_size = Integer.parseInt(br.readLine());
-                                if(leaf_size<1) {throw new Exception();}
-                                done = true;
-                            } catch(Exception e) {
-                                bw.write("\nInvalid input, try again.\n");
-                                bw.flush();
-                            }
-                        }
-                        d = new SpacePartition(seed,width,height,leaf_size);
-			break;
-		case 4:
 		        int cells = -1;
 		        done = false;
 		        while(!done) {
@@ -145,8 +126,22 @@ public class _Main {
 			break;
 		}
 		
+		bw.write("\nGenerating Dungeon...");
+		bw.flush();
+		
+		d.randomize();
+		d.setLayout(d.connectRooms());
+		
+		int scale = (1366/width <= 743/height) ? 1366/width : 743/height;
+		
+		DungeonViewer dv = new DungeonViewer(d,scale);
+		dv.setVisible(true);
+		
+		bw.write("\nDungeon Generated!\n");
+		bw.flush();
+		
 		String path = "";
-		done = false;
+                done = false;
                 while(!done) {
                     try {
                         bw.write("\n\nIf you want to output a CSV, enter the filename (WARNING: WILL OVERWRITE A FILE WITH THE SAME NAME). Leave blank if you don't want a CSV generated: ");
@@ -159,13 +154,7 @@ public class _Main {
                         bw.flush();
                     }
                 }
-		
-		bw.write("\nGenerating Dungeon...");
-		bw.flush();
-		
-		boolean[][] dun = d.randomize();
-		d.setLayout(dun);
-
+                
                 if(!"".equals(path)) {
                     try {
                         d.outputCSV("GeneratorCode/" + path);
@@ -175,68 +164,6 @@ public class _Main {
                         bw.write("\n\nCSV output didn't work, filepath \'" + path + "\' was bad");
                         bw.flush();
                     }
-                }
-		
-		int scale = (1366/width <= 743/height) ? 1366/width : 743/height;
-		
-//		bw.write(Integer.toString(scale));
-//		bw.flush();
-		
-		DungeonViewer dv = new DungeonViewer(d,scale);
-		dv.setVisible(true);
-		
-		bw.write("\nDungeon Generated!\n");
-		bw.flush();
-		
-		bw.write("\nDo you want to see the d.numberRooms? (y/n)\n");
-		bw.flush();
-		
-		if("y".equals(br.readLine().toLowerCase())) {
-		    DungeonViewer dv2 = new DungeonViewer(d,scale,d.numberRoomsMap());
-		    dv2.setVisible(true);
-		
-		    bw.write("\nDo you want to see the d.getCorners? (y/n)\n");
-	            bw.flush();
-	                
-	            if("y".equals(br.readLine().toLowerCase())) {
-	                DungeonViewer dv3 = new DungeonViewer(d,scale,d.getCornersMap());
-	                dv3.setVisible(true);
-	            }		    
-		}
-		
-		bw.write("\nDo you want to see the d.connectRooms? (y/n)\n");
-                bw.flush();
-                
-                if("y".equals(br.readLine().toLowerCase())) {
-                    try {
-                        Dungeon d1 = (Dungeon) d.clone();
-                        d1.d = d1.connectRooms();
-                        DungeonViewer dv4 = new DungeonViewer(d1,scale);
-                        dv4.setVisible(true);
-                        System.out.println("viewing dv4");
-                    } catch (CloneNotSupportedException e) {
-                        e.printStackTrace();
-                    }
-                    
-                    bw.write("\nDo you want to generate a CSV? (y/n)\n");
-                    bw.flush();
-                    if("y".equals(br.readLine().toLowerCase())) {
-                        bw.write("\n\nEnter the filename (WARNING: WILL OVERWRITE A FILE WITH THE SAME NAME): ");
-                        bw.flush();
-                        
-                        String newPath = "";
-                        newPath = br.readLine();
-                        if(!"".equals(newPath)) {
-                            try {
-                                d.outputCSV("GeneratorCode/" + newPath);
-                                bw.write("\n\nCSV output worked, check file at " + newPath);
-                                bw.flush();
-                            } catch(Exception e) {
-                                bw.write("\n\nCSV output didn't work, filepath \'" + newPath + "\' was bad");
-                                bw.flush();
-                            }
-                        }
-                    }                    
                 }
 		
 		bw.close();

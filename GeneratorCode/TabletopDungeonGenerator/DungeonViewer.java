@@ -12,7 +12,7 @@ class Surface extends JPanel {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 5990773779976090772L;
+//	private static final long serialVersionUID = 5990773779976090772L;
 	Dungeon dun;
 	int scale;
 	int[][] nums = null;
@@ -34,7 +34,10 @@ class Surface extends JPanel {
 //        g2d.drawString("Java 2D", 50, 50);
         for(int x = 0; x < dun.X; x++) {
         	for(int y = 0; y < dun.Y; y++) {
-        		if(dun.d[x][y]) {g2d.setColor(Color.BLUE);}
+        		if(dun.d[x][y]) {
+        		    g2d.setColor(Color.LIGHT_GRAY);
+        		    g2d.fillRect(x*scale, y*scale, scale, scale);
+        		}
         		else { 
         			g2d.setColor(Color.WHITE);
         			g2d.fillRect(x*scale, y*scale, scale, scale);
