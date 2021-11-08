@@ -92,35 +92,25 @@ public class CellularAutomata extends Dungeon {
 		super(seed, dungeon);
 	}
 	
-		//use this template file to make your dungeon layout randomizer
-		//be sure to try to implement the seed so the randomizer consistently outputs the same thing using any given seed
-		public boolean[][] randomize() {
-			//d is the temporary array that you'll use to make the layout, currently initialized as all False values.
-			boolean[][] dun = new boolean[d.length][d[0].length];
-	                CellularAutomataHelper help = new CellularAutomataHelper();
-	                dun = help.generateMap(d.length,d[0].length,SEED);
-	                
-	                int x,y;
-	                Random r = new Random(SEED);
-	                do {
-	                    x = r.nextInt(d.length);
-	                    y = r.nextInt(d[0].length);
-	                } while(dun[x][y]);
-	                
-	                firstX = x;
-	                firstY = y;
-	                
-			return dun;
-		}
-		
-//		public static void main(String args[]) {
-//			//this is the test method, it prints out the random dungeon with a seed of 1234 at the default size
-//			Dungeon dun = new Dungeon(1234,25,25);
-//			dun.setLayout(randomize(dun.SEED));
-////                        dun.setLayout(Dungeon.getWireframe(randomize(dun.d, dun.SEED)));
-////			System.out.println(Arrays.toString(dun.d));
-//			DungeonViewer dv = new DungeonViewer(dun,10);
-//			dv.setVisible(true);
-//		}
+	//use this template file to make your dungeon layout randomizer
+	//be sure to try to implement the seed so the randomizer consistently outputs the same thing using any given seed
+	public void randomize() {
+	    //d is the temporary array that you'll use to make the layout, currently initialized as all False values.
+	    boolean[][] dun = new boolean[d.length][d[0].length];
+	    CellularAutomataHelper help = new CellularAutomataHelper();
+	    dun = help.generateMap(d.length,d[0].length,SEED);
+
+	    int x,y;
+	    Random r = new Random(SEED);
+	    do {
+	        x = r.nextInt(d.length);
+	        y = r.nextInt(d[0].length);
+	    } while(dun[x][y]);
+
+	    firstX = x;
+	    firstY = y;
+
+	    setLayout(dun);
+	}
 		
 }
