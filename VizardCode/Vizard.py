@@ -63,7 +63,7 @@ ladder = viz.addChild("stairsRedux.fbx")
 ladder.scale(.005,.0038,.005)
 
 scale = 1
-light = True #will need to be reset to True
+light = True 
 
 
 
@@ -80,16 +80,16 @@ floor.setPosition([0,-5,0])
 floor.collidePlane()
 
 #creates the master north south east and west wall tiles from which every other wall tile will be cloned and sets their position at [1,-1,0], underneath the floor
-north = vizshape.addQuad(size=(scale*1.0,scale*3.0),axis=-vizshape.AXIS_Z,texture=northTex,lighting=light)
+north = vizshape.addQuad(size=(scale*1.0,scale*5),axis=-vizshape.AXIS_Z,texture=northTex,lighting=light)
 north.setPosition([0,-4.5,0.5])
 
-south = vizshape.addQuad(size=(scale*1.0,scale*3.0),axis=vizshape.AXIS_Z,texture=southTex,lighting=light)
+south = vizshape.addQuad(size=(scale*1.0,scale*5),axis=vizshape.AXIS_Z,texture=southTex,lighting=light)
 south.setPosition([0,-4.5,-0.5])
 
-east = vizshape.addQuad(size=(scale*1.0,scale*3.0),axis=-vizshape.AXIS_X,texture=eastTex,lighting=light)
+east = vizshape.addQuad(size=(scale*1.0,scale*5),axis=-vizshape.AXIS_X,texture=eastTex,lighting=light)
 east.setPosition([0.5,-4.5,0])
 
-west = vizshape.addQuad(size=(scale*1.0,scale*3.0),axis=vizshape.AXIS_X,texture=westTex,lighting=light)
+west = vizshape.addQuad(size=(scale*1.0,scale*5),axis=vizshape.AXIS_X,texture=westTex,lighting=light)
 west.setPosition([-0.5,-4.5,0])
 
 
@@ -180,13 +180,12 @@ while temp == True:
 
 for i in range(0,height):
 	for j in range(0,width):
-		if i == layout[xCor] and j == layout[zCor]:
-				continue
-		ceiling.copy().setPosition([j,3,i]) #probably just continuing through the if statement not for loop
+		if i != zCor or j != xCor:
+			ceiling.copy().setPosition([j,4,i]) #probably just continuing through the if statement not for loop
 		
 ladder.setPosition(xCor,0, zCor)
 #ladder.setPosition(firstX+8,0,firstY)
-viz.MainView.stepsize(5)
+viz.MainView.stepsize(4)
 #create second floor
 with open('../GeneratorCode/outputDemo.csv') as csv_file:
 	reader2 = csv.reader(csv_file, delimiter=',')
