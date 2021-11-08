@@ -5,6 +5,7 @@ import vizconnect
 import vizfx
 from vizconnect.util import view_collision
 import csv
+import random
 
 viz.fov(90)
 view = viz.MainView
@@ -58,6 +59,9 @@ southTex = tex1
 eastTex = tex1
 westTex = tex1
 
+ladder = viz.addChild("stairsRedux.fbx")
+ladder.scale(.05,.05,.05)
+
 scale = 1
 light = False #will need to be reset to True
 
@@ -90,7 +94,7 @@ west.setPosition([-0.5,-4.5,0])
 
 
 #reads from the csv file in GeneratorCode rechange to open('../outputCellAutoHallways.csv)
-with open('../GeneratorCode/outputDemo2.csv') as csv_file:
+with open('../GeneratorCode/output.csv') as csv_file:
 	reader = csv.reader(csv_file, delimiter=',')
 	data = list(reader)[0]
 	
@@ -103,6 +107,11 @@ width = int(data.pop(0))
 height = int(data.pop(0))
 
 
+
+'''
+xCor2 = randint(0,width)
+yCor2 = randint(0,height)
+'''
 
 
 
@@ -135,7 +144,7 @@ for r in range(0,height-1):
 			floor.copy().setPosition(scale*r,0,scale*c)
 			#if(row == 0 or col == 0): #finds the empty space in the first row, the entrance
 				#viz.MainView.setPosition([row+3.5,col+2.8, 0])
-			
+				
 			##if there should be a wall on the left (west)
 			if((r==0 or layout[r-1][c]=="true")):
 				west.copy().setPosition(scale*(r-0.5),1.5,scale*c)
@@ -160,11 +169,21 @@ for r in range(0,height-1):
 #generate roof
 ceiling = vizshape.addQuad(size=(scale*1.0,scale*1.0),axis=vizshape.AXIS_Y,texture=tex1,lighting=light)
 ceiling.setPosition([0,-6,0])
+#set stair positions
+temp = True
+while temp == True:
+	xCor = random.randint(0,width)
+	zCor = random.randint(0,height)
+	if layout[xCor][zCor] == "false":
+		temp = False
 
 for i in range(0,height):
 	for j in range(0,width):
-		ceiling.copy().setPosition([j,3,i])
-
+		if i == layout[xCor] and j == layout[zCor]:
+				continue
+		ceiling.copy().setPosition([j,3,i]) #probably just continuing through the if statement not for loop
+		
+ladder.setPosition(xCor,5, zCor)
 #create second floor
 with open('../GeneratorCode/outputDemo.csv') as csv_file:
 	reader2 = csv.reader(csv_file, delimiter=',')
