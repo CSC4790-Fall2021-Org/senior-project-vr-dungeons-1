@@ -108,14 +108,6 @@ width = int(data.pop(0))
 height = int(data.pop(0))
 
 
-
-'''
-xCor2 = randint(0,width)
-yCor2 = randint(0,height)
-'''
-
-
-
 print("width = ", width)
 print("height = ", height)
 
@@ -173,8 +165,8 @@ ceiling.setPosition([0,-6,0])
 #set stair positions
 temp = True
 while temp == True:
-	xCor = random.randint(0,width)
-	zCor = random.randint(0,height)
+	xCor = random.randint(0,width-1)
+	zCor = random.randint(0,height-1)
 	if layout[xCor][zCor] == "false":
 		temp = False
 
