@@ -60,10 +60,11 @@ eastTex = tex1
 westTex = tex1
 
 ladder = viz.addChild("stairsRedux.fbx")
-ladder.scale(.05,.05,.05)
+ladder.scale(.005,.0038,.005)
 
 scale = 1
-light = False #will need to be reset to True
+light = True #will need to be reset to True
+
 
 
 #Create the master Light Orb to copy to different places around the map
@@ -183,7 +184,9 @@ for i in range(0,height):
 				continue
 		ceiling.copy().setPosition([j,3,i]) #probably just continuing through the if statement not for loop
 		
-ladder.setPosition(xCor,5, zCor)
+ladder.setPosition(xCor,0, zCor)
+#ladder.setPosition(firstX+8,0,firstY)
+viz.MainView.stepsize(5)
 #create second floor
 with open('../GeneratorCode/outputDemo.csv') as csv_file:
 	reader2 = csv.reader(csv_file, delimiter=',')
