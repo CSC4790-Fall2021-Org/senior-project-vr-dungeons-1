@@ -49,10 +49,6 @@ vizact.onkeydown('f', myLight.enable)
 vizact.onkeydown('g', myLight.disable)
 
 tex1 = viz.addTexture("stonewall.png")
-northTex = viz.addTexture("north.png")
-southTex = viz.addTexture("south.png")
-eastTex = viz.addTexture("east.png")
-westTex = viz.addTexture("west.png")
 
 northTex = tex1
 southTex = tex1
@@ -96,7 +92,7 @@ west.setPosition([-0.5,-4.5,0])
 
 
 #reads from the csv file in GeneratorCode rechange to open('../outputCellAutoHallways.csv)
-with open('../GeneratorCode/output.csv') as csv_file:
+with open('../GeneratorCode/dungeonCSV/output.csv') as csv_file:
 	reader = csv.reader(csv_file, delimiter=',')
 	data = list(reader)[0]
 	
@@ -180,7 +176,7 @@ ladder.setPosition(xCor,0, zCor)
 #ladder.setPosition(firstX+8,0,firstY)
 viz.MainView.stepsize(4)
 #create second floor
-with open('../GeneratorCode/outputDemo.csv') as csv_file:
+with open('../GeneratorCode/dungeonCSV/outputDemo.csv') as csv_file:
 	reader2 = csv.reader(csv_file, delimiter=',')
 	data2 = list(reader2)[0]
 	
