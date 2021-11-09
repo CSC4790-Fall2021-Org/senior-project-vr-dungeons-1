@@ -161,21 +161,28 @@ ceiling = vizshape.addQuad(size=(scale*1.0,scale*1.0),axis=vizshape.AXIS_Y,textu
 ceiling.setPosition([0,-6,0])
 #set stair positions
 temp = True
-while temp == True:
+'''while temp == True:
 	xCor = random.randint(0,width-1)
 	zCor = random.randint(0,height-1)
 	if layout[xCor][zCor] == "false":
 		temp = False
+'''
 
-for i in range(0,height):
-	for j in range(0,width):
-		if i != zCor or j != xCor:
-			ceiling.copy().setPosition([j,4,i]) #probably just continuing through the if statement not for loop
+#Kevin remove this later
+xCor = firstX
+zCor = firstY+2
+
+
+for i in range(0,height-1):
+	for j in range(0,width-1):
+		if layout[i][j] == "false" and (i != xCor or j != zCor):
+			ceiling.copy().setPosition([i,4,j]) #probably just continuing through the if statement not for loop
 		
 ladder.setPosition(xCor,0, zCor)
 #ladder.setPosition(firstX+8,0,firstY)
 viz.MainView.stepsize(4)
 #create second floor
+'''
 with open('../GeneratorCode/dungeonCSV/outputDemo.csv') as csv_file:
 	reader2 = csv.reader(csv_file, delimiter=',')
 	data2 = list(reader2)[0]
@@ -205,6 +212,7 @@ for k in range(0,len(data2)):
 #row and col temp variables for counting, starting at 0 with the first row+=1 and col+=1
 row2 = -1
 col2 = -1
+'''
 """
 #iterate over every entry in the 2d list
 for r2 in range(0,height2-1):
@@ -244,7 +252,6 @@ view.setPosition([firstX*scale,0.5,firstY*scale])
 #	#sets the start position to 10 feet behind the entrance	
 	
 viz.MainView.collision(viz.ON)
-		
 	
 #example:
 if IsThisVillanovaCAVE():
@@ -282,6 +289,8 @@ vizfx.setAmbientColor([0.3,0.3,0.4])
 print("Done")
 print("firstX = ", firstX)
 print("firstY = ", firstY)
+print("xCor = ",xCor)
+print("zCor = ",zCor)
 print("getposition = ",view.getPosition())
 
 
