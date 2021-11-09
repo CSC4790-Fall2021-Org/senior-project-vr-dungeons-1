@@ -126,8 +126,8 @@ row = -1
 col = -1
 
 #iterate over every entry in the 2d list
-for r in range(0,height-1):
-	for c in range(0,width-1):
+for r in range(0,height):
+	for c in range(0,width):
 		entry = layout[r][c]
 		#if there should be a floor at (row,col), clone the master floor to (row,1,col)
 		if(entry=="false"):
@@ -139,16 +139,16 @@ for r in range(0,height-1):
 			if((r==0 or layout[r-1][c]=="true")):
 				west.copy().setPosition(scale*(r-0.5),1.5,scale*c)
 			##if there should be a wall on the right (east)
-			if((r==width-1 or layout[r+1][c]=="true")):
+			if((r==height-1 or layout[r+1][c]=="true")):
 				east.copy().setPosition(scale*(r+0.5),1.5,scale*c)
 			##if there should be a wall on the top (north)
-			if((c==0 or layout[r][c+1]=="true")):
+			if((c==width-1 or layout[r][c+1]=="true")):
 				north.copy().setPosition(scale*r,1.5,scale*(c+0.5))
 				copysphere = sphere.copy()
 				copysphere.setPosition(scale*r,1.5,scale*(c+0.5))
 				copysphere.visible(viz.OFF)
 			##if there should be a wall on the bottom (south)
-			if((c==height-1 or layout[r][c-1]=="true")):
+			if((c==0 or layout[r][c-1]=="true")):
 				south.copy().setPosition(scale*r,1.5,scale*(c-0.5))
 				#print(row)
 				#print(col)
@@ -173,8 +173,8 @@ xCor = firstX
 zCor = firstY+2
 
 
-for i in range(0,height-1):
-	for j in range(0,width-1):
+for i in range(0,height):
+	for j in range(0,width):
 		if layout[i][j] == "false" and (i != xCor or j != zCor):
 			ceiling.copy().setPosition([i,4,j]) #probably just continuing through the if statement not for loop
 		
