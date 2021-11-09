@@ -16,6 +16,8 @@ class Surface extends JPanel {
 	Dungeon dun;
 	int scale;
 	int[][] nums = null;
+	int x1 = -1;
+	int y1 = -1;
 	
 	public Surface(Dungeon d, int scal) {
 		dun = d;
@@ -27,6 +29,12 @@ class Surface extends JPanel {
 		scale = scal;
 		nums = num;
 	}
+	public Surface(Dungeon d, int scal, int x, int y) {
+            dun = d;
+            scale = scal;
+            x1 = x;
+            y1 = y;
+        }
 	
     private void doDrawing(Graphics g) {
 
@@ -39,7 +47,9 @@ class Surface extends JPanel {
         		    g2d.fillRect(x*scale, y*scale, scale, scale);
         		}
         		else { 
-        			g2d.setColor(Color.WHITE);
+
+        		        if((x1!=-1&&y1!=-1)&&(x==x1&&y==y1)) {g2d.setColor(Color.RED);} 
+        		        else {g2d.setColor(Color.WHITE);}
         			g2d.fillRect(x*scale, y*scale, scale, scale);
         			if(nums!=null) {
         				g2d.setColor(Color.MAGENTA);
@@ -70,6 +80,10 @@ public class DungeonViewer extends JFrame {
 	public DungeonViewer(Dungeon d, int scale, int[][] nums) {
 		initUI(d, scale, nums);
 	}
+	
+	public DungeonViewer(Dungeon d, int scale, int x, int y) {
+	        initUI(d,scale,x,y);
+	}
 
     private void initUI(Dungeon d, int scale) {
 
@@ -84,6 +98,16 @@ public class DungeonViewer extends JFrame {
     private void initUI(Dungeon d, int scale, int[][] nums) {
 
         add(new Surface(d, scale, nums));
+
+        setTitle("DungeonViewer");
+        setSize(d.X*scale+15,d.Y*scale+40);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+    
+    private void initUI(Dungeon d, int scale, int x, int y) {
+
+        add(new Surface(d, scale, x, y));
 
         setTitle("DungeonViewer");
         setSize(d.X*scale+15,d.Y*scale+40);
