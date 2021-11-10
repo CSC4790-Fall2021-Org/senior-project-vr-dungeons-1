@@ -62,8 +62,6 @@ scale = 1
 
 light = True 
 
-
-
 #Create the master Light Orb to copy to different places around the map
 orbLight = vizfx.addPointLight(pos=(0,2,0), color=viz.ORANGE)
 orbLight.intensity(2)
@@ -178,7 +176,14 @@ for i in range(0,height-1):
 		if layout[i][j] == "false" and (i != xCor or j != zCor):
 			ceiling.copy().setPosition([i,4,j]) #probably just continuing through the if statement not for loop
 		
-ladder.setPosition(xCor,0, zCor)
+#ladder.setPosition(xCor,0, zCor)
+
+# Going Ghost
+ghost = viz.addChild("Ghost.obj")
+ghost.scale(2,2,2)
+ghost.setPosition(xCor,1, zCor)
+
+
 #ladder.setPosition(firstX+8,0,firstY)
 viz.MainView.stepsize(4)
 #create second floor
