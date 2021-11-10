@@ -30,6 +30,9 @@ public class _MainGUI extends JPanel implements ActionListener {
     JEditorPane cells;
     JLabel cellsText;
     int cellsValue;
+    JCheckBox connect;
+    JLabel connectText;
+    boolean connectValue;
     JEditorPane csv;
     JLabel csvText;
     String csvValue;
@@ -75,6 +78,10 @@ public class _MainGUI extends JPanel implements ActionListener {
         cellsText = new JLabel("Cells (Voronoi-specific): ");
         cellsValue = 400;
     
+        connect = new JCheckBox();
+        connectText = new JLabel("Connect Rooms?");
+        connectValue = false;
+        
         csv = new JEditorPane("text/plain", "output.csv");
         csvText = new JLabel("CSV Filepath: ");
         csvValue = "output.csv";
@@ -139,21 +146,33 @@ public class _MainGUI extends JPanel implements ActionListener {
         //    c.fill = c.HORIZONTAL;
         add(yText,c);
     
-        c.gridx = 2;
+        c.gridx = 1;
         c.gridy = 4;
         c.gridwidth = 1;
         c.fill = c.HORIZONTAL;
         add(cells,c);
     
-        c.gridx = 1;
+        c.gridx = 0;
         c.gridy = 4;
-        //    c.gridwidth = 2;
-        //    c.fill = c.HORIZONTAL;
+        c.gridwidth = 1;
+        c.fill = c.HORIZONTAL;
         add(cellsText,c);
-    
+        
         c.gridx = 2;
+        c.gridy = 4;
+        c.gridwidth = 1;
+        c.fill = c.HORIZONTAL;
+        add(connectText,c);
+        
+        c.gridx = 3;
+        c.gridy = 4;
+        c.gridwidth = 1;
+        c.fill = c.HORIZONTAL;
+        add(connect,c);
+    
+        c.gridx = 1;
         c.gridy = 5;
-        c.gridwidth = 2;
+        c.gridwidth = 3;
         c.fill = c.HORIZONTAL;
         add(csv,c);
     
@@ -206,12 +225,15 @@ public class _MainGUI extends JPanel implements ActionListener {
         //    System.out.println("y = " + yValue);
         //    } else if (e.getSource() == cells) {
         cellsValue = Integer.parseInt(cells.getText());
+        
+        connectValue = connect.isSelected();
+        
         //    } else if (e.getSource() == csv) {
         csvValue = csv.getText();
         //    } else if (e.getSource() == outputCSV) {
         //        System.out.println("you're supposed to output a CSV here");
         //    } else if (e.getSource() == generate) {
-        scale = (xValue >= yValue) ? 500/xValue : 500/yValue;
+        scale = (xValue > 500 || yValue > 500) ? 1 : (xValue >= yValue) ? 500/xValue : 500/yValue;
         //        DungeonViewer dv = new DungeonViewer(dun,scale);
         //    }
     
@@ -228,7 +250,7 @@ public class _MainGUI extends JPanel implements ActionListener {
         }
     
         dun.randomize();
-        dun.setLayout(dun.connectRooms());
+        if(connectValue) { dun.setLayout(dun.connectRooms()); }
     
         remove(dungeonView);
         

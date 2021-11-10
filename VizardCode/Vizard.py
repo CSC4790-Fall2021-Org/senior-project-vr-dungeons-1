@@ -5,6 +5,7 @@ import vizconnect
 import vizfx
 from vizconnect.util import view_collision
 import csv
+import random
 
 viz.fov(90)
 view = viz.MainView
@@ -48,18 +49,19 @@ vizact.onkeydown('f', myLight.enable)
 vizact.onkeydown('g', myLight.disable)
 
 tex1 = viz.addTexture("stonewall.png")
-northTex = viz.addTexture("north.png")
-southTex = viz.addTexture("south.png")
-eastTex = viz.addTexture("east.png")
-westTex = viz.addTexture("west.png")
 
 northTex = tex1
 southTex = tex1
 eastTex = tex1
 westTex = tex1
 
+ladder = viz.addChild("stairsRedux.fbx")
+ladder.scale(.005,.0038,.005)
+
 scale = 1
-light = True
+
+light = True 
+
 
 
 #Create the master Light Orb to copy to different places around the map
@@ -75,22 +77,22 @@ floor.setPosition([0,-5,0])
 floor.collidePlane()
 
 #creates the master north south east and west wall tiles from which every other wall tile will be cloned and sets their position at [1,-1,0], underneath the floor
-north = vizshape.addQuad(size=(scale*1.0,scale*3.0),axis=-vizshape.AXIS_Z,texture=northTex,lighting=light)
+north = vizshape.addQuad(size=(scale*1.0,scale*5),axis=-vizshape.AXIS_Z,texture=northTex,lighting=light)
 north.setPosition([0,-4.5,0.5])
 
-south = vizshape.addQuad(size=(scale*1.0,scale*3.0),axis=vizshape.AXIS_Z,texture=southTex,lighting=light)
+south = vizshape.addQuad(size=(scale*1.0,scale*5),axis=vizshape.AXIS_Z,texture=southTex,lighting=light)
 south.setPosition([0,-4.5,-0.5])
 
-east = vizshape.addQuad(size=(scale*1.0,scale*3.0),axis=-vizshape.AXIS_X,texture=eastTex,lighting=light)
+east = vizshape.addQuad(size=(scale*1.0,scale*5),axis=-vizshape.AXIS_X,texture=eastTex,lighting=light)
 east.setPosition([0.5,-4.5,0])
 
-west = vizshape.addQuad(size=(scale*1.0,scale*3.0),axis=vizshape.AXIS_X,texture=westTex,lighting=light)
+west = vizshape.addQuad(size=(scale*1.0,scale*5),axis=vizshape.AXIS_X,texture=westTex,lighting=light)
 west.setPosition([-0.5,-4.5,0])
 
 
 
 #reads from the csv file in GeneratorCode rechange to open('../outputCellAutoHallways.csv)
-with open('../GeneratorCode/outputDemo2.csv') as csv_file:
+with open('../GeneratorCode/dungeonCSV/output.csv') as csv_file:
 	reader = csv.reader(csv_file, delimiter=',')
 	data = list(reader)[0]
 	
@@ -101,9 +103,6 @@ layout = []
 #takes the first two numbers from the csv, which contain the width and height of the 2d dungeon
 width = int(data.pop(0))
 height = int(data.pop(0))
-
-
-
 
 
 print("width = ", width)
@@ -135,7 +134,7 @@ for r in range(0,height-1):
 			floor.copy().setPosition(scale*r,0,scale*c)
 			#if(row == 0 or col == 0): #finds the empty space in the first row, the entrance
 				#viz.MainView.setPosition([row+3.5,col+2.8, 0])
-			
+				
 			##if there should be a wall on the left (west)
 			if((r==0 or layout[r-1][c]=="true")):
 				west.copy().setPosition(scale*(r-0.5),1.5,scale*c)
@@ -160,13 +159,31 @@ for r in range(0,height-1):
 #generate roof
 ceiling = vizshape.addQuad(size=(scale*1.0,scale*1.0),axis=vizshape.AXIS_Y,texture=tex1,lighting=light)
 ceiling.setPosition([0,-6,0])
+#set stair positions
+temp = True
+'''while temp == True:
+	xCor = random.randint(0,width-1)
+	zCor = random.randint(0,height-1)
+	if layout[xCor][zCor] == "false":
+		temp = False
+'''
 
-for i in range(0,height):
-	for j in range(0,width):
-		ceiling.copy().setPosition([j,3,i])
+#Kevin remove this later
+xCor = firstX
+zCor = firstY+2
 
+
+for i in range(0,height-1):
+	for j in range(0,width-1):
+		if layout[i][j] == "false" and (i != xCor or j != zCor):
+			ceiling.copy().setPosition([i,4,j]) #probably just continuing through the if statement not for loop
+		
+ladder.setPosition(xCor,0, zCor)
+#ladder.setPosition(firstX+8,0,firstY)
+viz.MainView.stepsize(4)
 #create second floor
-with open('../GeneratorCode/outputDemo.csv') as csv_file:
+'''
+with open('../GeneratorCode/dungeonCSV/outputDemo.csv') as csv_file:
 	reader2 = csv.reader(csv_file, delimiter=',')
 	data2 = list(reader2)[0]
 	
@@ -195,6 +212,7 @@ for k in range(0,len(data2)):
 #row and col temp variables for counting, starting at 0 with the first row+=1 and col+=1
 row2 = -1
 col2 = -1
+'''
 """
 #iterate over every entry in the 2d list
 for r2 in range(0,height2-1):
@@ -234,7 +252,6 @@ view.setPosition([firstX*scale,0.5,firstY*scale])
 #	#sets the start position to 10 feet behind the entrance	
 	
 viz.MainView.collision(viz.ON)
-		
 	
 #example:
 if IsThisVillanovaCAVE():
@@ -272,6 +289,8 @@ vizfx.setAmbientColor([0.3,0.3,0.4])
 print("Done")
 print("firstX = ", firstX)
 print("firstY = ", firstY)
+print("xCor = ",xCor)
+print("zCor = ",zCor)
 print("getposition = ",view.getPosition())
 
 
