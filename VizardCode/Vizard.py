@@ -179,8 +179,8 @@ for i in range(0,height-1):
 		
 ladder.setPosition(xCor,0, zCor)
 
-# Going Ghost
 
+# Going Ghost
 UPDATE_RATE = 0
 SPEED = 50
 angle = 0
@@ -188,24 +188,42 @@ angle = 0
 
 ghost = viz.addChild("Ghost.fbx")
 ghost.scale(0.0007,0.0007,0.0007)
-ghost.setPosition(xCor + 2,2, zCor)
+ghost.setPosition(xCor,2, zCor)
 ghost.color( viz.GREEN )
 
 
 def rotateGhost():
 	global angle
-
-	#Increment the angle based on elapsed time
-	angle = angle + (SPEED * viz.elapsed())
 	
+	#print("Angle ", ghostDir)
+	vPos = view.getPosition()
+	vPosX = vPos[0]
+	vPosZ = vPos[2]
+	
+	gPos = ghost.getPosition()
+	gPosX = gPos[0]
+	gPosZ = gPos[2]
+	
+	ghostDir = math.atan( (gPosX-vPosX)/(gPosZ-vPosZ) ) * 180/ math.pi # why 60???
+	
+	#print(ghostDir)
+	
+	angle = angle + (SPEED * viz.elapsed())
 	#Update the models rotation
-	ghost.setEuler([angle,0,0])
+	if(ghostDir < 0):
+		ghost.setEuler([ghostDir,0,0]) # only works when angle is negative, otherwise ghost looks in opposite direction
+	else:
+		ghost.setEuler([360-ghostDir,0,0])
+	#print( ghost.getEuler() ) this value is changing but the model isn't rotating
 	
 	#zChange = zChange + 0.1
 	#ghost.setPosition([xCor + 2,2,zCor + zChange])
-
+	#print("Ghost pos: ", gPosX, " ", gPosZ)
+		
 #setup a timer and specify it's rate and the function to call
 vizact.ontimer(UPDATE_RATE, rotateGhost)
+
+#math.sin(viz.radians(angle))
 
 """
 
