@@ -91,7 +91,8 @@ west.setPosition([-0.5,-4.5,0])
 
 
 
-#reads from the csv file in GeneratorCode rechange to open('../outputCellAutoHallways.csv)
+#reads from the csv file in GeneratorCode/dungeonCSV/
+#'../GeneratorCode/dungeonCSV/output.csv'
 with open('../GeneratorCode/dungeonCSV/output.csv') as csv_file:
 	reader = csv.reader(csv_file, delimiter=',')
 	data = list(reader)[0]
