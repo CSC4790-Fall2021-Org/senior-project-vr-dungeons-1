@@ -6,6 +6,7 @@ import vizfx
 from vizconnect.util import view_collision
 import csv
 import random
+import math
 
 viz.fov(90)
 view = viz.MainView
@@ -176,12 +177,63 @@ for i in range(0,height-1):
 		if layout[i][j] == "false" and (i != xCor or j != zCor):
 			ceiling.copy().setPosition([i,4,j]) #probably just continuing through the if statement not for loop
 		
-#ladder.setPosition(xCor,0, zCor)
+ladder.setPosition(xCor,0, zCor)
 
 # Going Ghost
-ghost = viz.addChild("Ghost.obj")
-ghost.scale(2,2,2)
-ghost.setPosition(xCor,1, zCor)
+
+UPDATE_RATE = 0
+SPEED = 50
+angle = 0
+#zChange = 0
+
+ghost = viz.addChild("Ghost.fbx")
+ghost.scale(0.0007,0.0007,0.0007)
+ghost.setPosition(xCor + 2,2, zCor)
+ghost.color( viz.GREEN )
+
+
+def rotateGhost():
+	global angle
+
+	#Increment the angle based on elapsed time
+	angle = angle + (SPEED * viz.elapsed())
+	
+	#Update the models rotation
+	ghost.setEuler([angle,0,0])
+	
+	#zChange = zChange + 0.1
+	#ghost.setPosition([xCor + 2,2,zCor + zChange])
+
+#setup a timer and specify it's rate and the function to call
+vizact.ontimer(UPDATE_RATE, rotateGhost)
+
+"""
+
+#The speed of the timer.  A value of 0 means the timer function
+#Will be called every frame
+UPDATE_RATE = 0
+
+#A variable to hold the angle
+angle = 0
+
+#Add a model to rotate
+h = viz.addChild('tut_hedra.wrl')
+
+#Place the model in front of the viewer
+h.setPosition([0,0,6])
+
+def moveModel():
+	global angle
+
+	#Increment the angle based on elapsed time
+	angle = angle + (SPEED * viz.elapsed())
+
+	#Update the models rotation
+	h.setEuler([angle,0,0])
+
+#setup a timer and specify it's rate and the function to call
+vizact.ontimer(UPDATE_RATE, moveModel)
+"""
 
 
 #ladder.setPosition(firstX+8,0,firstY)
