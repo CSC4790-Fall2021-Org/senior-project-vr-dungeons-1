@@ -182,7 +182,6 @@ ladder.setPosition(xCor,0, zCor)
 
 # Ghost code
 UPDATE_RATE = 0
-#zChange = 0
 
 ghost = viz.addChild("Ghost.fbx")
 ghost.scale(0.0007,0.0007,0.0007)
@@ -191,6 +190,7 @@ ghost.color( viz.GREEN )
 
 def rotateGhost():
 	
+	# ghost and viewer positions
 	vPos = view.getPosition()
 	vPosX = vPos[0]
 	vPosZ = vPos[2]
@@ -199,28 +199,27 @@ def rotateGhost():
 	gPosX = gPos[0]
 	gPosZ = gPos[2]
 	
-	dX = gPosX-vPosX
-	dZ = gPosZ-vPosZ
-	ghostRad = math.atan( dX/dZ ) # angle in radians
-	ghostDir = math.atan( dX/dZ ) * 180/ math.pi # angle in degrees
+	# ghost distance
+	dist = math.sqrt( (gPosX - vPosX)*(gPosX - vPosX) + (gPosZ - gPosZ)*(gPosZ - gPosZ) )
+	if(dist < 0.60):
+		print("nom")
 	
 	# rotates ghost to face player
+	dX = gPosX-vPosX
+	dZ = gPosZ-vPosZ
+	ghostDir = math.atan( dX/dZ ) * 180/ math.pi # angle in degrees
+	
 	if(dZ < 0):
 		ghostDir = ghostDir + 180
-		ghostRad = ghostRad + viz.radians(180)
-
-	ghost.setEuler([ghostDir,0,0])
-	xMod = math.sin(ghostRad) * 0.02
-	zMod = math.cos(ghostRad) * 0.02
+	ghost.setEuler( [ghostDir,0,0] )
 	
-	#ghostRad equals viz.radians(ghostDir)
-	#print("rad", ghostDir, "gXZ [", gPosX, gPosZ, "] - vXZ[", vPosX,vPosZ, "] = dXZ [", dX, dZ, "] ; xzMod [", xMod, zMod, "]")
-	#print("theta",ghostRad, "gXZ", gPosX, gPosZ, "vXZ", vPosX,vPosZ, "xMod", xMod, "zMod", zMod)
+	# calculate new ghost position
+	xMod = math.sin( viz.radians(ghostDir) ) * 0.02
+	zMod = math.cos( viz.radians(ghostDir) ) * 0.02
 	
 	gPosX = gPosX - xMod
 	gPosZ = gPosZ - zMod
 	#print("new gXZ [", gPosX, gPosZ, "]")
-
 	ghost.setPosition(gPosX, 2, gPosZ)
 	
 #setup a timer and specify it's rate and the function to call
