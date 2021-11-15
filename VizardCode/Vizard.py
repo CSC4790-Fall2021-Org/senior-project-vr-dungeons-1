@@ -204,68 +204,27 @@ def rotateGhost():
 	ghostRad = math.atan( dX/dZ ) # angle in radians
 	ghostDir = math.atan( dX/dZ ) * 180/ math.pi # angle in degrees
 	
-	"""
-	ghost.setAxisAngle([0,1,0,ghostDir], viz.ABS_GLOBAL)
-	ghost.setPosition([0.01,0,0], viz.REL_LOCAL)
-	"""
-	
-	#print(dX, dZ)
-	
 	# rotates ghost to face player
 	if(dZ < 0):
 		ghostDir = ghostDir + 180
 		ghostRad = ghostRad + viz.radians(180)
 
 	ghost.setEuler([ghostDir,0,0])
-	xMod = math.sin(ghostRad) * 0.1
-	zMod = math.cos(ghostRad) * 0.1
-		
-	#ghost.setAxisAngle([0,ghostDir,0,0], viz.ABS_GLOBAL)
+	xMod = math.sin(ghostRad) * 0.02
+	zMod = math.cos(ghostRad) * 0.02
 	
 	#ghostRad equals viz.radians(ghostDir)
-
-	print("dir", ghostDir, "gXZ [", gPosX, gPosZ, "] - vXZ[", vPosX,vPosZ, "] = dXZ [", dX, dZ, "] ; xzMod [", xMod, zMod, "]")
+	#print("rad", ghostDir, "gXZ [", gPosX, gPosZ, "] - vXZ[", vPosX,vPosZ, "] = dXZ [", dX, dZ, "] ; xzMod [", xMod, zMod, "]")
 	#print("theta",ghostRad, "gXZ", gPosX, gPosZ, "vXZ", vPosX,vPosZ, "xMod", xMod, "zMod", zMod)
 	
-	gposX = gPosX - xMod
+	gPosX = gPosX - xMod
 	gPosZ = gPosZ - zMod
-	#print("theta",ghostRad, gPosX, "+", xMod, "=", xMod)
-	#print(xMod, zMod)
-	#gPosX = gPosX + 0.01
-	#ghost.setPosition(gPosX, 2, gPosZ)
+	#print("new gXZ [", gPosX, gPosZ, "]")
+
+	ghost.setPosition(gPosX, 2, gPosZ)
 	
 #setup a timer and specify it's rate and the function to call
 vizact.ontimer(UPDATE_RATE, rotateGhost)
-
-#math.sin(viz.radians(angle))
-
-"""
-#The speed of the timer.  A value of 0 means the timer function
-#Will be called every frame
-UPDATE_RATE = 0
-
-#A variable to hold the angle
-angle = 0
-
-#Add a model to rotate
-h = viz.addChild('tut_hedra.wrl')
-
-#Place the model in front of the viewer
-h.setPosition([0,0,6])
-
-def moveModel():
-	global angle
-
-	#Increment the angle based on elapsed time
-	angle = angle + (SPEED * viz.elapsed())
-
-	#Update the models rotation
-	h.setEuler([angle,0,0])
-
-#setup a timer and specify it's rate and the function to call
-vizact.ontimer(UPDATE_RATE, moveModel)
-"""
-
 
 
 #ladder.setPosition(firstX+8,0,firstY)
