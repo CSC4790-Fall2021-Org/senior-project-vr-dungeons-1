@@ -180,7 +180,7 @@ for i in range(0,height-1):
 ladder.setPosition(xCor,0, zCor)
 
 
-# Going Ghost
+# Ghost code
 UPDATE_RATE = 0
 #zChange = 0
 
@@ -201,40 +201,45 @@ def rotateGhost():
 	
 	dX = gPosX-vPosX
 	dZ = gPosZ-vPosZ
-	ghostTheta = math.atan( dX/dZ ) # angle in radians
+	ghostRad = math.atan( dX/dZ ) # angle in radians
 	ghostDir = math.atan( dX/dZ ) * 180/ math.pi # angle in degrees
 	
+	"""
 	ghost.setAxisAngle([0,1,0,ghostDir], viz.ABS_GLOBAL)
 	ghost.setPosition([0.01,0,0], viz.REL_LOCAL)
-	
-	print("ghost", gPosX, gPosZ)
-	#print(dX, dZ)
 	"""
+	
+	#print(dX, dZ)
+	
 	# rotates ghost to face player
 	if(dZ < 0):
-		ghost.setEuler([ghostDir + 180,0,0]) 
-	else:
-		ghost.setEuler([ghostDir,0,0])
-	
-	xMod = math.sin(ghostTheta) 
-	zMod = math.cos(ghostTheta) * -1
-	#ghostTheta equals viz.radians(ghostDir)
+		ghostDir = ghostDir + 180
+		ghostRad = ghostRad + viz.radians(180)
 
+	ghost.setEuler([ghostDir,0,0])
+	xMod = math.sin(ghostRad) * 0.1
+	zMod = math.cos(ghostRad) * 0.1
+		
+	#ghost.setAxisAngle([0,ghostDir,0,0], viz.ABS_GLOBAL)
 	
-	print("gXZ", gPosX, gPosZ, "vXZ", vPosX,vPosZ, "xMod", xMod, "zMod", zMod)
+	#ghostRad equals viz.radians(ghostDir)
+
+	print("dir", ghostDir, "gXZ [", gPosX, gPosZ, "] - vXZ[", vPosX,vPosZ, "] = dXZ [", dX, dZ, "] ; xzMod [", xMod, zMod, "]")
+	#print("theta",ghostRad, "gXZ", gPosX, gPosZ, "vXZ", vPosX,vPosZ, "xMod", xMod, "zMod", zMod)
+	
 	gposX = gPosX - xMod
 	gPosZ = gPosZ - zMod
-	#print("theta",ghostTheta, gPosX, "+", xMod, "=", zMod)
+	#print("theta",ghostRad, gPosX, "+", xMod, "=", xMod)
 	#print(xMod, zMod)
+	#gPosX = gPosX + 0.01
 	#ghost.setPosition(gPosX, 2, gPosZ)
-	"""
+	
 #setup a timer and specify it's rate and the function to call
 vizact.ontimer(UPDATE_RATE, rotateGhost)
 
 #math.sin(viz.radians(angle))
 
 """
-
 #The speed of the timer.  A value of 0 means the timer function
 #Will be called every frame
 UPDATE_RATE = 0
@@ -260,6 +265,7 @@ def moveModel():
 #setup a timer and specify it's rate and the function to call
 vizact.ontimer(UPDATE_RATE, moveModel)
 """
+
 
 
 #ladder.setPosition(firstX+8,0,firstY)
