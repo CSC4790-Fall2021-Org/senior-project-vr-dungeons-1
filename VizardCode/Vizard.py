@@ -182,20 +182,15 @@ ladder.setPosition(xCor,0, zCor)
 
 # Going Ghost
 UPDATE_RATE = 0
-SPEED = 50
-angle = 0
 #zChange = 0
 
 ghost = viz.addChild("Ghost.fbx")
 ghost.scale(0.0007,0.0007,0.0007)
-ghost.setPosition(xCor,2, zCor)
+ghost.setPosition(xCor+4,2, zCor+1)
 ghost.color( viz.GREEN )
 
-
 def rotateGhost():
-	global angle
 	
-	#print("Angle ", ghostDir)
 	vPos = view.getPosition()
 	vPosX = vPos[0]
 	vPosZ = vPos[2]
@@ -204,22 +199,35 @@ def rotateGhost():
 	gPosX = gPos[0]
 	gPosZ = gPos[2]
 	
-	ghostDir = math.atan( (gPosX-vPosX)/(gPosZ-vPosZ) ) * 180/ math.pi # why 60???
+	dX = gPosX-vPosX
+	dZ = gPosZ-vPosZ
+	ghostTheta = math.atan( dX/dZ ) # angle in radians
+	ghostDir = math.atan( dX/dZ ) * 180/ math.pi # angle in degrees
 	
-	#print(ghostDir)
+	ghost.setAxisAngle([0,1,0,ghostDir], viz.ABS_GLOBAL)
+	ghost.setPosition([0.01,0,0], viz.REL_LOCAL)
 	
-	angle = angle + (SPEED * viz.elapsed())
-	#Update the models rotation
-	if(ghostDir < 0):
-		ghost.setEuler([ghostDir,0,0]) # only works when angle is negative, otherwise ghost looks in opposite direction
+	print("ghost", gPosX, gPosZ)
+	#print(dX, dZ)
+	"""
+	# rotates ghost to face player
+	if(dZ < 0):
+		ghost.setEuler([ghostDir + 180,0,0]) 
 	else:
-		ghost.setEuler([360-ghostDir,0,0])
-	#print( ghost.getEuler() ) this value is changing but the model isn't rotating
+		ghost.setEuler([ghostDir,0,0])
 	
-	#zChange = zChange + 0.1
-	#ghost.setPosition([xCor + 2,2,zCor + zChange])
-	#print("Ghost pos: ", gPosX, " ", gPosZ)
-		
+	xMod = math.sin(ghostTheta) 
+	zMod = math.cos(ghostTheta) * -1
+	#ghostTheta equals viz.radians(ghostDir)
+
+	
+	print("gXZ", gPosX, gPosZ, "vXZ", vPosX,vPosZ, "xMod", xMod, "zMod", zMod)
+	gposX = gPosX - xMod
+	gPosZ = gPosZ - zMod
+	#print("theta",ghostTheta, gPosX, "+", xMod, "=", zMod)
+	#print(xMod, zMod)
+	#ghost.setPosition(gPosX, 2, gPosZ)
+	"""
 #setup a timer and specify it's rate and the function to call
 vizact.ontimer(UPDATE_RATE, rotateGhost)
 
