@@ -8,6 +8,7 @@ import csv
 
 viz.fov(90)
 view = viz.MainView
+vizconnect.go('config.py')
 
 #=====================================
 #Position the view of the camera
@@ -35,14 +36,12 @@ def IsThisVillanovaCAVE():
 	else:
 		return False
 	
-
-
 viz.phys.enable()
 #vizshape.addGrid(color=[0.2]*3).setPosition([0.5,1,0.5])
 
 #Changes how lighting works around the main view
 myLight = viz.MainView.getHeadLight()
-myLight.color(viz.ORANGE)
+myLight.color([0.52, 0.26, 0.01])
 myLight.intensity(0.5)
 vizact.onkeydown('f', myLight.enable)
 vizact.onkeydown('g', myLight.disable)
@@ -187,18 +186,24 @@ sphere = vizshape.addSphere(radius=1.0,pos=(firstX*scale,0,firstY*scale),lightin
 sphere.color(viz.WHITE)
 
 
-
 # Create directional lights
 light1 = vizfx.addDirectionalLight(euler=(40,20,0), color=[0.7,0.7,0.7])
 light2 = vizfx.addDirectionalLight(euler=(-65,15,0), color=[0.5,0.25,0.0])
 # Adjust ambient color
 vizfx.setAmbientColor([0.3,0.3,0.4])
-
+#color hexcode website- https://www.colorhexa.com/844302
 
 print("Done")
 print("firstX = ", firstX)
 print("firstY = ", firstY)
 print("getposition = ",view.getPosition())
+
+object = viz.addChild('C:\Users\Christina LaRow\Desktop\white_ball.osgb')
+#object.collideSphere(bounce = 1, friction = 1, hardness= 1, density = 1)
+object.setPosition(view.getPosition())
+
+grabber = vizconnect.getRawTool('grabber')
+grabber.setItems([object])
 
 
 
