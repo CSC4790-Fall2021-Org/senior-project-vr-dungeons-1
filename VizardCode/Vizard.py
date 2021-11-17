@@ -158,13 +158,14 @@ for r in range(0,height-1):
 #generate roof
 ceiling = vizshape.addQuad(size=(scale*1.0,scale*1.0),axis=vizshape.AXIS_Y,texture=tex1,lighting=light)
 ceiling.setPosition([0,-6,0])
+
 #set stair positions
-temp = True
-'''while temp == True:
+validPos = True
+'''while validPos == True:
 	xCor = random.randint(0,width-1)
 	zCor = random.randint(0,height-1)
 	if layout[xCor][zCor] == "false":
-		temp = False
+		validPos = False
 '''
 
 #Kevin remove this later
@@ -185,9 +186,19 @@ UPDATE_RATE = 0
 
 ghost = viz.addChild("Ghost.fbx")
 ghost.scale(0.0007,0.0007,0.0007)
-ghost.setPosition(xCor+4,2, zCor+1)
 ghost.color( viz.GREEN )
 
+# randomly position ghost
+validPos = True
+while validPos == True:
+	gX = random.randint(0,width-1)
+	gZ = random.randint(0,height-1)
+	if layout[gX][gZ] == "false":
+		validPos = False
+
+ghost.setPosition(gX, gZ)
+
+GHOST_SPEED = 0.2 # 0.02
 def rotateGhost():
 	
 	# ghost and viewer positions
@@ -199,28 +210,33 @@ def rotateGhost():
 	gPosX = gPos[0]
 	gPosZ = gPos[2]
 	
-	# ghost distance
-	dist = math.sqrt( (gPosX - vPosX)*(gPosX - vPosX) + (gPosZ - gPosZ)*(gPosZ - gPosZ) )
-	if(dist < 0.60):
-		print("nom")
-	
-	# rotates ghost to face player
 	dX = gPosX-vPosX
 	dZ = gPosZ-vPosZ
-	ghostDir = math.atan( dX/dZ ) * 180/ math.pi # angle in degrees
 	
+	# ghost distance
+	dist = math.sqrt( (gPosX - vPosX)*(gPosX - vPosX) + (gPosZ - vPosZ)*(gPosZ - vPosZ) )
+	
+	if(dist < 0.60):
+		print("nom")	
+	elif(dist < height/8):
+		print("Here he comes!!!", dist)
+	elif(dist < height/6):
+		print("He's almost got you!!", dist)
+	elif(dist < height/3):
+		print("He's coming!", dist)	
+	
+	# rotates ghost to face player
+	ghostDir = math.atan( dX/dZ ) * 180/ math.pi # angle in degrees
 	if(dZ < 0):
 		ghostDir = ghostDir + 180
 	ghost.setEuler( [ghostDir,0,0] )
 	
 	# calculate new ghost position
-	xMod = math.sin( viz.radians(ghostDir) ) * 0.02
-	zMod = math.cos( viz.radians(ghostDir) ) * 0.02
+	xMod = math.sin( viz.radians(ghostDir) ) * GHOST_SPEED
+	zMod = math.cos( viz.radians(ghostDir) ) * GHOST_SPEED
 	
-	gPosX = gPosX - xMod
-	gPosZ = gPosZ - zMod
 	#print("new gXZ [", gPosX, gPosZ, "]")
-	ghost.setPosition(gPosX, 2, gPosZ)
+	ghost.setPosition(gPosX - xMod, 2, gPosZ - zMod)
 	
 #setup a timer and specify it's rate and the function to call
 vizact.ontimer(UPDATE_RATE, rotateGhost)
