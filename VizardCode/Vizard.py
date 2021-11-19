@@ -62,6 +62,8 @@ westTex = tex1
 ladder = viz.addChild("stairsRedux.fbx")
 ladder.scale(.005,.0038,.005)
 
+
+
 scale = 1
 
 light = True 
@@ -248,8 +250,20 @@ view.setPosition([firstX*scale,0.5,firstY*scale])
 #	#sets the start position to 10 feet behind the entrance	
 	
 viz.MainView.collision(viz.ON)
-		
 	
+UPDATE_RATE = 0
+
+spider = viz.addChild("Spidey.fbx")
+spider.scale(.005, .005, .005)
+spider.setPosition(firstX*scale + 5, 0, firstY*scale + 5)
+
+def moveSpider():
+	sPos = spider.getPosition()
+	sPosX = sPos[0] + .005 
+	sPosZ = sPos[2] - .005
+	spider.setPosition(sPos[0] , 0, sPosZ)
+	
+vizact.ontimer(UPDATE_RATE, moveSpider)
 #example:
 if IsThisVillanovaCAVE():
 	#  =====================================
