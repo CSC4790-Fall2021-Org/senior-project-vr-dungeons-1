@@ -181,29 +181,29 @@ for i in range(0,height-1):
 ladder.setPosition(xCor,0, zCor)
 
 # not working right
-"""
+
 def resetGame():
 	print("Resetting game")
 	spawnGhost()
 	spawnPlayer()
-"""
+
 
 # Ghost code
 ghost = viz.addChild("Ghost.fbx")
 ghost.scale(0.0007,0.0007,0.0007)
 ghost.color( viz.GREEN )
+	
 
 def spawnGhost():
 	# randomly position ghost
 	validPos = True
 	while validPos == True:
 		gX = random.randint(0,width-1)
-		gZ = random.randint(0,height-1)
+		gZ = random.randint(0,height-1)		
 		if layout[gX][gZ] == "false":
 			validPos = False
 	ghost.setPosition(gX, gZ)
 	print("Ghost spawned")
-spawnGhost()
 
 GHOST_SPEED = 0.2 # 0.02
 #ALIVE = True
@@ -219,22 +219,24 @@ def moveGhost():
 	gPosX = gPos[0]
 	gPosZ = gPos[2]
 	
+	
 	dX = gPosX-vPosX
 	dZ = gPosZ-vPosZ
 	
 	# ghost distance
-	dist = math.sqrt( dX*dX + dZ*dZ )
-	
+	dist = getDistance()
 	if(dist < 0.60):
 		print("nom")
-		#resetGame() not working for some reason
+		dist = 200
+		resetGame() #not working for some reason
+	"""
 	elif(dist < height/8):
 		print("Here he comes!!!", dist)
 	elif(dist < height/6):
 		print("He's almost got you!!", dist)
 	elif(dist < height/3):
 		print("He's coming!", dist)	
-	
+	"""
 	# rotates ghost to face player
 	ghostDir = math.atan( dX/dZ ) * 180/ math.pi # angle in degrees
 	if(dZ < 0):
@@ -267,7 +269,47 @@ def spawnPlayer():
 			validPos = False
 	view.setPosition(vX,0.5,vZ)
 	print("Player spawned")
-spawnPlayer()
+
+def getDistance():
+	# get ghost and viewer positions
+	vPos = view.getPosition()
+	vPosX = vPos[0]
+	vPosZ = vPos[2]
+	
+	gPos = ghost.getPosition()
+	gPosX = gPos[0]
+	gPosZ = gPos[2]
+	
+	
+	dX = gPosX-vPosX
+	dZ = gPosZ-vPosZ	
+	return math.sqrt( dX*dX + dZ*dZ )
+	
+def isValidDist(dX,dZ):
+	while(dX < width/2 and dZ < height/2):
+		spawnGhost()
+	return True
+	
+def startGame():
+	spawnGhost()
+	spawnPlayer()
+	
+	# get ghost and viewer positions
+	vPos = view.getPosition()
+	vPosX = vPos[0]
+	vPosZ = vPos[2]
+	
+	gPos = ghost.getPosition()
+	gPosX = gPos[0]
+	gPosZ = gPos[2]
+	
+	
+	dX = gPosX-vPosX
+	dZ = gPosZ-vPosZ	
+	
+
+spawnGhost()
+startGame()
 
 
 #create second floor
