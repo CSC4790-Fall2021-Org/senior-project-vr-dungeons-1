@@ -38,9 +38,8 @@ public class Dungeon implements Cloneable {
 		d = b;
 	}
 	
-	public boolean[][] randomize() {
+	public void randomize() {
             //abstract method
-            return d;
         }
 	
 	public void setLayout(boolean[][] in) {

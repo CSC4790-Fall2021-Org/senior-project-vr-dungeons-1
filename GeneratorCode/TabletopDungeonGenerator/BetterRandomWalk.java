@@ -17,7 +17,7 @@ public class BetterRandomWalk extends Dungeon {
 	
         //use this template file to make your dungeon layout randomizer
         //be sure to try to implement the seed so the randomizer consistently outputs the same thing using any given seed
-    public boolean[][] randomize() {
+    public void randomize() {
             //d is the temporary array that you'll use to make the layout, currently initialized as all False values.
             boolean[][] dun = new boolean[d.length][d[0].length];
             
@@ -63,25 +63,7 @@ public class BetterRandomWalk extends Dungeon {
                 dun[path_x.pop()+modX][path_y.pop()+modY] = false;
             }
             
-            return dun;
+            setLayout(dun);
     }
-        
-//    public static void main(String args[]) {
-            //this is the test method, it prints out the random dungeon with a seed of 1234 at the default size
-//            Dungeon dun = new Dungeon(123,100,100);
-//            dun.setLayout(randomize(dun.d, dun.SEED));
-//            int[][] n = dun.numberRooms(dun.d);
-//            DungeonViewer dv = new DungeonViewer(dun,10,n);
-//            dv.setVisible(true);
-//            try {
-//                dun.outputCSV("GeneratorCode\\output.csv");
-//                System.out.println("somehow, it worked");
-//            }
-//            catch (IOException e) {
-                // TODO Auto-generated catch block
-//                e.printStackTrace();
-//                System.out.println("didn't work");
-//            }
-//        }
         
 }
