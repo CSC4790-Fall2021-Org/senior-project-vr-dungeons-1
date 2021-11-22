@@ -14,8 +14,7 @@ view = viz.MainView
 #=====================================
 #Position the view of the camera
 
-#CAVE specific:
-#CONFIG_FILE = "E:\\VizardProjects\\_CaveConfigFiles\\vizconnect_config_CaveFloor+ART_headnode.py"
+#CAVE specific:IG_FILE = "E:\\VizardProjects\\_CaveConfigFiles\\vizconnect_config_CaveFloor+ART_headnode.py"
 #vizconnect.go(CONFIG_FILE)
 #viz.clearcolor(viz.WHITE)
 #viewPoint = vizconnect.addViewpoint(pos=[1,1,-7])
@@ -180,13 +179,13 @@ for i in range(0,height-1):
 		
 ladder.setPosition(xCor,0, zCor)
 
+
+
 # not working right
-"""
 def resetGame():
 	print("Resetting game")
 	spawnGhost()
 	spawnPlayer()
-"""
 
 # Ghost code
 ghost = viz.addChild("Ghost.fbx")
@@ -202,14 +201,16 @@ def spawnGhost():
 		if layout[gX][gZ] == "false":
 			validPos = False
 	ghost.setPosition(gX, gZ)
-	print("Ghost spawned")
+	print("Ghost spawned at",gX,gZ)
 spawnGhost()
 
-GHOST_SPEED = 0.2 # 0.02
+GHOST_SPEED = 0.1 # 0.02
 #ALIVE = True
 
 def moveGhost():
 #while True:
+	#warningLevel = 0
+	
 	# get ghost and viewer positions
 	vPos = view.getPosition()
 	vPosX = vPos[0]
@@ -224,16 +225,24 @@ def moveGhost():
 	
 	# ghost distance
 	dist = math.sqrt( dX*dX + dZ*dZ )
-	
-	if(dist < 0.60):
-		print("nom")
-		#resetGame() not working for some reason
-	elif(dist < height/8):
+
+	if(dist < 0.60):# and (warningLevel == 3):
+		#print("nom")
+		dist = 100
+		#warningLevel = 0
+		resetGame() # not working for some reason
+	"""
+	elif(dist < height/8):# and (warningLevel == 2):
+		warningLevel = warningLevel + 1
 		print("Here he comes!!!", dist)
-	elif(dist < height/6):
+	elif(dist < height/6):# and (warningLevel == 1):
+		warningLevel = warningLevel + 1		
 		print("He's almost got you!!", dist)
-	elif(dist < height/3):
+	elif(dist < height/3):# and (warningLevel == 0):
+		print(warningLevel)
+		warningLevel = warningLevel + 1
 		print("He's coming!", dist)	
+	"""
 	
 	# rotates ghost to face player
 	ghostDir = math.atan( dX/dZ ) * 180/ math.pi # angle in degrees
@@ -266,8 +275,56 @@ def spawnPlayer():
 		if layout[vX][vZ] == "false":
 			validPos = False
 	view.setPosition(vX,0.5,vZ)
-	print("Player spawned")
+	print("Player spawned at",vX,vZ)
 spawnPlayer()
+
+
+#if not IsThisVillanovaCAVE():
+#	viz.MainView.setPosition([startColumn+3.5,2.8,2.8])
+#	print("made it here")
+#	#sets the start position to 10 feet behind the entrance	
+	
+viz.MainView.collision(viz.ON)
+	
+#example:
+if IsThisVillanovaCAVE():
+	#  =====================================
+	#Position the view of the camera
+	#CAVE specific:
+	CONFIG_FILE = "E:\\VizardProjects\\_CaveConfigFiles\\vizconnect_config_CaveFloor+ART_headnode.py"
+	vizconnect.go(CONFIG_FILE)
+	viewPoint = vizconnect.addViewpoint(pos=[firstX*scale,1,firstY*scale])
+	viewPoint.add(vizconnect.getDisplay())
+	vizconnect.resetViewpoints()
+	
+	testPosition = [ 0.677198, 0.000000, 0.735801, 0.000000, 0.000000, 1.000000, -0.000000, 0.000000, -0.735801, -0.000000, 0.677198, 0.000000, 0.519656, -0.579802, -0.446693, 1.000000 ]
+	vizconnect.getTransport('wandmagiccarpet').getNode3d().setMatrix(testPosition)
+###############################################################
+#p1 and p2 are points, each is an array of [x,y,z]
+else:
+	viz.go()	
+	view.setPosition([firstX*scale,1,firstY*scale])
+		
+	#boilerplate for my local laptop	
+
+#sphere = vizshape.addSphere(radius=1.0,pos=(firstX*scale,0,firstY*scale),lighting=False)
+#sphere.color(viz.WHITE)
+
+
+
+# Create directional lights
+light1 = vizfx.addDirectionalLight(euler=(40,20,0), color=[0.7,0.7,0.7])
+light2 = vizfx.addDirectionalLight(euler=(-65,15,0), color=[0.5,0.25,0.0])
+# Adjust ambient color
+vizfx.setAmbientColor([0.3,0.3,0.4])
+
+
+print("Done")
+print("firstX = ", firstX)
+print("firstY = ", firstY)
+print("xCor = ",xCor)
+print("zCor = ",zCor)
+print("getposition = ",view.getPosition())
 
 
 #create second floor
@@ -333,54 +390,3 @@ for r2 in range(0,height2-1):
 			#wall.copy().setPosition(scale*row,1.5+scale*1.0,scale*col)
 			#wall.copy().setPosition(scale*row,1.5+scale*2.0,scale*col)
 """
-
-
-#if not IsThisVillanovaCAVE():
-#	viz.MainView.setPosition([startColumn+3.5,2.8,2.8])
-#	print("made it here")
-#	#sets the start position to 10 feet behind the entrance	
-	
-viz.MainView.collision(viz.ON)
-	
-#example:
-if IsThisVillanovaCAVE():
-	#  =====================================
-	#Position the view of the camera
-	#CAVE specific:
-	CONFIG_FILE = "E:\\VizardProjects\\_CaveConfigFiles\\vizconnect_config_CaveFloor+ART_headnode.py"
-	vizconnect.go(CONFIG_FILE)
-	viewPoint = vizconnect.addViewpoint(pos=[firstX*scale,1,firstY*scale])
-	viewPoint.add(vizconnect.getDisplay())
-	vizconnect.resetViewpoints()
-	
-	testPosition = [ 0.677198, 0.000000, 0.735801, 0.000000, 0.000000, 1.000000, -0.000000, 0.000000, -0.735801, -0.000000, 0.677198, 0.000000, 0.519656, -0.579802, -0.446693, 1.000000 ]
-	vizconnect.getTransport('wandmagiccarpet').getNode3d().setMatrix(testPosition)
-###############################################################
-#p1 and p2 are points, each is an array of [x,y,z]
-else:
-	viz.go()	
-	view.setPosition([firstX*scale,1,firstY*scale])
-		
-	#boilerplate for my local laptop	
-
-#sphere = vizshape.addSphere(radius=1.0,pos=(firstX*scale,0,firstY*scale),lighting=False)
-#sphere.color(viz.WHITE)
-
-
-
-# Create directional lights
-light1 = vizfx.addDirectionalLight(euler=(40,20,0), color=[0.7,0.7,0.7])
-light2 = vizfx.addDirectionalLight(euler=(-65,15,0), color=[0.5,0.25,0.0])
-# Adjust ambient color
-vizfx.setAmbientColor([0.3,0.3,0.4])
-
-
-print("Done")
-print("firstX = ", firstX)
-print("firstY = ", firstY)
-print("xCor = ",xCor)
-print("zCor = ",zCor)
-print("getposition = ",view.getPosition())
-
-
-
