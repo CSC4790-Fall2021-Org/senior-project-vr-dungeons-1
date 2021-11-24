@@ -181,33 +181,59 @@ for i in range(0,height-1):
 ladder.setPosition(xCor,0, zCor)
 
 # not working right
-"""
+
 def resetGame():
 	print("Resetting game")
-	spawnGhost()
 	spawnPlayer()
-"""
+	spawnGhost()
+
 
 # Ghost code
 ghost = viz.addChild("Ghost.fbx")
 ghost.scale(0.0007,0.0007,0.0007)
 ghost.color( viz.GREEN )
 
+
+
+def calculateDistance(gX, gZ):
+	vPos = view.getPosition()
+	vPosX = vPos[0]
+	vPosZ = vPos[2]
+	
+	gPos = ghost.getPosition()
+	gPosX = gX
+	gPosZ = gZ
+			
+	dX = gPosX-vPosX
+	dZ = gPosZ-vPosZ
+	
+	
+	# ghost distance
+	dist = math.sqrt( dX*dX + dZ*dZ )
+	print "distance: " + str(dist)
+	return dist
+	
+	
 def spawnGhost():
 	# randomly position ghost
-	validPos = True
-	while validPos == True:
-		gX = random.randint(0,width-1)
+	distance = 0
+	while distance < 50:
+		gX = int(random.randint(0,width-1))
 		gZ = random.randint(0,height-1)
-		if layout[gX][gZ] == "false":
-			validPos = False
+		distance = calculateDistance(gX, gZ)
+		print distance
 	ghost.setPosition(gX, gZ)
+
+	print str(ghost.getPosition()) +  "ghost position"
 	print("Ghost spawned")
+	viz.MainView.setScene(viz.Scene1)
 spawnGhost()
 
-GHOST_SPEED = 0.2 # 0.02
+GHOST_SPEED = 0.05 # 0.02
 #ALIVE = True
 
+	
+fadeAction = vizact.fadeTo(viz.BLACK, time = 2)
 def moveGhost():
 #while True:
 	# get ghost and viewer positions
@@ -227,7 +253,8 @@ def moveGhost():
 	
 	if(dist < 0.60):
 		print("nom")
-		#resetGame() not working for some reason
+		viz.MainView.setScene(viz.Scene2)
+		resetGame() #not working for some reason
 	elif(dist < height/8):
 		print("Here he comes!!!", dist)
 	elif(dist < height/6):
@@ -266,6 +293,7 @@ def spawnPlayer():
 		if layout[vX][vZ] == "false":
 			validPos = False
 	view.setPosition(vX,0.5,vZ)
+	print str(view.getPosition()) + ": player position"
 	print("Player spawned")
 spawnPlayer()
 
