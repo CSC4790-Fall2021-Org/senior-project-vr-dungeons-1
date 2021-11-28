@@ -210,7 +210,7 @@ def calculateDistance(gX, gZ):
 	
 	# ghost distance
 	dist = math.sqrt( dX*dX + dZ*dZ )
-	print "distance: " + str(dist)
+	print ("distance: " + str(dist))
 	return dist
 	
 	
