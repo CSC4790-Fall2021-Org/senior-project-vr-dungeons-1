@@ -94,7 +94,7 @@ public class _MainGUI extends JPanel implements ActionListener {
         dun = new BetterRandomWalk(seedValue,xValue,yValue);
         dun.randomize();
         scale = 5;
-        dungeonView = new Surface(dun,scale);
+        dungeonView = new Surface(dun,scale,dun.firstX,dun.firstY);
         dungeonView.setPreferredSize(new Dimension(500,500));
     
         c.anchor = c.EAST;
@@ -186,12 +186,14 @@ public class _MainGUI extends JPanel implements ActionListener {
         c.gridx = 1;
         c.gridy = 6;
         c.gridwidth = 1;
+        c.anchor = c.NORTH;
         c.fill = c.HORIZONTAL;
         add(outputCSV,c);
     
         c.gridx = 3;
         c.gridy = 6;
         c.gridwidth = 1;
+        c.anchor = c.NORTH;
         c.fill = c.HORIZONTAL;
         add(generate,c);
     
@@ -254,7 +256,7 @@ public class _MainGUI extends JPanel implements ActionListener {
     
         remove(dungeonView);
         
-        dungeonView = new Surface(dun,scale);
+        dungeonView = new Surface(dun,scale,dun.firstX,dun.firstY);
         
         dungeonView.setSize(500, 500);
         
