@@ -354,3 +354,10 @@ vizfx.setAmbientColor([0.3,0.3,0.4])
 
 print("Done")
 
+print("firstX = ", firstX)
+print("firstY = ", firstY)
+print("xCor = ",xCor)
+print("zCor = ",zCor)
+print("getposition = ",view.getPosition())
+
+
