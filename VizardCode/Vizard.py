@@ -165,7 +165,165 @@ for r in range(0,height-1):
 			#wall.copy().setPosition(scale*row,1.5+scale*1.0,scale*col)
 			#wall.copy().setPosition(scale*row,1.5+scale*2.0,scale*col)
 		
+
 view.setPosition([firstX*scale,0.5,firstY*scale])
+ladder.setPosition(xCor,0, zCor)
+
+# not working right
+
+def resetGame():
+	print("Resetting game")
+	spawnGhost()
+	spawnPlayer()
+
+
+# Ghost code
+ghost = viz.addChild("Ghost.fbx")
+ghost.scale(0.0007,0.0007,0.0007)
+ghost.color( viz.GREEN )
+
+def spawnGhost():
+	# randomly position ghost
+	validPos = True
+	while validPos == True:
+		gX = random.randint(0,width-1)
+		gZ = random.randint(0,height-1)
+		if layout[gX][gZ] == "false":
+			validPos = False
+	ghost.setPosition(gX, gZ)
+	print("Ghost spawned",gX,gZ)
+spawnGhost()
+
+GHOST_SPEED = 0.5 # 0.02
+#ALIVE = True
+
+def moveGhost():
+#while True:
+	# get ghost and viewer positions
+	vPos = view.getPosition()
+	vPosX = vPos[0]
+	vPosZ = vPos[2]
+	
+	gPos = ghost.getPosition()
+	gPosX = gPos[0]
+	gPosZ = gPos[2]
+	
+	dX = gPosX-vPosX
+	dZ = gPosZ-vPosZ
+	
+	# ghost distance
+	dist = math.sqrt( dX*dX + dZ*dZ )
+	
+	if(dist < 0.60):
+		#print("nom")
+		dist = 200
+		resetGame() #not working for some reason
+	"""
+	elif(dist < height/8):
+		print("Here he comes!!!", dist)
+	elif(dist < height/6):
+		print("He's almost got you!!", dist)
+	elif(dist < height/3):
+		print("He's coming!", dist)	
+	"""
+	# rotates ghost to face player
+	ghostDir = math.atan( dX/dZ ) * 180/ math.pi # angle in degrees
+	if(dZ < 0):
+		ghostDir = ghostDir + 180
+	ghost.setEuler( [ghostDir,0,0] )
+	
+	# calculate new ghost position
+	xMod = math.sin( viz.radians(ghostDir) ) * GHOST_SPEED
+	zMod = math.cos( viz.radians(ghostDir) ) * GHOST_SPEED
+	
+	ghost.setPosition(gPosX - xMod, 2, gPosZ - zMod)
+	
+#setup a timer and specify it's rate and the function to call
+UPDATE_RATE = 0
+vizact.ontimer(UPDATE_RATE, moveGhost)
+
+
+#ladder.setPosition(firstX+8,0,firstY)
+viz.MainView.stepsize(4)
+
+# spawn Player
+def spawnPlayer():
+	#view.setPosition([firstX*scale,0.5,firstY*scale])
+	
+	validPos = True
+	while validPos == True:
+		vX = random.randint(0,width-1)
+		vZ = random.randint(0,height-1)
+		if layout[vX][vZ] == "false":
+			validPos = False
+	view.setPosition(vX,0.5,vZ)
+	print("Player spawned",vX,vZ)
+spawnPlayer()
+
+
+#create second floor
+'''
+with open('../GeneratorCode/dungeonCSV/outputDemo.csv') as csv_file:
+	reader2 = csv.reader(csv_file, delimiter=',')
+	data2 = list(reader2)[0]
+	
+layout2 = []
+
+#takes the first two numbers from the csv, which contain the width and height of the 2d dungeon
+width2 = int(data2.pop(0))
+height2 = int(data2.pop(0))
+
+print("width = ", width2)
+print("height = ", height2)
+
+firstX2 = int(data2.pop(0))
+firstY2 = int(data2.pop(0))
+
+#row will be used to count the rows, starting at 0 with the first row+=1
+row2 = -1
+for k in range(0,len(data2)):
+	#if we've reached the beginning of a new row, add a new list to the list
+	if(k%width2 == 0):
+		layout2.append([])
+		row2+=1
+	#add the data from the csv to the current row
+	layout2[row2].append(data2[k])
+
+#row and col temp variables for counting, starting at 0 with the first row+=1 and col+=1
+row2 = -1
+col2 = -1
+'''
+"""
+#iterate over every entry in the 2d list
+for r2 in range(0,height2-1):
+	for c2 in range(0,width2-1):
+		entry2 = layout2[r2][c2]
+		#if there should be a floor at (row,col), clone the master floor to (row,1,col)
+		if(entry2=="false"):
+			floor.copy().setPosition(scale*r,3,scale*c)
+			
+			#if(row == 0 or col == 0): #finds the empty space in the first row, the entrance
+				#viz.MainView.setPosition([row+3.5,col+2.8, 0])
+			
+			##if there should be a wall on the left (west)
+			if((r2==0 or layout[r2-1][c2]=="true")):
+				west.copy().setPosition(scale*(r2-0.5),4.5,scale*c2)
+			##if there should be a wall on the right (east)
+			if((r2==width2-1 or layout2[r2+1][c2]=="true")):
+				east.copy().setPosition(scale*(r2+0.5),4.5,scale*c2)
+			##if there should be a wall on the top (north)
+			if((c2==0 or layout2[r2][c2+1]=="true")):
+				north.copy().setPosition(scale*r,4.5,scale*(c2+0.5))
+			##if there should be a wall on the bottom (south)
+			if((c2==height2-1 or layout2[r2][c2-1]=="true")):
+				south.copy().setPosition(scale*r2,4.5,scale*(c2-0.5))
+				#print(row)
+				#print(col)
+		#else:
+			#wall.copy().setPosition(scale*row,1.5,scale*col)
+			#wall.copy().setPosition(scale*row,1.5+scale*1.0,scale*col)
+			#wall.copy().setPosition(scale*row,1.5+scale*2.0,scale*col)
+"""
 
 #if not IsThisVillanovaCAVE():
 #	viz.MainView.setPosition([startColumn+3.5,2.8,2.8])
