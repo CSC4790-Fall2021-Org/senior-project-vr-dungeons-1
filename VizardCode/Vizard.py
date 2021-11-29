@@ -353,4 +353,14 @@ light2 = vizfx.addDirectionalLight(euler=(-65,15,0), color=[0.5,0.25,0.0])
 vizfx.setAmbientColor([0.3,0.3,0.4])
 
 print("Done")
+<<<<<<< HEAD
+=======
+
+print("firstX = ", firstX)
+print("firstY = ", firstY)
+print("xCor = ",xCor)
+print("zCor = ",zCor)
+print("getposition = ",view.getPosition())
+
+>>>>>>> d76a16408d6d0f503102cd18f7b1242906303549
 
