@@ -182,27 +182,68 @@ for i in range(0,height):
 ladder.setPosition(xCor,0, zCor)
 
 
-# Ghost code
-UPDATE_RATE = 0
+def resetGame():
+	print("Resetting game")
+	spawnPlayer()
+	spawnGhost()
 
+
+# Ghost code
 ghost = viz.addChild("Ghost.fbx")
 ghost.scale(0.0007,0.0007,0.0007)
 ghost.color( viz.GREEN )
 
-# randomly position ghost
-validPos = True
-while validPos == True:
-	gX = random.randint(0,width-1)
-	gZ = random.randint(0,height-1)
-	if layout[gX][gZ] == "false":
-		validPos = False
-
-ghost.setPosition(gX, gZ)
-
-GHOST_SPEED = 0.2 # 0.02
-def rotateGhost():
 	
-	# ghost and viewer positions
+# spawn Player
+def spawnPlayer():
+	#view.setPosition([firstX*scale,0.5,firstY*scale])
+	
+	validPos = True
+	while validPos == True:
+		vX = random.randint(0,width-1)
+		vZ = random.randint(0,height-1)
+		if layout[vX][vZ] == "false":
+			validPos = False
+	view.setPosition(vX,0.5,vZ)
+	print(str(view.getPosition()) + ": player position")
+	print("Player spawned")
+spawnPlayer()
+
+# takes Ghost x,z as input, outpu
+def calculateDistance(gPosX, gPosZ):
+	vPos = view.getPosition()
+	vPosX = vPos[0]
+	vPosZ = vPos[2]
+	
+	dX = gPosX-vPosX
+	dZ = gPosZ-vPosZ
+	
+	# ghost distance
+	dist = math.sqrt( dX*dX + dZ*dZ )
+	#print ("distance: " + str(dist))
+	return dist
+	
+def spawnGhost():
+	# randomly position ghost
+	distance = 0
+	while distance < 50:
+		gX = int(random.randint(0,width-1)) # why is this casted?
+		gZ = random.randint(0,height-1)
+		distance = calculateDistance(gX, gZ)
+	ghost.setPosition(gX,2,gZ)
+	print(str(ghost.getPosition()) +  ": ghost position")
+	print("Ghost spawned")
+	viz.MainView.setScene(viz.Scene1)
+spawnGhost()
+
+GHOST_SPEED = 0.02 # reset to 0.02
+	
+fadeAction = vizact.fadeTo(viz.BLACK, time = 2)
+
+	
+# this loop runs until Vizard exits
+def moveGhost():
+	# get ghost and viewer positions
 	vPos = view.getPosition()
 	vPosX = vPos[0]
 	vPosZ = vPos[2]
@@ -215,16 +256,20 @@ def rotateGhost():
 	dZ = gPosZ-vPosZ
 	
 	# ghost distance
-	dist = math.sqrt( (gPosX - vPosX)*(gPosX - vPosX) + (gPosZ - vPosZ)*(gPosZ - vPosZ) )
+	dist = math.sqrt( dX*dX + dZ*dZ )
 	
 	if(dist < 0.60):
-		print("nom")	
+		viz.MainView.setScene(viz.Scene2)
+		resetGame() #not working for some reason
+	"""
+	# proximity warnings
 	elif(dist < height/8):
-		print("Here he comes!!!", dist)
+		print("Here he comes!!!", round(dist,2))
 	elif(dist < height/6):
-		print("He's almost got you!!", dist)
+		print("He's almost got you!!", round(dist,2))
 	elif(dist < height/3):
-		print("He's coming!", dist)	
+		print("He's coming!", round(dist,2))
+	"""
 	
 	# rotates ghost to face player
 	ghostDir = math.atan( dX/dZ ) * 180/ math.pi # angle in degrees
@@ -236,15 +281,68 @@ def rotateGhost():
 	xMod = math.sin( viz.radians(ghostDir) ) * GHOST_SPEED
 	zMod = math.cos( viz.radians(ghostDir) ) * GHOST_SPEED
 	
-	#print("new gXZ [", gPosX, gPosZ, "]")
 	ghost.setPosition(gPosX - xMod, 2, gPosZ - zMod)
 	
 #setup a timer and specify it's rate and the function to call
-vizact.ontimer(UPDATE_RATE, rotateGhost)
+UPDATE_RATE = 0
+vizact.ontimer(UPDATE_RATE, moveGhost)
 
 
 #ladder.setPosition(firstX+8,0,firstY)
 viz.MainView.stepsize(4)
+
+
+#if not IsThisVillanovaCAVE():
+#	viz.MainView.setPosition([startColumn+3.5,2.8,2.8])
+#	print("made it here")
+#	#sets the start position to 10 feet behind the entrance	
+	
+viz.MainView.collision(viz.ON)
+	
+#example:
+if IsThisVillanovaCAVE():
+	#  =====================================
+	#Position the view of the camera
+	#CAVE specific:
+	CONFIG_FILE = "E:\\VizardProjects\\_CaveConfigFiles\\vizconnect_config_CaveFloor+ART_headnode.py"
+	vizconnect.go(CONFIG_FILE)
+	viewPoint = vizconnect.addViewpoint(pos=[firstX*scale,1,firstY*scale])
+	viewPoint.add(vizconnect.getDisplay())
+	vizconnect.resetViewpoints()
+	
+	testPosition = [ 0.677198, 0.000000, 0.735801, 0.000000, 0.000000, 1.000000, -0.000000, 0.000000, -0.735801, -0.000000, 0.677198, 0.000000, 0.519656, -0.579802, -0.446693, 1.000000 ]
+	vizconnect.getTransport('wandmagiccarpet').getNode3d().setMatrix(testPosition)
+###############################################################
+#p1 and p2 are points, each is an array of [x,y,z]
+else:
+	viz.go()	
+	view.setPosition([firstX*scale,1,firstY*scale])
+		
+	#boilerplate for my local laptop	
+
+#sphere = vizshape.addSphere(radius=1.0,pos=(firstX*scale,0,firstY*scale),lighting=False)
+#sphere.color(viz.WHITE)
+
+
+# Create directional lights
+light1 = vizfx.addDirectionalLight(euler=(40,20,0), color=[0.7,0.7,0.7])
+light2 = vizfx.addDirectionalLight(euler=(-65,15,0), color=[0.5,0.25,0.0])
+# Adjust ambient color
+vizfx.setAmbientColor([0.3,0.3,0.4])
+
+print("Done")
+
+
+"""
+print(("firstX = ", firstX))
+print(("firstY = ", firstY))
+print(("xCor = ",xCor))
+print(("zCor = ",zCor))
+print(("getposition = ",view.getPosition()))
+"""
+
+# unused second floor code
+
 #create second floor
 '''
 with open('../GeneratorCode/dungeonCSV/outputDemo.csv') as csv_file:
@@ -308,54 +406,3 @@ for r2 in range(0,height2-1):
 			#wall.copy().setPosition(scale*row,1.5+scale*1.0,scale*col)
 			#wall.copy().setPosition(scale*row,1.5+scale*2.0,scale*col)
 """
-view.setPosition([firstX*scale,0.5,firstY*scale])
-
-#if not IsThisVillanovaCAVE():
-#	viz.MainView.setPosition([startColumn+3.5,2.8,2.8])
-#	print("made it here")
-#	#sets the start position to 10 feet behind the entrance	
-	
-viz.MainView.collision(viz.ON)
-	
-#example:
-if IsThisVillanovaCAVE():
-	#  =====================================
-	#Position the view of the camera
-	#CAVE specific:
-	CONFIG_FILE = "E:\\VizardProjects\\_CaveConfigFiles\\vizconnect_config_CaveFloor+ART_headnode.py"
-	vizconnect.go(CONFIG_FILE)
-	viewPoint = vizconnect.addViewpoint(pos=[firstX*scale,1,firstY*scale])
-	viewPoint.add(vizconnect.getDisplay())
-	vizconnect.resetViewpoints()
-	
-	testPosition = [ 0.677198, 0.000000, 0.735801, 0.000000, 0.000000, 1.000000, -0.000000, 0.000000, -0.735801, -0.000000, 0.677198, 0.000000, 0.519656, -0.579802, -0.446693, 1.000000 ]
-	vizconnect.getTransport('wandmagiccarpet').getNode3d().setMatrix(testPosition)
-###############################################################
-#p1 and p2 are points, each is an array of [x,y,z]
-else:
-	viz.go()	
-	view.setPosition([firstX*scale,1,firstY*scale])
-		
-	#boilerplate for my local laptop	
-
-#sphere = vizshape.addSphere(radius=1.0,pos=(firstX*scale,0,firstY*scale),lighting=False)
-#sphere.color(viz.WHITE)
-
-
-
-# Create directional lights
-light1 = vizfx.addDirectionalLight(euler=(40,20,0), color=[0.7,0.7,0.7])
-light2 = vizfx.addDirectionalLight(euler=(-65,15,0), color=[0.5,0.25,0.0])
-# Adjust ambient color
-vizfx.setAmbientColor([0.3,0.3,0.4])
-
-
-print("Done")
-print("firstX = ", firstX)
-print("firstY = ", firstY)
-print("xCor = ",xCor)
-print("zCor = ",zCor)
-print("getposition = ",view.getPosition())
-
-
-
