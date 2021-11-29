@@ -11,6 +11,24 @@ import math
 viz.fov(90)
 view = viz.MainView
 
+path = ""
+dunType = -1 #change to the type you want, leave -1 for random (1 = BRW, 2 = CA, 3 = Voronoi)
+dunNum = -1 #change to the number you want, leave -1 for random
+
+if(dunType == -1):
+	dunType = random.randint(1,3)
+if(dunNum == -1):
+	dunNum = random.randint(0,49)
+
+if(dunType == 1):
+	path = "BRW" + str(dunNum)
+elif(dunType == 2):
+	path = "CA" + str(dunNum)
+elif(dunType == 3):
+	path = "Voronoi" + str(dunNum)
+	
+path = path + ".csv"
+	
 #=====================================
 #Position the view of the camera
 
@@ -33,7 +51,7 @@ def IsThisVillanovaCAVE():
 	cave_host_names = ["exx-PC","render-PC"]
 	import socket
 	if socket.gethostname() in cave_host_names:
-		print "conneced to CAVE";
+		print("conneced to CAVE");
 		return True
 	else:
 		return False
@@ -97,7 +115,7 @@ west.collidePlane()
 
 #reads from the csv file in GeneratorCode/dungeonCSV/
 #'../GeneratorCode/dungeonCSV/output.csv'
-with open('../GeneratorCode/dungeonCSV/output.csv') as csv_file:
+with open('../GeneratorCode/dungeonCSV/demoCSVs/'+path) as csv_file:
 	reader = csv.reader(csv_file, delimiter=',')
 	data = list(reader)[0]
 	
@@ -110,8 +128,8 @@ width = int(data.pop(0))
 height = int(data.pop(0))
 
 
-print("width = ", width)
-print("height = ", height)
+print(("width = ", width))
+print(("height = ", height))
 
 firstX = int(data.pop(0))
 firstY = int(data.pop(0))
@@ -210,7 +228,7 @@ def spawnPlayer():
 		if layout[vX][vZ] == "false":
 			validPos = False
 	view.setPosition(vX,0.5,vZ)
-	print(str(view.getPosition()) + ": player position")
+	print((str(view.getPosition()) + ": player position"))
 	print("Player spawned")
 spawnPlayer()
 
@@ -238,7 +256,7 @@ def spawnGhost():
 		gZ = random.randint(0,height-1)
 		distance = calculateDistance(gX, gZ)
 	ghost.setPosition(gX,2,gZ)
-	print(str(ghost.getPosition()) +  ": ghost position")
+	print((str(ghost.getPosition()) +  ": ghost position"))
 	print("Ghost spawned")
 	#viz.MainView.setScene(viz.Scene1)
 spawnGhost()
@@ -270,7 +288,7 @@ def moveGhost():
 	
 	if(dist < 0.60):
 		#viz.MainView.setScene(viz.Scene2)
-		print "got you!"
+		print("got you!")
 		
 		distance = 0
 		while distance < 50:
@@ -279,16 +297,16 @@ def moveGhost():
 			distance = calculateDistance(gPosX, gPosZ)
 		ghost.setPosition(gPosX,2,gPosZ)
 		
-		print(str(ghost.getPosition()) +  ": ghost position")
+		print((str(ghost.getPosition()) +  ": ghost position"))
 		print("Ghost spawned")
 	
 	# proximity warnings
 	elif(dist < height/8):
-		print("Here he comes!!!", round(dist,2))
+		print(("Here he comes!!!", round(dist,2)))
 	elif(dist < height/6):
-		print("He's almost got you!!", round(dist,2))
+		print(("He's almost got you!!", round(dist,2)))
 	elif(dist < height/3):
-		print("He's coming!", round(dist,2))
+		print(("He's coming!", round(dist,2)))
 	
 	
 	# rotates ghost to face player
@@ -354,10 +372,10 @@ vizfx.setAmbientColor([0.3,0.3,0.4])
 
 print("Done")
 
-print("firstX = ", firstX)
-print("firstY = ", firstY)
-print("xCor = ",xCor)
-print("zCor = ",zCor)
-print("getposition = ",view.getPosition())
+print(("firstX = ", firstX))
+print(("firstY = ", firstY))
+print(("xCor = ",xCor))
+print(("zCor = ",zCor))
+print(("getposition = ",view.getPosition()))
 
-
+print("opening file ", path)
