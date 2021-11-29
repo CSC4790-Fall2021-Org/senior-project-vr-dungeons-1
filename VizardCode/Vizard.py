@@ -230,13 +230,15 @@ def spawnGhost():
 		gX = int(random.randint(0,width-1)) # why is this casted?
 		gZ = random.randint(0,height-1)
 		distance = calculateDistance(gX, gZ)
-	ghost.setPosition(gX,2,gZ)
-	print(str(ghost.getPosition()) +  ": ghost position")
+
 	print("Ghost spawned")
 	viz.MainView.setScene(viz.Scene1)
 spawnGhost()
 
-GHOST_SPEED = 0.02 # reset to 0.02
+GHOST_SPEED = 0.2 # 0.05
+#ALIVE = True
+
+
 	
 fadeAction = vizact.fadeTo(viz.BLACK, time = 2)
 
@@ -259,10 +261,9 @@ def moveGhost():
 	dist = math.sqrt( dX*dX + dZ*dZ )
 	
 	if(dist < 0.60):
-		viz.MainView.setScene(viz.Scene2)
-		resetGame() #not working for some reason
-	"""
-	# proximity warnings
+		print("nom")
+		viz.MainView.setScene(viz.Scene2) #blacks out the screen
+		resetGame() 
 	elif(dist < height/8):
 		print("Here he comes!!!", round(dist,2))
 	elif(dist < height/6):
